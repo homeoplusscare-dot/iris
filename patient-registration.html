@@ -2,1970 +2,431 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>HOMEOPLUSS - Patient Registration</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HOMEOPLUSS — Patient Registration</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box}
 
 html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:'Montserrat',Arial,sans-serif;
-    background:
-        radial-gradient(circle at 8% 12%,rgba(0,168,179,.12),transparent 28%),
-        radial-gradient(circle at 92% 88%,rgba(2,93,163,.12),transparent 30%),
-        linear-gradient(135deg,#ffffff,#eefafd,#ffffff);
-    color:#16384c;
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
 }
 
 body{
-    position:relative;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#f5fdff,#eef9ff,#fff);
+color:#123;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* BACKGROUND */
-
-.grid{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.35;
-    background-image:
-        linear-gradient(rgba(0,168,179,.045) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,168,179,.045) 1px,transparent 1px);
-    background-size:36px 36px;
+.app{
+width:min(1100px,96vw);
+height:min(720px,94vh);
+background:#fff;
+border:2px solid #d8f1f5;
+border-radius:30px;
+box-shadow:0 25px 70px rgba(0,100,150,.18);
+overflow:hidden;
 }
 
-.orb{
-    position:fixed;
-    border-radius:50%;
-    pointer-events:none;
-}
-
-.orb1{
-    width:220px;
-    height:220px;
-    left:-90px;
-    top:-90px;
-    background:radial-gradient(circle,rgba(0,168,179,.16),transparent 70%);
-}
-
-.orb2{
-    width:260px;
-    height:260px;
-    right:-110px;
-    bottom:-120px;
-    background:radial-gradient(circle,rgba(2,93,163,.14),transparent 70%);
-}
-
-/* MAIN */
-
-.screen{
-    width:100vw;
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:14px;
-}
-
-.card{
-    width:min(1120px,96vw);
-    height:min(720px,94vh);
-    position:relative;
-    overflow:hidden;
-
-    border-radius:30px;
-    border:1px solid rgba(0,168,179,.24);
-
-    background:linear-gradient(
-        145deg,
-        rgba(255,255,255,.99),
-        rgba(244,252,254,.98)
-    );
-
-    box-shadow:
-        0 25px 70px rgba(0,65,100,.15),
-        inset 0 1px 0 white;
-}
-
-/* FIXED BORDER + MOVING BULB */
-
-.border-svg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    pointer-events:none;
-    z-index:50;
-}
-
-.border-fixed{
-    fill:none;
-    stroke:rgba(0,168,179,.20);
-    stroke-width:1.5;
-}
-
-.border-glow{
-    fill:none;
-    stroke:rgba(0,168,179,.08);
-    stroke-width:6;
-    filter:blur(4px);
-}
-
-#bulb{
-    fill:#00dce8;
-    filter:
-        drop-shadow(0 0 4px #00dce8)
-        drop-shadow(0 0 10px rgba(0,168,179,.75));
-}
-
-/* HEADER */
-
-.header{
-    height:88px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 30px;
-
-    border-bottom:1px solid rgba(0,100,140,.08);
-
-    background:linear-gradient(
-        180deg,
-        rgba(255,255,255,.98),
-        rgba(239,250,253,.85)
-    );
+header{
+height:80px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 32px;
+border-bottom:1px solid #dceff3;
 }
 
 .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
+font-size:28px;
+font-weight:900;
+color:#078da3;
+letter-spacing:2px;
 }
 
-.brand-icon{
-    width:52px;
-    height:52px;
-
-    border-radius:16px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-    font-size:25px;
-
-    background:linear-gradient(
-        145deg,
-        #00b9c5,
-        #025da3
-    );
-
-    box-shadow:
-        0 9px 22px rgba(0,90,140,.22),
-        inset 0 2px 2px rgba(255,255,255,.35);
+.title{
+font-weight:900;
+color:#135e78;
 }
-
-.brand-name{
-    font-size:22px;
-    font-weight:900;
-    letter-spacing:1px;
-    color:#075b87;
-}
-
-.brand-tag{
-    margin-top:3px;
-    font-size:8px;
-    font-weight:800;
-    letter-spacing:1.5px;
-    color:#00a0ad;
-}
-
-.header-badge{
-    padding:10px 15px;
-    border-radius:13px;
-
-    border:1px solid rgba(0,168,179,.18);
-
-    background:linear-gradient(
-        145deg,
-        #ffffff,
-        #eaf9fb
-    );
-
-    box-shadow:
-        0 5px 15px rgba(0,80,120,.08),
-        inset 0 1px 1px white;
-
-    font-size:9px;
-    font-weight:900;
-    color:#075b87;
-}
-
-.header-badge strong{
-    color:#008f78;
-}
-
-/* CONTENT */
 
 .content{
-    height:calc(100% - 88px);
-    display:flex;
-    gap:22px;
-    padding:21px 27px 28px;
+height:calc(100% - 80px);
+padding:28px;
+overflow:auto;
 }
 
-/* LEFT SIDE */
-
-.left{
-    width:31%;
-    display:flex;
-    align-items:center;
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px;
 }
 
-.welcome{
-    width:100%;
-    padding:25px;
-
-    border-radius:24px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f0fafc
-        );
-
-    border:1px solid rgba(0,168,179,.13);
-
-    box-shadow:
-        0 16px 38px rgba(0,70,110,.08),
-        inset 0 1px 0 white;
+.patientid{
+padding:10px 16px;
+border-radius:12px;
+background:#eefaff;
+font-weight:900;
+color:#08738c;
 }
-
-.big-icon{
-    width:76px;
-    height:76px;
-
-    border-radius:24px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:38px;
-
-    margin-bottom:17px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #e7f8fb
-        );
-
-    box-shadow:
-        0 12px 28px rgba(0,100,150,.13),
-        inset 0 2px 4px white;
-}
-
-.welcome h1{
-    font-size:25px;
-    line-height:1.12;
-    font-weight:900;
-    color:#075b87;
-}
-
-.welcome h1 span{
-    color:#00a5b0;
-}
-
-.welcome p{
-    margin-top:12px;
-    font-size:10px;
-    line-height:1.7;
-    color:#607b8b;
-    font-weight:600;
-}
-
-.features{
-    margin-top:19px;
-    display:flex;
-    flex-direction:column;
-    gap:9px;
-}
-
-.feature{
-    display:flex;
-    align-items:center;
-    gap:9px;
-
-    font-size:9px;
-    font-weight:800;
-    color:#496c7e;
-}
-
-.feature-icon{
-    width:27px;
-    height:27px;
-    border-radius:9px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#e8f8fa;
-    color:#009ca8;
-}
-
-/* RIGHT */
-
-.right{
-    flex:1;
-    min-width:0;
-    display:flex;
-    flex-direction:column;
-}
-
-.title-row{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    margin-bottom:13px;
-}
-
-.title-row h2{
-    font-size:20px;
-    font-weight:900;
-    color:#075b87;
-}
-
-.title-row p{
-    margin-top:4px;
-    font-size:9px;
-    font-weight:700;
-    color:#7a929e;
-}
-
-.step{
-    padding:8px 12px;
-    border-radius:11px;
-
-    background:#e8f9fb;
-    color:#008e9c;
-
-    font-size:8px;
-    font-weight:900;
-}
-
-/* FORM */
 
 .form{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-height:0;
-}
-
-.grid-form{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:11px 12px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
 }
 
 .field label{
-    display:block;
-    margin:0 0 5px 3px;
-
-    font-size:8px;
-    font-weight:900;
-    letter-spacing:.5px;
-
-    color:#4c6d7d;
+display:block;
+font-size:13px;
+font-weight:900;
+margin-bottom:7px;
 }
 
-.required{
-    color:#e74c4c;
-}
-
-.input{
-    position:relative;
-}
-
-.icon{
-    position:absolute;
-    left:12px;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:2;
-    font-size:15px;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-
-    outline:none;
-
-    border:1px solid rgba(0,105,145,.15);
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #f4fbfd
-        );
-
-    color:#193e52;
-
-    font-family:'Montserrat',Arial,sans-serif;
-    font-size:10px;
-    font-weight:700;
-
-    box-shadow:
-        inset 0 2px 4px rgba(0,60,100,.035),
-        0 4px 10px rgba(0,70,110,.035);
-
-    transition:.2s;
-}
-
-input,
-select{
-    height:41px;
-    padding:0 12px 0 37px;
+input,select,textarea{
+width:100%;
+border:2px solid #d8edf1;
+border-radius:13px;
+padding:13px;
+font-size:16px;
+outline:none;
+background:#fff;
 }
 
 textarea{
-    height:61px;
-    padding:11px 12px 8px 37px;
-    resize:none;
+height:85px;
+resize:none;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#00a8b3;
-
-    box-shadow:
-        0 0 0 3px rgba(0,168,179,.08),
-        0 8px 20px rgba(0,70,110,.07);
+input:focus,select:focus,textarea:focus{
+border-color:#08a6ba;
 }
-
-.readonly{
-    background:#edfafd;
-    color:#08728a;
-}
-
-/* FULL */
 
 .full{
-    grid-column:1/-1;
+grid-column:1/-1;
 }
-
-/* REFERRAL */
-
-.referral{
-    grid-column:1/-1;
-
-    display:flex;
-    align-items:center;
-    gap:11px;
-
-    padding:10px 12px;
-
-    border-radius:14px;
-
-    border:1px solid rgba(0,168,179,.13);
-
-    background:linear-gradient(
-        145deg,
-        #fbfeff,
-        #edfafd
-    );
-}
-
-.referral-check{
-    width:20px;
-    height:20px;
-    accent-color:#00a8b3;
-}
-
-.referral-info{
-    flex:1;
-}
-
-.referral-info strong{
-    display:block;
-    font-size:9px;
-    color:#075b87;
-}
-
-.referral-info small{
-    display:block;
-    margin-top:3px;
-    font-size:7px;
-    color:#78929f;
-}
-
-.referrer{
-    width:190px;
-}
-
-.referrer input{
-    height:35px;
-    padding:0 10px;
-}
-
-.referrer input:disabled{
-    opacity:.48;
-}
-
-/* ACTIONS */
 
 .actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:12px;
+display:flex;
+justify-content:flex-end;
+gap:15px;
+margin-top:25px;
 }
 
-.btn{
-    height:43px;
-    border-radius:13px;
-
-    font-family:'Montserrat',Arial,sans-serif;
-    font-size:9px;
-    font-weight:900;
-
-    cursor:pointer;
+button{
+border:0;
+border-radius:14px;
+padding:15px 25px;
+font-weight:900;
+cursor:pointer;
 }
 
-.reset{
-    padding:0 19px;
-
-    color:#587684;
-
-    background:#edf6f8;
-    border:1px solid rgba(0,100,140,.10);
+.save{
+background:linear-gradient(135deg,#00a894,#087dc7);
+color:#fff;
+box-shadow:0 10px 25px rgba(0,130,170,.22);
 }
 
-.submit{
-    min-width:245px;
-
-    color:white;
-    border:none;
-
-    background:
-        linear-gradient(
-            135deg,
-            #00b9c4,
-            #025da3
-        );
-
-    box-shadow:
-        0 10px 23px rgba(0,90,150,.20),
-        inset 0 2px 2px rgba(255,255,255,.30),
-        inset 0 -3px 5px rgba(0,40,90,.15);
-
-    transition:.2s;
-}
-
-.submit:hover{
-    transform:translateY(-2px);
-}
-
-.submit:active{
-    transform:translateY(1px);
-}
-
-/* FOOTER */
-
-.footer{
-    position:absolute;
-    bottom:7px;
-    left:0;
-    right:0;
-
-    text-align:center;
-
-    font-size:7px;
-    font-weight:700;
-    letter-spacing:.6px;
-
-    color:#8ca2ad;
-}
-
-/* SUCCESS */
-
-.overlay{
-    position:fixed;
-    inset:0;
-    z-index:200;
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(4,42,63,.38);
-    backdrop-filter:blur(9px);
-}
-
-.overlay.show{
-    display:flex;
+.back{
+background:#eef6f8;
+color:#256;
 }
 
 .success{
-    width:min(470px,91vw);
-
-    padding:29px 25px 24px;
-
-    text-align:center;
-
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff,
-            #edfafd
-        );
-
-    border:1px solid rgba(0,168,179,.22);
-
-    box-shadow:
-        0 35px 90px rgba(0,60,100,.28),
-        inset 0 1px 0 white;
-
-    animation:popup .5s cubic-bezier(.17,.89,.32,1.28);
+display:none;
+position:fixed;
+inset:0;
+background:rgba(255,255,255,.96);
+align-items:center;
+justify-content:center;
+z-index:10;
 }
 
-@keyframes popup{
-    from{
-        opacity:0;
-        transform:scale(.65) translateY(25px);
-    }
+.success.show{display:flex}
 
-    to{
-        opacity:1;
-        transform:scale(1) translateY(0);
-    }
+.box{
+width:min(500px,90%);
+padding:40px;
+text-align:center;
+background:#fff;
+border-radius:30px;
+box-shadow:0 25px 70px rgba(0,100,150,.2);
 }
 
-.success-icon{
-    width:82px;
-    height:82px;
-
-    margin:0 auto 14px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    color:white;
-    font-size:39px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #00c9b8,
-            #008fa0
-        );
-
-    box-shadow:
-        0 0 0 9px rgba(0,168,179,.08),
-        0 16px 35px rgba(0,130,150,.25);
+.tick{
+width:80px;
+height:80px;
+margin:auto;
+border-radius:50%;
+background:linear-gradient(135deg,#00a68d,#087ac8);
+color:#fff;
+font-size:45px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.success h2{
-    font-size:24px;
-    font-weight:900;
-    color:#075b87;
+.box h2{
+color:#087d8f;
 }
 
-.success h3{
-    margin-top:4px;
-    font-size:12px;
-    font-weight:900;
-    color:#00a1ad;
+.next{
+width:100%;
+background:linear-gradient(135deg,#00a894,#087dc7);
+color:#fff;
+margin-top:15px;
 }
 
-.success p{
-    margin-top:10px;
-    font-size:9px;
-    line-height:1.65;
-    color:#607987;
-    font-weight:600;
-}
-
-.patient-id{
-    width:max-content;
-    max-width:100%;
-
-    margin:15px auto 9px;
-
-    padding:10px 16px;
-
-    border-radius:12px;
-
-    background:#e8f9fb;
-    border:1px solid rgba(0,168,179,.17);
-
-    color:#075b87;
-
-    font-size:11px;
-    font-weight:900;
-}
-
-.points{
-    display:inline-block;
-
-    padding:8px 14px;
-
-    border-radius:11px;
-
-    background:#e8faf5;
-    color:#008a74;
-
-    font-size:10px;
-    font-weight:900;
-
-    margin-bottom:16px;
-}
-
-.continue{
-    width:100%;
-    height:45px;
-
-    border:none;
-    border-radius:13px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #00b9c4,
-            #025da3
-        );
-
-    font-family:'Montserrat',Arial,sans-serif;
-    font-size:9px;
-    font-weight:900;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 10px 22px rgba(0,90,150,.20),
-        inset 0 2px 2px rgba(255,255,255,.30);
-}
-
-/* RESPONSIVE */
-
-@media(max-width:850px){
-
-    .card{
-        height:96vh;
-    }
-
-    .header{
-        height:76px;
-        padding:0 18px;
-    }
-
-    .brand-icon{
-        width:43px;
-        height:43px;
-        font-size:20px;
-    }
-
-    .brand-name{
-        font-size:17px;
-    }
-
-    .content{
-        height:calc(100% - 76px);
-        padding:15px;
-    }
-
-    .welcome{
-        padding:18px;
-    }
-
-    .welcome h1{
-        font-size:19px;
-    }
-
-    .welcome p{
-        font-size:8px;
-    }
-
-    .feature{
-        font-size:7px;
-    }
-}
-
-@media(max-width:650px){
-
-    html,body{
-        overflow:auto;
-    }
-
-    .screen{
-        min-height:100vh;
-        height:auto;
-        padding:6px;
-    }
-
-    .card{
-        width:100%;
-        height:auto;
-        min-height:98vh;
-        border-radius:18px;
-    }
-
-    .header{
-        height:64px;
-        padding:0 11px;
-    }
-
-    .brand-icon{
-        width:37px;
-        height:37px;
-        font-size:17px;
-        border-radius:11px;
-    }
-
-    .brand-name{
-        font-size:14px;
-    }
-
-    .brand-tag{
-        font-size:6px;
-    }
-
-    .header-badge{
-        font-size:7px;
-        padding:7px 8px;
-    }
-
-    .content{
-        height:auto;
-        display:block;
-        padding:11px;
-    }
-
-    .left{
-        width:100%;
-        display:block;
-        margin-bottom:11px;
-    }
-
-    .welcome{
-        padding:12px;
-        display:flex;
-        align-items:center;
-        gap:11px;
-    }
-
-    .big-icon{
-        flex:0 0 46px;
-        width:46px;
-        height:46px;
-        margin:0;
-        font-size:23px;
-        border-radius:14px;
-    }
-
-    .welcome h1{
-        font-size:15px;
-    }
-
-    .welcome p{
-        font-size:7px;
-        margin-top:5px;
-    }
-
-    .features{
-        display:none;
-    }
-
-    .title-row h2{
-        font-size:14px;
-    }
-
-    .grid-form{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .referral{
-        flex-wrap:wrap;
-    }
-
-    .referrer{
-        width:100%;
-    }
-
-    .actions{
-        margin-bottom:15px;
-    }
-
-    .submit{
-        flex:1;
-        min-width:0;
-    }
-
-    .footer{
-        display:none;
-    }
-}
-
-@media(max-width:430px){
-
-    .grid-form{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
-    .actions{
-        position:sticky;
-        bottom:0;
-        padding:8px 0;
-        background:rgba(255,255,255,.95);
-    }
-
-    .reset{
-        padding:0 12px;
-    }
+@media(max-width:700px){
+.app{height:96vh}
+.form{grid-template-columns:1fr}
+.full{grid-column:auto}
+header{padding:0 18px}
+.brand{font-size:21px}
+.title{font-size:12px}
+.content{padding:20px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="grid"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
+<div class="app">
 
-<div class="screen">
-
-<div class="card">
-
-<!-- BORDER -->
-<svg class="border-svg" viewBox="0 0 1000 700" preserveAspectRatio="none">
-
-    <rect
-        id="borderPath"
-        x="2"
-        y="2"
-        width="996"
-        height="696"
-        rx="30"
-        class="border-glow">
-    </rect>
-
-    <rect
-        x="2"
-        y="2"
-        width="996"
-        height="696"
-        rx="30"
-        class="border-fixed">
-    </rect>
-
-    <circle id="bulb" r="4"></circle>
-
-</svg>
-
-<!-- HEADER -->
-
-<header class="header">
-
-    <div class="brand">
-
-        <div class="brand-icon">✚</div>
-
-        <div>
-            <div class="brand-name">
-                HOMEOPLUSS
-            </div>
-
-            <div class="brand-tag">
-                CARING NATURALLY SINCE 1796
-            </div>
-        </div>
-
-    </div>
-
-    <div class="header-badge">
-        🎁 WELCOME BONUS:
-        <strong>+2000 HP</strong>
-    </div>
-
+<header>
+<div class="brand">HOMEOPLUSS</div>
+<div class="title">PATIENT REGISTRATION</div>
 </header>
-
-
-<!-- CONTENT -->
 
 <div class="content">
 
-<!-- LEFT -->
-
-<section class="left">
-
-    <div class="welcome">
-
-        <div class="big-icon">
-            👤
-        </div>
-
-        <div>
-
-            <h1>
-                COMPLETE YOUR
-                <span>PROFILE</span>
-            </h1>
-
-            <p>
-                Your patient approval is complete.
-                Enter your basic information to create
-                your HOMEOPLUSS patient profile.
-            </p>
-
-            <div class="features">
-
-                <div class="feature">
-                    <div class="feature-icon">✓</div>
-                    Secure patient profile
-                </div>
-
-                <div class="feature">
-                    <div class="feature-icon">♥</div>
-                    Personalized care
-                </div>
-
-                <div class="feature">
-                    <div class="feature-icon">★</div>
-                    HP HEALTH POINTS
-                </div>
-
-                <div class="feature">
-                    <div class="feature-icon">⌂</div>
-                    Easy future visits
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- RIGHT -->
-
-<section class="right">
-
-    <div class="title-row">
-
-        <div>
-            <h2>
-                PATIENT REGISTRATION
-            </h2>
-
-            <p>
-                Please enter your correct details
-            </p>
-        </div>
-
-        <div class="step">
-            STEP 2 OF 3
-        </div>
-
-    </div>
-
-
-    <form id="registrationForm" class="form">
-
-        <div class="grid-form">
-
-            <!-- PATIENT ID -->
-
-            <div class="field">
-
-                <label>
-                    PATIENT ID
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">🪪</span>
-
-                    <input
-                        id="patientId"
-                        class="readonly"
-                        type="text"
-                        readonly>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOBILE -->
-
-            <div class="field">
-
-                <label>
-                    REGISTERED MOBILE
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">📱</span>
-
-                    <input
-                        id="mobile"
-                        class="readonly"
-                        type="text"
-                        readonly>
-
-                </div>
-
-            </div>
-
-
-            <!-- NAME -->
-
-            <div class="field">
-
-                <label>
-                    FULL NAME <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">👤</span>
-
-                    <input
-                        id="name"
-                        type="text"
-                        maxlength="60"
-                        placeholder="Enter full name"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <!-- GENDER -->
-
-            <div class="field">
-
-                <label>
-                    GENDER <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">⚧</span>
-
-                    <select id="gender" required>
-
-                        <option value="">
-                            Select gender
-                        </option>
-
-                        <option value="Male">
-                            Male
-                        </option>
-
-                        <option value="Female">
-                            Female
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <!-- DOB -->
-
-            <div class="field">
-
-                <label>
-                    DATE OF BIRTH <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">🎂</span>
-
-                    <input
-                        id="dob"
-                        type="date"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <!-- AGE -->
-
-            <div class="field">
-
-                <label>
-                    AGE
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">🔢</span>
-
-                    <input
-                        id="age"
-                        class="readonly"
-                        type="text"
-                        placeholder="Auto calculated"
-                        readonly>
-
-                </div>
-
-            </div>
-
-
-            <!-- ADDRESS -->
-
-            <div class="field full">
-
-                <label>
-                    ADDRESS <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">📍</span>
-
-                    <textarea
-                        id="address"
-                        maxlength="250"
-                        placeholder="Enter complete address"
-                        required></textarea>
-
-                </div>
-
-            </div>
-
-
-            <!-- CITY -->
-
-            <div class="field">
-
-                <label>
-                    CITY / AREA <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">🏠</span>
-
-                    <input
-                        id="city"
-                        type="text"
-                        maxlength="60"
-                        placeholder="City / Area"
-                        required>
-
-                </div>
-
-            </div>
-
-
-            <!-- SOURCE -->
-
-            <div class="field">
-
-                <label>
-                    HOW DID YOU FIND US? <span class="required">*</span>
-                </label>
-
-                <div class="input">
-
-                    <span class="icon">🔎</span>
-
-                    <select id="source" required>
-
-                        <option value="">
-                            Select source
-                        </option>
-
-                        <option value="Google">
-                            Google
-                        </option>
-
-                        <option value="Instagram">
-                            Instagram
-                        </option>
-
-                        <option value="Facebook">
-                            Facebook
-                        </option>
-
-                        <option value="Website">
-                            Website
-                        </option>
-
-                        <option value="Walk-in">
-                            Walk-in
-                        </option>
-
-                        <option value="Existing Patient">
-                            Existing Patient
-                        </option>
-
-                        <option value="Friend / Family">
-                            Friend / Family
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <!-- REFERRAL -->
-
-            <div class="referral">
-
-                <input
-                    id="hasReferral"
-                    class="referral-check"
-                    type="checkbox">
-
-                <div class="referral-info">
-
-                    <strong>
-                        🤝 I was referred by an existing HOMEOPLUSS patient
-                    </strong>
-
-                    <small>
-                        Enter the referring patient's ID if applicable.
-                    </small>
-
-                </div>
-
-                <div class="referrer">
-
-                    <input
-                        id="referrerId"
-                        type="text"
-                        placeholder="Referrer Patient ID"
-                        disabled>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- BUTTONS -->
-
-        <div class="actions">
-
-            <button
-                type="button"
-                class="btn reset"
-                id="resetBtn">
-                RESET
-            </button>
-
-            <button
-                type="submit"
-                class="btn submit">
-                ✓ COMPLETE REGISTRATION
-            </button>
-
-        </div>
-
-    </form>
-
-</section>
+<div class="top">
+<h2>Complete Your Registration</h2>
+<div class="patientid" id="patientId">Loading...</div>
+</div>
+
+<div class="form">
+
+<div class="field">
+<label>Patient Name *</label>
+<input id="name" type="text" placeholder="Enter full name">
+</div>
+
+<div class="field">
+<label>Gender *</label>
+<select id="gender">
+<option value="">Select Gender</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Date of Birth *</label>
+<input id="dob" type="date" onchange="calculateAge()">
+</div>
+
+<div class="field">
+<label>Age</label>
+<input id="age" readonly placeholder="Auto calculated">
+</div>
+
+<div class="field full">
+<label>Address *</label>
+<textarea id="address" placeholder="Enter complete address"></textarea>
+</div>
+
+<div class="field">
+<label>Registration Source</label>
+<select id="source" onchange="toggleReferral()">
+<option>Online</option>
+<option>Walk-in</option>
+<option>Reference</option>
+</select>
+</div>
+
+<div class="field" id="refField" style="display:none">
+<label>Referrer Name / Patient ID</label>
+<input id="referrer" placeholder="Enter referrer">
+</div>
+
+<div class="field">
+<label>BPL Card</label>
+<select id="bpl">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+
+<div class="field">
+<label>Health Insurance</label>
+<select id="insurance">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
 
 </div>
 
-
-<div class="footer">
-    HOMEOPLUSS Opp: Sai Mandir, Kalaburagi • 888 000 8224
+<div class="actions">
+<button class="back" onclick="goBack()">← BACK</button>
+<button class="save" onclick="saveRegistration()">
+✓ SAVE REGISTRATION
+</button>
 </div>
 
 </div>
 </div>
 
+<div class="success" id="success">
+<div class="box">
 
-<!-- SUCCESS POPUP -->
+<div class="tick">✓</div>
 
-<div class="overlay" id="successOverlay">
+<h2>REGISTRATION COMPLETED</h2>
 
-    <div class="success">
+<p id="successText"></p>
 
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <h2>
-            REGISTRATION COMPLETE
-        </h2>
-
-        <h3>
-            WELCOME TO HOMEOPLUSS
-        </h3>
-
-        <p>
-            Your patient profile has been successfully created.
-        </p>
-
-        <div
-            class="patient-id"
-            id="successPatientId">
-        </div>
-
-        <div class="points">
-            🎁 +2000 HP HEALTH POINTS
-        </div>
-
-        <button
-            class="continue"
-            id="continueBtn">
-            CONTINUE TO PATIENT PANEL →
-        </button>
-
-    </div>
+<button class="next" onclick="openHealthBook()">
+📖 VIEW MY PATIENT HEALTHBOOK
+</button>
 
 </div>
-
+</div>
 
 <script>
 
-/* ==========================================
-   READ PAGE 1 DATA
-========================================== */
-
-const patientData =
-    JSON.parse(
-        localStorage.getItem("HOMEOPLUSS_PATIENT")
-    );
-
-
-/* If Page 1 has not been completed */
-
-if(!patientData){
-
-    alert(
-        "Patient approval not found. Please start from Page 1."
-    );
-
-    window.location.href = "index.html";
-}
-
-
-/* ==========================================
-   LOAD PATIENT DATA
-========================================== */
-
-if(patientData){
-
-    document.getElementById("patientId").value =
-        patientData.patientId || "";
-
-    document.getElementById("mobile").value =
-        patientData.mobile || "";
-
-}
-
-
-/* ==========================================
-   AGE
-========================================== */
-
-const dob =
-    document.getElementById("dob");
-
-const age =
-    document.getElementById("age");
-
-dob.addEventListener(
-    "change",
-    calculateAge
+let patient=JSON.parse(
+localStorage.getItem("HOMEOPLUSS_PATIENT") || "null"
 );
+
+if(!patient){
+alert("Patient account not found. Returning to login.");
+window.location.href="index.html";
+}
+
+document.getElementById("patientId").textContent=
+patient.patientId;
 
 function calculateAge(){
 
-    if(!dob.value){
+const dob=document.getElementById("dob").value;
 
-        age.value = "";
-        return;
-    }
+if(!dob)return;
 
-    const birth =
-        new Date(dob.value);
+const birth=new Date(dob);
+const today=new Date();
 
-    const today =
-        new Date();
+let age=today.getFullYear()-birth.getFullYear();
 
-    let years =
-        today.getFullYear() -
-        birth.getFullYear();
+const month=today.getMonth()-birth.getMonth();
 
-    const month =
-        today.getMonth() -
-        birth.getMonth();
-
-    if(
-        month < 0 ||
-        (
-            month === 0 &&
-            today.getDate() < birth.getDate()
-        )
-    ){
-        years--;
-    }
-
-    if(years < 0){
-
-        alert(
-            "Date of birth cannot be in the future."
-        );
-
-        dob.value = "";
-        age.value = "";
-
-        return;
-    }
-
-    age.value =
-        years + " years";
+if(
+month<0 ||
+(month===0 && today.getDate()<birth.getDate())
+){
+age--;
 }
 
-
-/* ==========================================
-   REFERRAL
-========================================== */
-
-const referral =
-    document.getElementById("hasReferral");
-
-const referrer =
-    document.getElementById("referrerId");
-
-referral.addEventListener(
-    "change",
-    function(){
-
-        referrer.disabled =
-            !this.checked;
-
-        if(!this.checked){
-            referrer.value = "";
-        }
-
-        if(this.checked){
-            referrer.focus();
-        }
-
-    }
-);
-
-
-/* ==========================================
-   RESET
-========================================== */
-
-document.getElementById("resetBtn")
-.addEventListener(
-    "click",
-    function(){
-
-        if(
-            !confirm(
-                "Clear the registration details?"
-            )
-        ){
-            return;
-        }
-
-        document.getElementById(
-            "registrationForm"
-        ).reset();
-
-        age.value = "";
-
-        document.getElementById(
-            "patientId"
-        ).value =
-            patientData?.patientId || "";
-
-        document.getElementById(
-            "mobile"
-        ).value =
-            patientData?.mobile || "";
-
-        referrer.disabled = true;
-
-    }
-);
-
-
-/* ==========================================
-   SUBMIT
-========================================== */
-
-document.getElementById("registrationForm")
-.addEventListener(
-    "submit",
-    function(event){
-
-        event.preventDefault();
-
-        calculateAge();
-
-        const name =
-            document.getElementById("name")
-            .value.trim();
-
-        const gender =
-            document.getElementById("gender")
-            .value;
-
-        const birthDate =
-            document.getElementById("dob")
-            .value;
-
-        const address =
-            document.getElementById("address")
-            .value.trim();
-
-        const city =
-            document.getElementById("city")
-            .value.trim();
-
-        const source =
-            document.getElementById("source")
-            .value;
-
-        const hasReferral =
-            referral.checked;
-
-        const referralId =
-            referrer.value.trim();
-
-
-        /* VALIDATION */
-
-        if(name.length < 2){
-
-            alert(
-                "Please enter the patient's full name."
-            );
-
-            document.getElementById("name").focus();
-
-            return;
-        }
-
-        if(!gender){
-
-            alert(
-                "Please select gender."
-            );
-
-            return;
-        }
-
-        if(!birthDate || !age.value){
-
-            alert(
-                "Please enter a valid date of birth."
-            );
-
-            return;
-        }
-
-        if(!address){
-
-            alert(
-                "Please enter the address."
-            );
-
-            return;
-        }
-
-        if(!city){
-
-            alert(
-                "Please enter city / area."
-            );
-
-            return;
-        }
-
-        if(!source){
-
-            alert(
-                "Please select how you found HOMEOPLUSS."
-            );
-
-            return;
-        }
-
-        if(
-            hasReferral &&
-            referralId.length < 3
-        ){
-
-            alert(
-                "Please enter the referring patient's ID."
-            );
-
-            referrer.focus();
-
-            return;
-        }
-
-
-        /* ======================================
-           SAVE COMPLETE PATIENT
-        ====================================== */
-
-        const updatedPatient = {
-
-            ...patientData,
-
-            name:name,
-
-            gender:gender,
-
-            dob:birthDate,
-
-            age:age.value,
-
-            address:address,
-
-            city:city,
-
-            source:source,
-
-            referred:hasReferral,
-
-            referrerId:
-                hasReferral
-                    ? referralId
-                    : "",
-
-            healthPoints:
-                Number(
-                    patientData.healthPoints || 2000
-                ),
-
-            registrationCompleted:true,
-
-            registrationCompletedAt:
-                new Date().toISOString()
-
-        };
-
-
-        localStorage.setItem(
-            "HOMEOPLUSS_PATIENT",
-            JSON.stringify(updatedPatient)
-        );
-
-
-        /* ======================================
-           SUCCESS POPUP
-        ====================================== */
-
-        document.getElementById(
-            "successPatientId"
-        ).textContent =
-            updatedPatient.patientId;
-
-        document.getElementById(
-            "successOverlay"
-        ).classList.add("show");
-
-    }
-);
-
-
-/* ==========================================
-   PAGE 3 CONNECTION
-========================================== */
-
-document.getElementById("continueBtn")
-.addEventListener(
-    "click",
-    function(){
-
-        window.location.href =
-            "patient-panel.html";
-
-    }
-);
-
-
-/* ==========================================
-   MOVING BORDER BULB
-   BORDER ITSELF DOES NOT ROTATE
-========================================== */
-
-const path =
-    document.getElementById("borderPath");
-
-const bulb =
-    document.getElementById("bulb");
-
-const svg =
-    document.querySelector(".border-svg");
-
-const trail1 =
-    document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-    );
-
-const trail2 =
-    document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-    );
-
-trail1.setAttribute("r","2.6");
-trail1.setAttribute(
-    "fill",
-    "rgba(0,216,232,.45)"
-);
-
-trail2.setAttribute("r","1.7");
-trail2.setAttribute(
-    "fill",
-    "rgba(0,216,232,.22)"
-);
-
-svg.appendChild(trail2);
-svg.appendChild(trail1);
-
-let totalLength = 0;
-let animationStart = null;
-
-function updateLength(){
-
-    totalLength =
-        path.getTotalLength();
-
+document.getElementById("age").value=Math.max(0,age);
 }
 
-function animate(time){
+function toggleReferral(){
 
-    if(!animationStart){
-        animationStart = time;
-    }
+const source=document.getElementById("source").value;
 
-    const duration = 6500;
-
-    const progress =
-        ((time-animationStart)%duration) /
-        duration;
-
-    const mainPoint =
-        path.getPointAtLength(
-            progress * totalLength
-        );
-
-    const trailPoint1 =
-        path.getPointAtLength(
-            ((progress-.009+1)%1) *
-            totalLength
-        );
-
-    const trailPoint2 =
-        path.getPointAtLength(
-            ((progress-.018+1)%1) *
-            totalLength
-        );
-
-    bulb.setAttribute(
-        "cx",
-        mainPoint.x
-    );
-
-    bulb.setAttribute(
-        "cy",
-        mainPoint.y
-    );
-
-    trail1.setAttribute(
-        "cx",
-        trailPoint1.x
-    );
-
-    trail1.setAttribute(
-        "cy",
-        trailPoint1.y
-    );
-
-    trail2.setAttribute(
-        "cx",
-        trailPoint2.x
-    );
-
-    trail2.setAttribute(
-        "cy",
-        trailPoint2.y
-    );
-
-    requestAnimationFrame(animate);
+document.getElementById("refField").style.display=
+source==="Reference" ? "block" : "none";
 }
 
-updateLength();
+function saveRegistration(){
 
-window.addEventListener(
-    "resize",
-    updateLength
+const name=document.getElementById("name").value.trim();
+const gender=document.getElementById("gender").value;
+const dob=document.getElementById("dob").value;
+const address=document.getElementById("address").value.trim();
+
+if(!name){
+alert("Please enter patient name.");
+return;
+}
+
+if(!gender){
+alert("Please select gender.");
+return;
+}
+
+if(!dob){
+alert("Please select date of birth.");
+return;
+}
+
+if(!address){
+alert("Please enter address.");
+return;
+}
+
+patient.name=name;
+patient.gender=gender;
+patient.dob=dob;
+patient.age=document.getElementById("age").value;
+patient.address=address;
+patient.source=document.getElementById("source").value;
+patient.referrer=document.getElementById("referrer").value.trim();
+patient.bpl=document.getElementById("bpl").value;
+patient.insurance=document.getElementById("insurance").value;
+
+if(!patient.registrationDate){
+patient.registrationDate=patient.registeredAt || new Date().toISOString();
+}
+
+/*
+6 month validity
+*/
+const regDate=new Date(patient.registrationDate);
+const endDate=new Date(regDate);
+endDate.setMonth(endDate.getMonth()+6);
+
+patient.validityEnd=endDate.toISOString();
+
+patient.registrationCompleted=true;
+
+localStorage.setItem(
+"HOMEOPLUSS_PATIENT",
+JSON.stringify(patient)
 );
 
-requestAnimationFrame(animate);
+document.getElementById("successText").innerHTML=
+"Welcome <b>"+escapeHtml(name)+"</b><br><br>"+
+"Patient ID: <b>"+escapeHtml(patient.patientId)+"</b><br>"+
+"Your 6-month HOMEOPLUSS validity has been activated.";
+
+document.getElementById("success").classList.add("show");
+}
+
+function openHealthBook(){
+window.location.href="patient-healthbook.html";
+}
+
+function goBack(){
+window.location.href="index.html";
+}
+
+function escapeHtml(text){
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
 
 </script>
 
