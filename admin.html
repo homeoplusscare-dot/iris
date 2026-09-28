@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>HOMEOPLUSS • Admin Control</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+}
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+
+    background:
+      radial-gradient(circle at 10% 10%,#dffcff,transparent 30%),
+      radial-gradient(circle at 90% 80%,#e8f2ff,transparent 30%),
+      linear-gradient(135deg,#f5fdff,#ffffff,#eefaff);
+
+    color:#17343d;
+}
+
+.app{
+
+    width:min(1180px,96vw);
+
+    height:96vh;
+
+    margin:2vh auto;
+
+    display:flex;
+    flex-direction:column;
+
+    background:#fff;
+
+    border:1px solid #d5edf1;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:
+      0 30px 90px rgba(0,100,130,.15);
+
+}
+
+header{
+
+    height:77px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 25px;
+
+    border-bottom:1px solid #dceff3;
+
+    background:linear-gradient(#fff,#f6fdff);
+
+}
+
+.brand{
+
+    font-size:27px;
+
+    font-weight:1000;
+
+    letter-spacing:2px;
+
+    color:#078da3;
+
+}
+
+.tagline{
+
+    font-size:9px;
+
+    color:#71858c;
+
+}
+
+.title{
+
+    color:#075e78;
+
+    font-weight:1000;
+
+}
+
+.exit{
+
+    padding:9px 13px;
+
+    background:#eef6f8;
+
+    color:#28515c;
+
+}
+
+main{
+
+    flex:1;
+
+    overflow:auto;
+
+    padding:18px;
+
+}
+
+.hero{
+
+    padding:17px;
+
+    border-radius:20px;
+
+    border:1px solid #dceef2;
+
+    background:
+      linear-gradient(
+        135deg,
+        #ffffff,
+        #f0fbff
+      );
+
+}
+
+.hero h2{
+
+    margin:0;
+
+    color:#075e78;
+
+}
+
+.mini{
+
+    margin-top:4px;
+
+    font-size:10px;
+
+    color:#71858c;
+
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+      repeat(3,1fr);
+
+    gap:12px;
+
+    margin-top:13px;
+
+}
+
+.card{
+
+    padding:15px;
+
+    background:#fff;
+
+    border:1px solid #dceef2;
+
+    border-radius:18px;
+
+    box-shadow:
+      0 7px 20px rgba(0,100,130,.06);
+
+}
+
+.card h3{
+
+    margin:0 0 11px;
+
+    font-size:14px;
+
+    color:#075e78;
+
+}
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 105px;
+
+    gap:8px;
+
+    align-items:center;
+
+    margin:8px 0;
+
+    font-size:10px;
+
+}
+
+input,
+select{
+
+    width:100%;
+
+    height:36px;
+
+    padding:6px 8px;
+
+    border:1px solid #d5e9ed;
+
+    border-radius:9px;
+
+    outline:none;
+
+}
+
+input:focus,
+select:focus{
+
+    border-color:#08a6ba;
+
+}
+
+.save{
+
+    width:100%;
+
+    color:#fff;
+
+    background:
+      linear-gradient(
+        135deg,
+        #00a694,
+        #087dcc
+      );
+
+}
+
+.reset{
+
+    width:100%;
+
+    margin-top:8px;
+
+    background:#eef6f8;
+
+    color:#28515c;
+
+}
+
+.patient-search{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-top:12px;
+
+}
+
+.patient-search input{
+
+    width:240px;
+
+}
+
+.search-btn{
+
+    background:
+      linear-gradient(
+        135deg,
+        #00a694,
+        #087dcc
+      );
+
+    color:#fff;
+
+}
+
+.preview{
+
+    margin-top:12px;
+
+    padding:13px;
+
+    border-radius:15px;
+
+    border:1px dashed #bfe5ea;
+
+    background:#fbfeff;
+
+    font-size:11px;
+
+    line-height:1.7;
+
+}
+
+.notice{
+
+    margin-top:9px;
+
+    padding:9px;
+
+    border-radius:10px;
+
+    background:#effffc;
+
+    color:#087b6a;
+
+    font-size:9px;
+
+    line-height:1.5;
+
+}
+
+@media(max-width:850px){
+
+    .grid{
+
+        grid-template-columns:
+          repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:560px){
+
+    .grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .title{
+
+        font-size:11px;
+
+    }
+
+    .brand{
+
+        font-size:21px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+<div>
+
+<div class="brand">
+HOMEOPLUSS
+</div>
+
+<div class="tagline">
+Homeopathy – Caring Naturally Since 1796
+</div>
+
+</div>
+
+<div class="title">
+⚙ ADMIN • PATIENT MANAGEMENT
+</div>
+
+<button
+class="exit"
+onclick="location.href='index.html'">
+← EXIT
+</button>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+<h2>
+🎛️ Patient HealthBook Master Controls
+</h2>
+
+<div class="mini">
+Change future HP programs, campaigns, referral rewards,
+limits and special offers from this page.
+</div>
+
+<div class="patient-search">
+
+<input
+id="patientSearch"
+placeholder="Patient mobile / Patient ID">
+
+<button
+class="search-btn"
+onclick="loadPatient()">
+🔎 LOAD PATIENT
+</button>
+
+</div>
+
+</section>
+
+
+<div class="grid">
+
+
+<!-- PROFILE HP -->
+
+<div class="card">
+
+<h3>
+🎁 PROFILE HP
+</h3>
+
+<div class="row">
+New Patient Welcome HP
+<input id="welcome" type="number">
+</div>
+
+<div class="row">
+Female Patient HP
+<input id="female" type="number">
+</div>
+
+<div class="row">
+BPL Card Holder HP
+<input id="bpl" type="number">
+</div>
+
+<div class="row">
+Health Insurance HP
+<input id="insurance" type="number">
+</div>
+
+</div>
+
+
+<!-- VISIT -->
+
+<div class="card">
+
+<h3>
+🩺 VISIT HP
+</h3>
+
+<div class="row">
+Check-up HP
+<input id="checkup" type="number">
+</div>
+
+<div class="row">
+Check-up Daily Limit
+<input id="checkLimit" type="number">
+</div>
+
+<div class="row">
+SOS HP
+<input id="sos" type="number">
+</div>
+
+<div class="row">
+SOS Monthly Limit
+<input id="sosLimit" type="number">
+</div>
+
+<div class="row">
+Follow-up HP
+<input id="fu" type="number">
+</div>
+
+</div>
+
+
+<!-- REFERRAL -->
+
+<div class="card">
+
+<h3>
+👥 REFERRAL PROGRAM
+</h3>
+
+<div class="row">
+Referred Patient HP
+<input id="referred" type="number">
+</div>
+
+<div class="row">
+Joined / Referrer Reward HP
+<input id="joined" type="number">
+</div>
+
+<div class="row">
+Require Registration Complete
+<input id="requireComplete" type="checkbox">
+</div>
+
+<div class="row">
+Require Payment Complete
+<input id="requirePayment" type="checkbox">
+</div>
+
+</div>
+
+
+<!-- SPECIAL OFFER -->
+
+<div class="card">
+
+<h3>
+🎁 SPECIAL OFFER
+</h3>
+
+<div class="row">
+Offer Name
+<input id="offerName">
+</div>
+
+<div class="row">
+Offer HP
+<input id="offerHp" type="number">
+</div>
+
+<div class="row">
+Patient Name Keyword
+<input id="offerKeyword"
+placeholder="Example: SHARAN">
+</div>
+
+<div class="row">
+Special Day Name
+<input id="specialDay"
+placeholder="Example: Independence Day">
+</div>
+
+<div class="row">
+Special Day HP
+<input id="specialHp" type="number">
+</div>
+
+</div>
+
+
+<!-- AGE CAMPAIGN -->
+
+<div class="card">
+
+<h3>
+🎂 AGE GROUP CAMPAIGN
+</h3>
+
+<div class="row">
+Minimum Age
+<input id="ageMin" type="number">
+</div>
+
+<div class="row">
+Maximum Age
+<input id="ageMax" type="number">
+</div>
+
+<div class="row">
+Age Group HP
+<input id="ageHp" type="number">
+</div>
+
+<div class="row">
+Campaign Active
+<select id="ageActive">
+<option value="no">NO</option>
+<option value="yes">YES</option>
+</select>
+</div>
+
+</div>
+
+
+<!-- ACTIONS -->
+
+<div class="card">
+
+<h3>
+💚 ADMIN ACTIONS
+</h3>
+
+<button
+class="save"
+onclick="saveRules()">
+💾 SAVE ALL CONTROLS
+</button>
+
+<button
+class="reset"
+onclick="resetRules()">
+↺ RESET DEFAULT RULES
+</button>
+
+<div class="notice">
+
+Admin can later control different patient
+campaigns such as:
+
+<br><br>
+
+👩 Female
+
+<br>
+🪪 BPL
+
+<br>
+🛡 Insurance
+
+<br>
+🎂 Age groups
+
+<br>
+🎉 Special occasions
+
+<br>
+🏷 Patient-name campaigns
+
+<br>
+👥 Referral programs
+
+<br>
+💰 Future discounts
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div
+class="preview"
+id="preview">
+
+No patient loaded.
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+const RULE_KEY=
+"HOMEOPLUSS_ADMIN_RULES";
+
+
+const DEFAULT_RULES={
+
+welcome:2000,
+
+female:100,
+
+bpl:100,
+
+insurance:100,
+
+checkup:10,
+
+checkLimit:1,
+
+sos:20,
+
+sosLimit:4,
+
+fu:50,
+
+referred:100,
+
+joined:50,
+
+requireComplete:true,
+
+requirePayment:true,
+
+offerName:"",
+
+offerHp:0,
+
+offerKeyword:"",
+
+specialDay:"",
+
+specialHp:0,
+
+ageMin:0,
+
+ageMax:0,
+
+ageHp:0,
+
+ageActive:"no"
+
+};
+
+
+let rulesData=
+JSON.parse(
+localStorage.getItem(RULE_KEY)
+||
+JSON.stringify(DEFAULT_RULES)
+);
+
+
+function fillFields(){
+
+    Object.keys(DEFAULT_RULES)
+    .forEach(function(key){
+
+        const element=
+        document.getElementById(key);
+
+        if(!element)return;
+
+        if(element.type==="checkbox"){
+
+            element.checked=
+            Boolean(rulesData[key]);
+
+        }else{
+
+            element.value=
+            rulesData[key] ??
+            DEFAULT_RULES[key];
+
+        }
+
+    });
+
+}
+
+
+function saveRules(){
+
+    Object.keys(DEFAULT_RULES)
+    .forEach(function(key){
+
+        const element=
+        document.getElementById(key);
+
+        if(!element)return;
+
+        if(element.type==="checkbox"){
+
+            rulesData[key]=
+            element.checked;
+
+        }
+
+        else if(element.type==="number"){
+
+            rulesData[key]=
+            Number(element.value||0);
+
+        }
+
+        else{
+
+            rulesData[key]=
+            element.value;
+
+        }
+
+    });
+
+
+    localStorage.setItem(
+        RULE_KEY,
+        JSON.stringify(rulesData)
+    );
+
+
+    alert(
+        "✅ ADMIN CONTROLS SAVED SUCCESSFULLY"
+    );
+
+}
+
+
+function resetRules(){
+
+    if(
+        !confirm(
+            "Reset all HP rules to default?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.setItem(
+        RULE_KEY,
+        JSON.stringify(DEFAULT_RULES)
+    );
+
+    rulesData=
+    JSON.parse(
+        JSON.stringify(DEFAULT_RULES)
+    );
+
+    fillFields();
+
+    alert(
+        "Default rules restored."
+    );
+
+}
+
+
+function loadPatient(){
+
+    let search=
+    document.getElementById(
+        "patientSearch"
+    ).value.trim();
+
+    let patient=null;
+
+    try{
+
+        patient=
+        JSON.parse(
+            localStorage.getItem(
+                "HOMEOPLUSS_PATIENT"
+            )||"null"
+        );
+
+    }catch(e){}
+
+
+    if(!patient){
+
+        document.getElementById("preview")
+        .innerHTML=
+        "❌ No patient account exists in this browser.";
+
+        return;
+
+    }
+
+
+    if(
+        search &&
+        patient.mobile!==search &&
+        patient.patientId!==search
+    ){
+
+        document.getElementById("preview")
+        .innerHTML=
+        "❌ Patient not found.";
+
+        return;
+
+    }
+
+
+    document.getElementById("preview")
+    .innerHTML=
+
+    `
+
+    <b>👤 LOADED PATIENT</b>
+
+    <br>
+
+    Name:
+    ${escapeHtml(patient.name||"Not registered")}
+
+    <br>
+
+    Patient ID:
+    ${escapeHtml(patient.patientId||"")}
+
+    <br>
+
+    Mobile:
+    ${escapeHtml(patient.mobile||"")}
+
+    <br>
+
+    Registration Complete:
+    ${patient.registrationCompleted?"YES":"NO"}
+
+    <br>
+
+    Current Stored HP:
+    <b>${Number(patient.healthPoints||0)}</b>
+
+    `;
+
+}
+
+
+function addDemoRecord(type){
+
+    let patient=null;
+
+    try{
+
+        patient=
+        JSON.parse(
+            localStorage.getItem(
+                "HOMEOPLUSS_PATIENT"
+            )||"null"
+        );
+
+    }catch(e){}
+
+
+    if(!patient){
+
+        alert(
+            "Create/login a patient first."
+        );
+
+        return;
+
+    }
+
+
+    patient.passbook=
+    patient.passbook||[];
+
+
+    let hp=0;
+
+    if(type==="CHECKUP")
+        hp=Number(rulesData.checkup||10);
+
+    if(type==="SOS")
+        hp=Number(rulesData.sos||20);
+
+    if(type==="FU")
+        hp=Number(rulesData.fu||50);
+
+
+    patient.passbook.push({
+
+        type:type,
+
+        date:new Date().toISOString(),
+
+        hpCredit:hp,
+
+        hpDebit:0,
+
+        remarks:
+        "Admin test record"
+
+    });
+
+
+    localStorage.setItem(
+        "HOMEOPLUSS_PATIENT",
+        JSON.stringify(patient)
+    );
+
+
+    alert(
+        type+
+        " demo record added to Patient HealthBook."
+    );
+
+
+    loadPatient();
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value??"").replace(
+        /[&<>"']/g,
+        function(c){
+
+            return {
+
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+
+            }[c];
+
+        }
+    );
+
+}
+
+
+fillFields();
+
+</script>
+
+</body>
+
+</html>
