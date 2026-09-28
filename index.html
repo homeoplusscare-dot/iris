@@ -3,329 +3,400 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>HOMEOPLUSS — Patient Login</title>
+<title>HOMEOPLUSS • Patient Login</title>
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
 body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#f8ffff,#eef9ff,#ffffff);
-color:#123;
-display:flex;
-align-items:center;
-justify-content:center;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%,#dffcff 0,transparent 28%),
+      radial-gradient(circle at 85% 75%,#e7f2ff 0,transparent 30%),
+      linear-gradient(135deg,#f5fdff,#ffffff,#effaff);
+    color:#17343d;
 }
 
 .app{
-width:min(1100px,96vw);
-height:min(720px,94vh);
-position:relative;
-background:rgba(255,255,255,.94);
-border-radius:32px;
-box-shadow:0 25px 70px rgba(0,100,150,.18),inset 0 1px 0 #fff;
-overflow:hidden;
-border:2px solid #d9f4f8;
+    width:min(1180px,96vw);
+    height:min(760px,96vh);
+    margin:2vh auto;
+    position:relative;
+    overflow:hidden;
+    border-radius:32px;
+    background:rgba(255,255,255,.96);
+    border:1px solid #cfe9ee;
+    box-shadow:0 30px 90px rgba(0,105,135,.16);
 }
 
-.border-bulb{
-position:absolute;
-inset:0;
-border:2px solid #11a9bb;
-border-radius:32px;
-pointer-events:none;
+.app:before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid rgba(0,160,180,.28);
+    border-radius:25px;
+    pointer-events:none;
 }
 
-.header{
-height:86px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 34px;
-border-bottom:1px solid #dceff3;
-background:linear-gradient(180deg,#fff,#f5fcff);
+header{
+    height:82px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    border-bottom:1px solid #dceff2;
+    background:linear-gradient(#ffffff,#f7fdff);
 }
 
 .brand{
-font-size:30px;
-font-weight:900;
-letter-spacing:2px;
-color:#058aa2;
+    font-size:29px;
+    font-weight:1000;
+    letter-spacing:2px;
+    color:#058ca2;
 }
 
 .tagline{
-font-size:11px;
-color:#66818a;
-margin-top:3px;
+    font-size:10px;
+    color:#71858c;
+    margin-top:3px;
 }
 
-.icon{
-font-size:30px;
+.head-icons{
+    font-size:27px;
+    letter-spacing:7px;
+}
+
+.admin-btn{
+    position:absolute;
+    right:18px;
+    top:13px;
+    z-index:20;
+    border:1px solid #cce8ee;
+    background:#f2fbfd;
+    color:#075d78;
+    padding:7px 10px;
+    border-radius:10px;
+    font-size:10px;
+    font-weight:900;
+    cursor:pointer;
 }
 
 .hero{
-height:calc(100% - 86px);
-display:flex;
-align-items:center;
-justify-content:center;
-gap:60px;
-padding:35px;
+    height:calc(100% - 82px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:90px;
+    padding:35px;
 }
 
 .scanner{
-width:310px;
-height:310px;
-border-radius:50%;
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-background:radial-gradient(circle,#fff 0,#e9fbff 55%,#c9f1f5 100%);
-box-shadow:0 20px 50px rgba(0,140,170,.18),inset 0 0 40px #fff;
+    width:330px;
+    height:330px;
+    position:relative;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:radial-gradient(circle,#ffffff,#e9fbff);
+    box-shadow:
+      0 25px 55px rgba(0,125,160,.15),
+      inset 0 0 30px rgba(0,180,200,.12);
 }
 
 .ring{
-position:absolute;
-border:2px solid #16aabd;
-border-radius:50%;
-animation:spin 7s linear infinite;
-}
-.r1{width:245px;height:245px}
-.r2{width:205px;height:205px;border-color:#2f75d6;animation-direction:reverse;animation-duration:5s}
-.r3{width:165px;height:165px;border-style:dashed;animation-duration:4s}
-
-.cross{
-font-size:80px;
-color:#0aa6b8;
-text-shadow:0 5px 20px rgba(0,150,180,.25);
+    position:absolute;
+    border-radius:50%;
+    border:2px solid;
+    animation:spin linear infinite;
 }
 
-.scanline{
-position:absolute;
-width:230px;
-height:3px;
-background:#00b9ca;
-box-shadow:0 0 15px #00b9ca;
-animation:scan 2s ease-in-out infinite;
+.r1{
+    width:275px;
+    height:275px;
+    border-color:#08a5b9;
+    animation-duration:7s;
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+.r2{
+    width:230px;
+    height:230px;
+    border-color:#227bd0;
+    animation-duration:5s;
+    animation-direction:reverse;
+}
+
+.r3{
+    width:185px;
+    height:185px;
+    border-color:#16a88e;
+    border-style:dashed;
+    animation-duration:4s;
+}
+
+.r4{
+    width:145px;
+    height:145px;
+    border-color:#db7b19;
+    animation-duration:3s;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.medical-cross{
+    font-size:80px;
+    color:#0aa4b6;
+    text-shadow:0 8px 20px rgba(0,150,180,.2);
+    z-index:2;
+}
+
+.scan-line{
+    position:absolute;
+    width:240px;
+    height:3px;
+    background:#00b9c7;
+    box-shadow:0 0 20px #00b9c7;
+    animation:scan 2.2s ease-in-out infinite;
+}
+
 @keyframes scan{
-0%,100%{transform:translateY(-95px)}
-50%{transform:translateY(95px)}
+    0%,100%{transform:translateY(-105px)}
+    50%{transform:translateY(105px)}
 }
 
-.loginbox{
-width:min(430px,100%);
-padding:38px;
-border-radius:28px;
-background:#fff;
-box-shadow:0 20px 55px rgba(0,100,140,.15);
-border:1px solid #dceff4;
+.float-icon{
+    position:absolute;
+    font-size:26px;
+    animation:float 3s ease-in-out infinite;
 }
 
-.loginbox h1{
-margin:0 0 8px;
-font-size:29px;
-color:#075d78;
+.i1{top:25px;left:70px}
+.i2{right:45px;top:80px;animation-delay:.6s}
+.i3{bottom:45px;right:70px;animation-delay:1s}
+.i4{left:35px;bottom:80px;animation-delay:1.4s}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
 }
 
-.loginbox p{
-margin:0 0 25px;
-color:#71858d;
+.login-card{
+    width:min(450px,100%);
+    padding:38px;
+    background:#ffffff;
+    border:1px solid #d5edf1;
+    border-radius:28px;
+    box-shadow:0 20px 55px rgba(0,110,140,.13);
+}
+
+.login-card h1{
+    margin:0;
+    color:#075e78;
+    font-size:30px;
+}
+
+.subtitle{
+    color:#71858c;
+    font-size:13px;
+    margin:8px 0 24px;
 }
 
 label{
-display:block;
-font-weight:800;
-font-size:13px;
-margin:16px 0 7px;
+    display:block;
+    font-size:12px;
+    font-weight:900;
+    margin:16px 0 7px;
 }
 
 input{
-width:100%;
-height:52px;
-border:2px solid #d5edf1;
-border-radius:14px;
-padding:0 16px;
-font-size:18px;
-outline:none;
-transition:.2s;
+    width:100%;
+    height:53px;
+    border:2px solid #d7edf1;
+    border-radius:14px;
+    padding:0 15px;
+    font-size:18px;
+    outline:none;
+    transition:.2s;
 }
 
 input:focus{
-border-color:#08a7bb;
-box-shadow:0 0 0 4px rgba(8,167,187,.08);
+    border-color:#08a6ba;
+    box-shadow:0 0 0 4px rgba(0,166,186,.08);
 }
 
-.loginbtn{
-width:100%;
-height:58px;
-margin-top:24px;
-border:0;
-border-radius:17px;
-font-size:17px;
-font-weight:900;
-letter-spacing:.5px;
-color:#fff;
-cursor:pointer;
-background:linear-gradient(135deg,#00a7b7,#126dcc);
-box-shadow:0 12px 25px rgba(0,120,180,.25);
+.login-btn{
+    width:100%;
+    height:58px;
+    margin-top:23px;
+    border:0;
+    border-radius:15px;
+    color:#fff;
+    font-weight:1000;
+    font-size:15px;
+    background:linear-gradient(135deg,#00a794,#087ac9);
+    box-shadow:0 14px 28px rgba(0,120,150,.22);
+    cursor:pointer;
 }
 
-.loginbtn:active{transform:scale(.98)}
+.login-btn:hover{
+    transform:translateY(-2px);
+}
 
 .note{
-margin-top:18px;
-font-size:11px;
-line-height:1.5;
-text-align:center;
-color:#789099;
+    text-align:center;
+    color:#809097;
+    font-size:10px;
+    margin-top:13px;
 }
 
-.overlay{
-display:none;
-position:absolute;
-inset:0;
-background:rgba(255,255,255,.94);
-z-index:20;
-align-items:center;
-justify-content:center;
+.overlay,
+.success{
+    display:none;
+    position:absolute;
+    inset:0;
+    z-index:50;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.95);
 }
 
-.overlay.show{display:flex}
+.show{
+    display:flex;
+}
 
-.approval{
-width:min(520px,90%);
-text-align:center;
-padding:38px;
-border-radius:30px;
-background:#fff;
-box-shadow:0 25px 70px rgba(0,90,140,.2);
+.popup{
+    width:min(550px,92%);
+    padding:40px;
+    text-align:center;
+    background:#fff;
+    border:1px solid #cdebf0;
+    border-radius:30px;
+    box-shadow:0 35px 90px rgba(0,100,130,.25);
 }
 
 .loader{
-width:130px;
-height:130px;
-border-radius:50%;
-margin:auto;
-border:8px solid #e4f6f8;
-border-top-color:#00a5b8;
-border-right-color:#176bc7;
-animation:spin 1s linear infinite;
-display:flex;
-align-items:center;
-justify-content:center;
+    width:130px;
+    height:130px;
+    margin:auto;
+    border-radius:50%;
+    border:8px solid #e5f5f7;
+    border-top-color:#08a6b9;
+    border-right-color:#2679d0;
+    display:grid;
+    place-items:center;
+    animation:spin 1s linear infinite;
 }
 
 .percent{
-font-size:25px;
-font-weight:900;
-color:#075d78;
+    font-size:22px;
+    font-weight:1000;
+    color:#075d78;
 }
 
-.status{
-margin-top:25px;
-font-weight:900;
-font-size:18px;
-color:#087e98;
+.progress{
+    height:12px;
+    margin-top:22px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#e8f4f6;
 }
 
-.bar{
-height:12px;
-background:#e7f5f7;
-border-radius:20px;
-margin-top:18px;
-overflow:hidden;
-}
-
-.bar i{
-display:block;
-height:100%;
-width:0;
-background:linear-gradient(90deg,#00a7b7,#176bc7);
-transition:.05s;
-}
-
-.success{
-display:none;
-position:absolute;
-inset:0;
-z-index:30;
-background:rgba(255,255,255,.97);
-align-items:center;
-justify-content:center;
-}
-
-.success.show{display:flex}
-
-.successbox{
-width:min(550px,90%);
-text-align:center;
-padding:42px;
-border-radius:32px;
-background:#fff;
-box-shadow:0 30px 90px rgba(0,100,150,.25);
-border:2px solid #bdeef2;
+.progress i{
+    display:block;
+    width:0;
+    height:100%;
+    background:linear-gradient(90deg,#00a792,#087dcc);
 }
 
 .tick{
-width:85px;
-height:85px;
-margin:auto;
-border-radius:50%;
-background:linear-gradient(135deg,#08b89b,#078bd0);
-color:#fff;
-font-size:48px;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 0 35px rgba(0,170,180,.35);
+    width:90px;
+    height:90px;
+    margin:auto;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    color:#fff;
+    font-size:52px;
+    background:linear-gradient(135deg,#00ad8e,#087dcc);
+    box-shadow:0 0 40px rgba(0,170,140,.4);
+    animation:tickPulse 1.2s infinite;
 }
 
-.success h2{
-color:#087d8f;
-font-size:28px;
-margin:20px 0 6px;
+@keyframes tickPulse{
+    50%{transform:scale(1.08)}
 }
 
-.pid{
-display:inline-block;
-margin:15px 0;
-padding:12px 20px;
-border-radius:12px;
-background:#eefaff;
-font-weight:900;
-color:#075d78;
+.patient-id{
+    display:inline-block;
+    margin:12px 0;
+    padding:11px 18px;
+    border-radius:12px;
+    background:#effaff;
+    color:#075e78;
+    font-weight:1000;
 }
 
-.points{
-font-size:23px;
-font-weight:900;
-color:#0b9d76;
+.hp{
+    color:#008b70;
+    font-size:23px;
+    font-weight:1000;
 }
 
-.continue{
-margin-top:25px;
-width:100%;
-height:55px;
-border:0;
-border-radius:15px;
-background:linear-gradient(135deg,#08a68f,#087ec6);
-color:#fff;
-font-weight:900;
-font-size:16px;
-cursor:pointer;
+.continue-btn{
+    width:100%;
+    height:56px;
+    margin-top:20px;
+    border:0;
+    border-radius:14px;
+    color:#fff;
+    font-weight:1000;
+    background:linear-gradient(135deg,#00a794,#087dcc);
+    cursor:pointer;
 }
 
-@media(max-width:760px){
-.app{height:96vh;border-radius:22px}
-.header{height:70px;padding:0 20px}
-.brand{font-size:22px}
-.tagline{display:none}
-.hero{height:calc(100% - 70px);padding:20px}
-.scanner{display:none}
-.loginbox{padding:28px}
+@media(max-width:800px){
+    .app{
+        height:96vh;
+        margin:2vh auto;
+    }
+
+    .hero{
+        padding:20px;
+    }
+
+    .scanner{
+        display:none;
+    }
+
+    .login-card{
+        padding:28px;
+    }
+}
+
+@media(max-width:500px){
+    header{
+        padding:0 17px;
+    }
+
+    .brand{
+        font-size:22px;
+    }
+
+    .head-icons{
+        font-size:20px;
+    }
+
+    .login-card h1{
+        font-size:25px;
+    }
 }
 </style>
 </head>
@@ -333,207 +404,271 @@ cursor:pointer;
 <body>
 
 <div class="app">
-<div class="border-bulb"></div>
 
-<header class="header">
-<div>
-<div class="brand">HOMEOPLUSS</div>
-<div class="tagline">Homeopathy – Caring Naturally Since 1796</div>
-</div>
-<div class="icon">🩺</div>
+<button class="admin-btn" onclick="adminLogin()">⚙ ADMIN</button>
+
+<header>
+    <div>
+        <div class="brand">HOMEOPLUSS</div>
+        <div class="tagline">Homeopathy – Caring Naturally Since 1796</div>
+    </div>
+    <div class="head-icons">🩺 ✚ 💙</div>
 </header>
 
 <section class="hero">
 
 <div class="scanner">
-<div class="ring r1"></div>
-<div class="ring r2"></div>
-<div class="ring r3"></div>
-<div class="scanline"></div>
-<div class="cross">✚</div>
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
+    <div class="ring r4"></div>
+    <div class="scan-line"></div>
+
+    <div class="float-icon i1">🩺</div>
+    <div class="float-icon i2">💊</div>
+    <div class="float-icon i3">❤️</div>
+    <div class="float-icon i4">🔬</div>
+
+    <div class="medical-cross">✚</div>
 </div>
 
-<div class="loginbox">
-<h1>Patient Login</h1>
-<p>Access your HOMEOPLUSS Patient HealthBook</p>
+<div class="login-card">
 
-<label>Mobile Number</label>
+<h1>👤 Patient Login</h1>
+
+<div class="subtitle">
+Access your HOMEOPLUSS account & HealthBook
+</div>
+
+<label>📱 Mobile Number</label>
+
 <input
 id="mobile"
 type="tel"
 inputmode="numeric"
 maxlength="10"
 placeholder="Enter 10 digit mobile number"
-oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"
+oninput="digitsOnly(this,10)"
 >
 
-<label>Birth Year</label>
+<label>🎂 Birth Year</label>
+
 <input
 id="year"
 type="tel"
 inputmode="numeric"
 maxlength="4"
 placeholder="YYYY"
-oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)"
+oninput="digitsOnly(this,4)"
 >
 
-<button class="loginbtn" onclick="login()">
+<button class="login-btn" onclick="login()">
 🔐 LOGIN & CHECK ACCOUNT
 </button>
 
 <div class="note">
-Enter mobile number without +91.<br>
-Example: 9876543210
+Enter mobile number only — do NOT enter +91
 </div>
+
 </div>
 
 </section>
 
 <div class="overlay" id="approval">
-<div class="approval">
+
+<div class="popup">
+
 <div class="loader">
 <div class="percent" id="percent">0%</div>
 </div>
-<div class="status" id="status">SUBMITTED</div>
-<div class="bar"><i id="bar"></i></div>
-<p>Checking and approving your HOMEOPLUSS account...</p>
+
+<h3 id="status">SUBMITTED</h3>
+
+<div class="progress">
+<i id="bar"></i>
 </div>
+
+<p>
+🔐 Checking your HOMEOPLUSS patient account...
+</p>
+
+</div>
+
 </div>
 
 <div class="success" id="success">
-<div class="successbox">
+
+<div class="popup">
 
 <div class="tick">✓</div>
 
-<h2>CONGRATULATIONS!</h2>
-<div>WELCOME TO HOMEOPLUSS</div>
+<h2>🎉 CONGRATULATIONS!</h2>
 
-<div class="pid" id="patientId"></div>
+<b>WELCOME TO HOMEOPLUSS</b>
 
-<div class="points">+2000 HP HEALTH POINTS</div>
+<br>
+
+<div class="patient-id" id="patientId"></div>
+
+<div class="hp">
++2000 HP HEALTH POINTS
+</div>
 
 <p>
-Your patient account has been approved.
+Your patient account has been approved successfully.
 </p>
 
-<button class="continue" onclick="goRegistration()">
+<button class="continue-btn"
+onclick="location.href='patient-registration.html'">
 ➜ CONTINUE TO PATIENT REGISTRATION
 </button>
 
 </div>
+
 </div>
 
 </div>
 
 <script>
 
-let mobileNumber="";
-let birthYear="";
+function digitsOnly(el,max){
+    el.value=el.value.replace(/\D/g,"").slice(0,max);
+}
+
+function getPatient(){
+    try{
+        return JSON.parse(
+            localStorage.getItem("HOMEOPLUSS_PATIENT") || "null"
+        );
+    }catch(e){
+        return null;
+    }
+}
 
 function login(){
 
-mobileNumber=document.getElementById("mobile").value.trim();
-birthYear=document.getElementById("year").value.trim();
+    const mobile=document.getElementById("mobile").value.trim();
+    const year=document.getElementById("year").value.trim();
 
-if(!/^\d{10}$/.test(mobileNumber)){
-alert("Please enter exactly 10 digits mobile number.");
-return;
+    if(!/^\d{10}$/.test(mobile)){
+        alert("Enter exactly 10 digits. Do not enter +91.");
+        return;
+    }
+
+    if(!/^\d{4}$/.test(year)){
+        alert("Enter a valid 4 digit birth year.");
+        return;
+    }
+
+    const patient=getPatient();
+
+    /*
+      IMPORTANT:
+      Existing patient -> directly Page 3.
+      New patient -> approval -> Page 2.
+    */
+
+    if(
+        patient &&
+        patient.mobile===mobile &&
+        String(patient.year)===year &&
+        patient.registrationCompleted===true
+    ){
+        location.href="patient-healthbook.html";
+        return;
+    }
+
+    startApproval(mobile,year);
 }
 
-if(!/^\d{4}$/.test(birthYear)){
-alert("Please enter a valid 4 digit birth year.");
-return;
+function startApproval(mobile,year){
+
+    document.getElementById("approval").classList.add("show");
+
+    let start=Date.now();
+
+    const timer=setInterval(function(){
+
+        const elapsed=Date.now()-start;
+
+        let pct=Math.min(100,Math.floor(elapsed/70));
+
+        document.getElementById("percent").textContent=pct+"%";
+        document.getElementById("bar").style.width=pct+"%";
+
+        let status="SUBMITTED";
+
+        if(pct>=25) status="PROCESSING";
+        if(pct>=50) status="APPROVING";
+        if(pct>=75) status="CONFIRMED";
+        if(pct>=100) status="SUBMISSION APPROVED";
+
+        document.getElementById("status").textContent=status;
+
+        if(pct>=100){
+
+            clearInterval(timer);
+
+            let existing=getPatient();
+
+            let patient=existing || {
+                patientId:"HP-"+mobile+"-"+year,
+                mobile:mobile,
+                year:year,
+                healthPoints:2000,
+                welcomePoints:2000,
+                registeredAt:new Date().toISOString(),
+                registrationCompleted:false,
+                passbook:[],
+                bills:[],
+                receipts:[],
+                notifications:[]
+            };
+
+            patient.patientId="HP-"+mobile+"-"+year;
+            patient.mobile=mobile;
+            patient.year=year;
+
+            if(!patient.welcomePoints)
+                patient.welcomePoints=2000;
+
+            if(!patient.healthPoints)
+                patient.healthPoints=2000;
+
+            if(!patient.registeredAt)
+                patient.registeredAt=new Date().toISOString();
+
+            localStorage.setItem(
+                "HOMEOPLUSS_PATIENT",
+                JSON.stringify(patient)
+            );
+
+            setTimeout(function(){
+
+                document.getElementById("approval")
+                    .classList.remove("show");
+
+                document.getElementById("patientId")
+                    .textContent=patient.patientId;
+
+                document.getElementById("success")
+                    .classList.add("show");
+
+            },300);
+        }
+
+    },50);
 }
 
-/*
-If patient already exists, allow direct login.
-*/
-const saved=JSON.parse(
-localStorage.getItem("HOMEOPLUSS_PATIENT") || "null"
-);
+function adminLogin(){
 
-if(
-saved &&
-saved.mobile===mobileNumber &&
-String(saved.year)===birthYear
-){
-window.location.href="patient-healthbook.html";
-return;
-}
+    const password=prompt("Enter ADMIN PASSWORD");
 
-startApproval();
-}
-
-function startApproval(){
-
-document.getElementById("approval").classList.add("show");
-
-let start=Date.now();
-const duration=7000;
-
-const timer=setInterval(()=>{
-
-let elapsed=Date.now()-start;
-let pct=Math.min(100,Math.floor((elapsed/duration)*100));
-
-document.getElementById("percent").textContent=pct+"%";
-document.getElementById("bar").style.width=pct+"%";
-
-let status="SUBMITTED";
-
-if(pct>=25)status="PROCESSING";
-if(pct>=50)status="APPROVING";
-if(pct>=75)status="CONFIRMED";
-if(pct>=100)status="SUBMISSION APPROVED";
-
-document.getElementById("status").textContent=status;
-
-if(pct>=100){
-clearInterval(timer);
-
-const patient={
-patientId:"HP-"+mobileNumber+"-"+birthYear,
-mobile:mobileNumber,
-year:birthYear,
-healthPoints:2000,
-welcomePoints:2000,
-registeredAt:new Date().toISOString(),
-registrationCompleted:false,
-passbook:[],
-bills:[],
-receipts:[],
-notifications:[]
-};
-
-localStorage.setItem(
-"HOMEOPLUSS_PATIENT",
-JSON.stringify(patient)
-);
-
-setTimeout(()=>{
-document.getElementById("approval").classList.remove("show");
-document.getElementById("patientId").textContent=patient.patientId;
-document.getElementById("success").classList.add("show");
-},400);
-
-}
-
-},50);
-}
-
-function goRegistration(){
-
-/* Make absolutely sure Page 2 can read the patient */
-const patient=JSON.parse(
-localStorage.getItem("HOMEOPLUSS_PATIENT") || "null"
-);
-
-if(!patient){
-alert("Patient account data not found. Please login again.");
-return;
-}
-
-window.location.href="patient-registration.html";
+    if(password==="1008"){
+        location.href="admin.html";
+    }else if(password!==null){
+        alert("Incorrect admin password.");
+    }
 }
 
 </script>
