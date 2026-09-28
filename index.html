@@ -1,0 +1,2435 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HOMEOPLUSS — Patient Approval</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:'Montserrat',sans-serif;
+    background:#f7fcff;
+    color:#123047;
+}
+
+button,input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 15% 15%,rgba(0,168,179,.13),transparent 28%),
+        radial-gradient(circle at 85% 18%,rgba(2,93,163,.11),transparent 30%),
+        radial-gradient(circle at 50% 100%,rgba(0,168,179,.08),transparent 35%),
+        linear-gradient(135deg,#ffffff,#f3fbff 55%,#ffffff);
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.20;
+    background-image:
+        linear-gradient(rgba(2,93,163,.08) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(2,93,163,.08) 1px,transparent 1px);
+    background-size:55px 55px;
+    animation:gridMove 14s linear infinite;
+}
+
+@keyframes gridMove{
+    from{background-position:0 0}
+    to{background-position:55px 55px}
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(1px);
+    opacity:.55;
+    animation:floatOrb 8s ease-in-out infinite;
+}
+
+.orb.one{
+    width:170px;
+    height:170px;
+    left:-60px;
+    top:15%;
+    background:radial-gradient(circle at 35% 30%,#ffffff,rgba(0,168,179,.20),transparent 70%);
+}
+
+.orb.two{
+    width:220px;
+    height:220px;
+    right:-80px;
+    top:10%;
+    background:radial-gradient(circle at 40% 40%,#ffffff,rgba(2,93,163,.17),transparent 70%);
+    animation-delay:-3s;
+}
+
+.orb.three{
+    width:180px;
+    height:180px;
+    left:35%;
+    bottom:-100px;
+    background:radial-gradient(circle at 50% 30%,rgba(0,168,179,.20),transparent 70%);
+    animation-delay:-5s;
+}
+
+@keyframes floatOrb{
+    0%,100%{transform:translate3d(0,0,0)}
+    50%{transform:translate3d(18px,-25px,0)}
+}
+
+/* ECG background */
+
+.ecg{
+    position:absolute;
+    width:100%;
+    height:120px;
+    left:0;
+    opacity:.13;
+}
+
+.ecg.top{top:4%}
+.ecg.bottom{bottom:5%}
+
+.ecg path{
+    fill:none;
+    stroke:#00a8b3;
+    stroke-width:2;
+    stroke-dasharray:8 12;
+    animation:ecgRun 5s linear infinite;
+}
+
+@keyframes ecgRun{
+    to{stroke-dashoffset:-200}
+}
+
+/* Floating medical icons */
+
+.med-icon{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    background:rgba(255,255,255,.70);
+    border:1px solid rgba(0,168,179,.16);
+    box-shadow:
+        0 12px 25px rgba(0,80,120,.10),
+        inset 0 1px 0 #fff;
+    font-size:22px;
+    animation:medicalFloat 6s ease-in-out infinite;
+    backdrop-filter:blur(8px);
+}
+
+.mi1{left:5%;top:23%;animation-delay:-1s}
+.mi2{right:6%;top:31%;animation-delay:-3s}
+.mi3{left:8%;bottom:23%;animation-delay:-4s}
+.mi4{right:8%;bottom:20%;animation-delay:-2s}
+
+@keyframes medicalFloat{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-15px) rotate(5deg)}
+}
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-wrap{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    z-index:10;
+}
+
+.login-shell{
+    position:relative;
+    width:min(520px,94vw);
+    min-height:min(650px,92vh);
+    padding:45px 38px 35px;
+    border-radius:36px;
+
+    /* STATIONARY BORDER */
+    border:1.5px solid rgba(2,93,163,.27);
+
+    background:
+        linear-gradient(145deg,
+        rgba(255,255,255,.98),
+        rgba(246,253,255,.96));
+
+    box-shadow:
+        0 35px 80px rgba(2,65,105,.16),
+        0 10px 25px rgba(0,168,179,.08),
+        inset 0 1px 0 #ffffff,
+        inset 0 -2px 12px rgba(2,93,163,.04);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/*
+==========================================================
+IMPORTANT:
+The border itself DOES NOT rotate.
+Only the bulb below travels around it.
+==========================================================
+*/
+
+.border-animation{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:20;
+    overflow:visible;
+}
+
+.border-track{
+    fill:none;
+    stroke:rgba(0,168,179,.14);
+    stroke-width:1;
+}
+
+.border-bulb{
+    fill:#ffffff;
+    stroke:#00e7ff;
+    stroke-width:2;
+    filter:
+        drop-shadow(0 0 3px #00e7ff)
+        drop-shadow(0 0 7px #00e7ff)
+        drop-shadow(0 0 15px rgba(0,168,179,.85));
+}
+
+.border-trail{
+    fill:#00dff5;
+    opacity:.30;
+    filter:drop-shadow(0 0 7px #00dff5);
+}
+
+.border-trail.two{
+    opacity:.14;
+    filter:drop-shadow(0 0 4px #00dff5);
+}
+
+/* small shine on card */
+
+.card-shine{
+    position:absolute;
+    width:180px;
+    height:500px;
+    top:-180px;
+    left:-260px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.75),
+        transparent
+    );
+    transform:rotate(25deg);
+    animation:cardShine 7s ease-in-out infinite;
+    pointer-events:none;
+}
+
+@keyframes cardShine{
+    0%,55%{left:-260px}
+    75%,100%{left:650px}
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+.brand-name{
+    font-size:clamp(27px,6vw,42px);
+    font-weight:900;
+    letter-spacing:2px;
+    line-height:1;
+    background:linear-gradient(
+        90deg,
+        #025da3,
+        #00a8b3,
+        #025da3
+    );
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.brand-line{
+    width:75px;
+    height:4px;
+    margin:12px auto 10px;
+    border-radius:20px;
+    background:linear-gradient(90deg,#025da3,#00a8b3);
+    box-shadow:0 3px 10px rgba(0,168,179,.25);
+}
+
+.tagline{
+    font-size:11px;
+    letter-spacing:1.4px;
+    color:#608093;
+    font-weight:700;
+}
+
+/* =========================================================
+   LOGIN TITLE
+========================================================= */
+
+.login-title{
+    text-align:center;
+    margin:38px 0 25px;
+    position:relative;
+    z-index:2;
+}
+
+.login-title h1{
+    font-size:clamp(22px,5vw,31px);
+    font-weight:900;
+    color:#123b58;
+    letter-spacing:.5px;
+}
+
+.login-title p{
+    margin-top:8px;
+    font-size:12px;
+    line-height:1.5;
+    color:#78909f;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form-area{
+    position:relative;
+    z-index:2;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+.field-label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+    font-size:11px;
+    font-weight:800;
+    color:#45667a;
+    letter-spacing:.5px;
+}
+
+.input-box{
+    height:62px;
+    width:100%;
+    border-radius:18px;
+    border:1px solid rgba(2,93,163,.16);
+    background:linear-gradient(145deg,#ffffff,#f2faff);
+    box-shadow:
+        inset 4px 4px 10px rgba(2,93,163,.05),
+        inset -4px -4px 10px #ffffff,
+        0 8px 18px rgba(2,93,163,.06);
+
+    display:flex;
+    align-items:center;
+    padding:0 17px;
+    transition:.25s;
+}
+
+.input-box:focus-within{
+    border-color:#00a8b3;
+    box-shadow:
+        0 0 0 4px rgba(0,168,179,.08),
+        inset 4px 4px 10px rgba(2,93,163,.04),
+        0 10px 25px rgba(0,168,179,.10);
+}
+
+.input-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,#e9fbfd,#ffffff);
+    box-shadow:
+        4px 4px 9px rgba(2,93,163,.08),
+        -3px -3px 8px #fff;
+    font-size:19px;
+    flex:none;
+}
+
+.input-box input{
+    width:100%;
+    height:100%;
+    border:0;
+    outline:none;
+    background:transparent;
+    padding:0 12px;
+    font-size:18px;
+    font-weight:700;
+    color:#173b53;
+    letter-spacing:1px;
+}
+
+.input-box input::placeholder{
+    color:#a3b4bf;
+    font-weight:500;
+    letter-spacing:.2px;
+}
+
+.mobile-prefix{
+    font-size:15px;
+    font-weight:800;
+    color:#587689;
+    padding-left:9px;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-btn{
+    position:relative;
+    width:100%;
+    height:64px;
+    margin-top:12px;
+    border:0;
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #025da3,
+            #00a8b3 52%,
+            #0877b7
+        );
+
+    color:#ffffff;
+    font-size:16px;
+    font-weight:900;
+    letter-spacing:1.3px;
+
+    box-shadow:
+        0 15px 30px rgba(2,93,163,.24),
+        inset 0 2px 0 rgba(255,255,255,.38),
+        inset 0 -4px 10px rgba(0,45,90,.18);
+
+    overflow:hidden;
+    transition:.2s;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 20px 38px rgba(2,93,163,.28),
+        inset 0 2px 0 rgba(255,255,255,.42);
+}
+
+.login-btn:active{
+    transform:translateY(1px);
+}
+
+.login-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.38),
+        transparent
+    );
+    transform:skewX(-20deg);
+    animation:buttonShine 3.5s infinite;
+}
+
+@keyframes buttonShine{
+    0%,50%{left:-100%}
+    75%,100%{left:150%}
+}
+
+.login-btn span{
+    position:relative;
+    z-index:2;
+}
+
+/* =========================================================
+   SECURITY NOTE
+========================================================= */
+
+.security-note{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+    margin-top:19px;
+    color:#75909e;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.2px;
+}
+
+.lock{
+    font-size:13px;
+}
+
+/* =========================================================
+   PROCESS SCREEN
+========================================================= */
+
+#processScreen{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:30;
+    background:
+        radial-gradient(circle at center,rgba(255,255,255,.98),rgba(238,250,255,.97)),
+        #fff;
+}
+
+.process-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,168,179,.045) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,168,179,.045) 1px,transparent 1px);
+    background-size:40px 40px;
+    animation:gridProcess 8s linear infinite;
+}
+
+@keyframes gridProcess{
+    to{background-position:40px 40px}
+}
+
+.process-brand{
+    position:absolute;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    z-index:5;
+}
+
+.process-brand strong{
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    background:linear-gradient(90deg,#025da3,#00a8b3);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.process-brand small{
+    display:block;
+    margin-top:5px;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1.4px;
+    color:#7c98a7;
+}
+
+/* moving medical background symbols */
+
+.process-symbol{
+    position:absolute;
+    width:52px;
+    height:52px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.70);
+    border:1px solid rgba(0,168,179,.12);
+    box-shadow:0 12px 25px rgba(0,80,120,.08);
+    font-size:25px;
+    opacity:.7;
+    animation:processFloat 5s ease-in-out infinite;
+}
+
+.ps1{left:7%;top:24%}
+.ps2{right:8%;top:24%;animation-delay:-1s}
+.ps3{left:9%;bottom:22%;animation-delay:-2s}
+.ps4{right:8%;bottom:22%;animation-delay:-3s}
+
+@keyframes processFloat{
+    0%,100%{transform:translateY(0) rotate(0)}
+    50%{transform:translateY(-16px) rotate(6deg)}
+}
+
+/* scanner */
+
+.scanner{
+    position:relative;
+    width:min(330px,76vw);
+    height:min(330px,76vw);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:4;
+}
+
+.scanner::before{
+    content:"";
+    position:absolute;
+    inset:17px;
+    border-radius:50%;
+    border:1px solid rgba(0,168,179,.16);
+    box-shadow:
+        0 0 50px rgba(0,168,179,.08),
+        inset 0 0 35px rgba(0,168,179,.04);
+}
+
+.scanner::after{
+    content:"";
+    position:absolute;
+    inset:30px;
+    border-radius:50%;
+    border:1px dashed rgba(2,93,163,.16);
+    animation:rotateRing 12s linear infinite;
+}
+
+@keyframes rotateRing{
+    to{transform:rotate(360deg)}
+}
+
+.loader-ring{
+    position:absolute;
+    inset:39px;
+    border-radius:50%;
+    border:8px solid rgba(0,168,179,.08);
+    border-top-color:#00a8b3;
+    border-right-color:#025da3;
+    transform:rotate(-45deg);
+    transition:transform .1s linear;
+    filter:drop-shadow(0 0 7px rgba(0,168,179,.35));
+}
+
+.loader-ring2{
+    position:absolute;
+    inset:53px;
+    border-radius:50%;
+    border:2px solid rgba(2,93,163,.15);
+    border-left-color:#00a8b3;
+    animation:rotateReverse 4s linear infinite;
+}
+
+@keyframes rotateReverse{
+    to{transform:rotate(-360deg)}
+}
+
+.loader-ring3{
+    position:absolute;
+    inset:67px;
+    border-radius:50%;
+    border:1px solid rgba(0,168,179,.16);
+    border-top-color:#00a8b3;
+    animation:rotateRing 6s linear infinite;
+}
+
+/* 3D medical core */
+
+.scan-core{
+    position:relative;
+    width:142px;
+    height:178px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:800px;
+}
+
+.body-shape{
+    position:absolute;
+    width:88px;
+    height:160px;
+    opacity:.92;
+    filter:
+        drop-shadow(0 12px 18px rgba(2,93,163,.12))
+        drop-shadow(0 0 9px rgba(0,168,179,.18));
+    animation:bodyPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes bodyPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.035)}
+}
+
+.body-head{
+    position:absolute;
+    top:0;
+    left:32px;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#ffffff,#dff8fb);
+    border:2px solid #00a8b3;
+    box-shadow:0 0 15px rgba(0,168,179,.25);
+}
+
+.body-neck{
+    position:absolute;
+    top:21px;
+    left:40px;
+    width:8px;
+    height:18px;
+    background:#dff8fb;
+    border-left:2px solid #00a8b3;
+    border-right:2px solid #00a8b3;
+}
+
+.body-torso{
+    position:absolute;
+    top:34px;
+    left:18px;
+    width:52px;
+    height:66px;
+    border-radius:28px 28px 20px 20px;
+    background:linear-gradient(145deg,#ffffff,#dff8fb);
+    border:2px solid #00a8b3;
+}
+
+.body-arm.left,
+.body-arm.right{
+    position:absolute;
+    top:39px;
+    width:13px;
+    height:72px;
+    border-radius:10px;
+    background:linear-gradient(145deg,#ffffff,#dff8fb);
+    border:2px solid #00a8b3;
+}
+
+.body-arm.left{
+    left:5px;
+    transform:rotate(10deg);
+}
+
+.body-arm.right{
+    right:5px;
+    transform:rotate(-10deg);
+}
+
+.body-leg.left,
+.body-leg.right{
+    position:absolute;
+    top:92px;
+    width:16px;
+    height:67px;
+    border-radius:10px;
+    background:linear-gradient(145deg,#ffffff,#dff8fb);
+    border:2px solid #00a8b3;
+}
+
+.body-leg.left{left:25px}
+.body-leg.right{right:25px}
+
+.scan-line{
+    position:absolute;
+    left:5px;
+    right:5px;
+    height:4px;
+    border-radius:10px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #00f5ff,
+        #ffffff,
+        #00f5ff,
+        transparent
+    );
+    box-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0,168,179,.75);
+    animation:scanVertical 2.5s ease-in-out infinite;
+}
+
+@keyframes scanVertical{
+    0%,100%{top:14px}
+    50%{top:153px}
+}
+
+/* Percentage */
+
+.percent{
+    position:absolute;
+    z-index:5;
+    font-size:35px;
+    font-weight:900;
+    color:#123b58;
+    text-shadow:0 2px 10px rgba(0,168,179,.12);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+.percent small{
+    font-size:17px;
+    color:#00a8b3;
+}
+
+/* orbit dots */
+
+.orbit{
+    position:absolute;
+    inset:0;
+    animation:rotateRing 7s linear infinite;
+}
+
+.orbit-dot{
+    position:absolute;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#00a8b3;
+    box-shadow:0 0 12px #00a8b3;
+}
+
+.od1{left:50%;top:8%}
+.od2{right:9%;top:48%;background:#025da3;box-shadow:0 0 12px #025da3}
+.od3{left:18%;bottom:14%;background:#12c9a0;box-shadow:0 0 12px #12c9a0}
+
+/* Status */
+
+.status-box{
+    position:relative;
+    z-index:6;
+    margin-top:23px;
+    min-width:min(360px,86vw);
+    text-align:center;
+}
+
+.status-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 18px;
+    border-radius:50px;
+    background:rgba(255,255,255,.88);
+    border:1px solid rgba(0,168,179,.14);
+    box-shadow:
+        0 10px 25px rgba(2,93,163,.09),
+        inset 0 1px 0 #fff;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    color:#025da3;
+}
+
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#00cfa8;
+    box-shadow:0 0 10px #00cfa8;
+    animation:statusBlink 1s infinite;
+}
+
+@keyframes statusBlink{
+    50%{opacity:.35;transform:scale(.7)}
+}
+
+.status-message{
+    margin-top:9px;
+    font-size:10px;
+    font-weight:700;
+    color:#7b919d;
+    letter-spacing:.3px;
+}
+
+/* Wait icons */
+
+.wait-area{
+    position:absolute;
+    bottom:26px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:13px;
+    z-index:6;
+}
+
+.wait-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:7px 10px;
+    border-radius:12px;
+    background:rgba(255,255,255,.75);
+    border:1px solid rgba(0,168,179,.10);
+    box-shadow:0 7px 18px rgba(2,93,163,.06);
+    font-size:9px;
+    font-weight:800;
+    color:#66808f;
+    white-space:nowrap;
+}
+
+.wait-item span{
+    font-size:14px;
+}
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+#successScreen{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    background:
+        radial-gradient(circle at center,rgba(255,255,255,.98),rgba(239,251,255,.96));
+}
+
+.success-bg{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.success-glow{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:500px;
+    height:500px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:
+        conic-gradient(
+            #00a8b3,
+            #025da3,
+            #9c4dff,
+            #ff3e8a,
+            #ffb000,
+            #12c9a0,
+            #00a8b3
+        );
+    filter:blur(65px);
+    opacity:.13;
+    animation:successGlow 4s linear infinite;
+}
+
+@keyframes successGlow{
+    to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+/* burst rings */
+
+.burst-ring{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:120px;
+    height:120px;
+    border:3px solid rgba(0,168,179,.4);
+    border-radius:50%;
+    transform:translate(-50%,-50%) scale(.2);
+    opacity:0;
+    animation:burstRing 1.8s ease-out forwards;
+}
+
+.burst-ring.r2{
+    border-color:rgba(2,93,163,.30);
+    animation-delay:.12s;
+}
+
+.burst-ring.r3{
+    border-color:rgba(255,71,145,.25);
+    animation-delay:.24s;
+}
+
+@keyframes burstRing{
+    0%{
+        transform:translate(-50%,-50%) scale(.2);
+        opacity:0;
+    }
+    20%{opacity:1}
+    100%{
+        transform:translate(-50%,-50%) scale(4);
+        opacity:0;
+    }
+}
+
+/* confetti */
+
+.confetti{
+    position:absolute;
+    width:10px;
+    height:16px;
+    border-radius:3px;
+    top:50%;
+    left:50%;
+    opacity:0;
+    animation:confettiFly 1.8s cubic-bezier(.15,.8,.25,1) forwards;
+}
+
+@keyframes confettiFly{
+    0%{
+        transform:translate(-50%,-50%) scale(.3) rotate(0);
+        opacity:1;
+    }
+    100%{
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            rotate(var(--r));
+        opacity:0;
+    }
+}
+
+.success-card{
+    position:relative;
+    width:min(470px,92vw);
+    padding:36px 28px 31px;
+    border-radius:34px;
+    background:
+        linear-gradient(145deg,#ffffff,#f6fcff);
+    border:1px solid rgba(2,93,163,.18);
+    box-shadow:
+        0 35px 90px rgba(2,70,110,.20),
+        inset 0 1px 0 #fff;
+    text-align:center;
+    z-index:20;
+    animation:successCardIn .7s cubic-bezier(.18,.9,.25,1.2);
+    overflow:hidden;
+}
+
+@keyframes successCardIn{
+    0%{
+        opacity:0;
+        transform:scale(.55) translateY(30px);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+}
+
+.success-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    padding:2px;
+    border-radius:34px;
+    background:linear-gradient(
+        90deg,
+        #00a8b3,
+        #025da3,
+        #9c4dff,
+        #ff3e8a,
+        #ffb000,
+        #12c9a0,
+        #00a8b3
+    );
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:.65;
+    animation:rainbowBorder 3s linear infinite;
+}
+
+@keyframes rainbowBorder{
+    to{filter:hue-rotate(360deg)}
+}
+
+.success-icon{
+    position:relative;
+    width:86px;
+    height:86px;
+    margin:0 auto 17px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:44px;
+    background:
+        linear-gradient(145deg,#ffffff,#e9fbfd);
+    border:4px solid #ffffff;
+    box-shadow:
+        0 0 0 3px #00a8b3,
+        0 0 25px rgba(0,168,179,.45),
+        0 15px 30px rgba(2,93,163,.16);
+    animation:successIcon .9s ease-out;
+}
+
+@keyframes successIcon{
+    0%{transform:scale(0) rotate(-45deg)}
+    70%{transform:scale(1.15) rotate(8deg)}
+    100%{transform:scale(1) rotate(0)}
+}
+
+.congratulations{
+    font-size:clamp(25px,6vw,38px);
+    line-height:1.05;
+    font-weight:900;
+    letter-spacing:.5px;
+
+    background:linear-gradient(
+        90deg,
+        #025da3,
+        #00a8b3,
+        #9c4dff,
+        #ff3e8a,
+        #ff9d00,
+        #12a978,
+        #025da3
+    );
+    background-size:300% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    animation:rainbowText 3s linear infinite;
+}
+
+@keyframes rainbowText{
+    to{background-position:300% center}
+}
+
+.welcome-text{
+    margin-top:10px;
+    font-size:14px;
+    font-weight:900;
+    color:#123b58;
+    letter-spacing:1px;
+}
+
+.success-message{
+    margin:8px auto 20px;
+    max-width:350px;
+    font-size:11px;
+    line-height:1.6;
+    color:#78909f;
+    font-weight:600;
+}
+
+.patient-id-box{
+    padding:14px;
+    border-radius:17px;
+    background:linear-gradient(145deg,#effcff,#ffffff);
+    border:1px solid rgba(0,168,179,.15);
+    box-shadow:
+        inset 3px 3px 8px rgba(2,93,163,.04),
+        0 8px 18px rgba(2,93,163,.06);
+}
+
+.patient-id-label{
+    font-size:9px;
+    color:#78909f;
+    font-weight:800;
+    letter-spacing:1.2px;
+}
+
+.patient-id{
+    margin-top:6px;
+    font-size:19px;
+    color:#025da3;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.points{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:17px;
+    padding:11px 20px;
+    border-radius:50px;
+    background:linear-gradient(135deg,#025da3,#00a8b3);
+    color:#fff;
+    font-size:16px;
+    font-weight:900;
+    letter-spacing:.7px;
+    box-shadow:
+        0 12px 25px rgba(2,93,163,.22),
+        inset 0 2px 0 rgba(255,255,255,.35);
+    animation:pointsPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pointsPulse{
+    50%{
+        transform:scale(1.04);
+        box-shadow:
+            0 15px 30px rgba(2,93,163,.28),
+            0 0 20px rgba(0,168,179,.15);
+    }
+}
+
+.success-footer{
+    margin-top:19px;
+    font-size:9px;
+    color:#78909f;
+    font-weight:700;
+}
+
+.success-footer strong{
+    color:#025da3;
+}
+
+/* Continue button */
+
+.continue-btn{
+    margin-top:18px;
+    width:100%;
+    height:50px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,#ffffff,#eefbff);
+    border:1px solid rgba(0,168,179,.18);
+    color:#025da3;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.8px;
+    box-shadow:
+        0 8px 20px rgba(2,93,163,.08),
+        inset 0 1px 0 #fff;
+    transition:.2s;
+}
+
+.continue-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:600px){
+
+    .login-wrap{
+        padding:10px;
+    }
+
+    .login-shell{
+        width:96vw;
+        min-height:92vh;
+        padding:30px 23px 24px;
+        border-radius:28px;
+    }
+
+    .login-title{
+        margin:27px 0 20px;
+    }
+
+    .input-box{
+        height:58px;
+    }
+
+    .login-btn{
+        height:59px;
+    }
+
+    .scanner{
+        width:285px;
+        height:285px;
+    }
+
+    .scan-core{
+        transform:scale(.88);
+    }
+
+    .process-brand{
+        top:17px;
+    }
+
+    .process-brand strong{
+        font-size:19px;
+    }
+
+    .wait-area{
+        bottom:12px;
+        gap:5px;
+    }
+
+    .wait-item{
+        padding:6px 7px;
+        font-size:7px;
+    }
+
+    .wait-item span{
+        font-size:11px;
+    }
+
+    .success-card{
+        width:92vw;
+        padding:30px 20px 25px;
+        border-radius:28px;
+    }
+
+    .success-card::before{
+        border-radius:28px;
+    }
+}
+
+@media(max-height:700px){
+
+    .login-shell{
+        min-height:94vh;
+        padding-top:20px;
+        padding-bottom:18px;
+    }
+
+    .brand-line{
+        margin:7px auto;
+    }
+
+    .login-title{
+        margin:17px 0 15px;
+    }
+
+    .field{
+        margin-bottom:11px;
+    }
+
+    .input-box{
+        height:53px;
+    }
+
+    .login-btn{
+        height:54px;
+    }
+
+    .security-note{
+        margin-top:10px;
+    }
+
+    .scanner{
+        width:250px;
+        height:250px;
+    }
+
+    .scan-core{
+        transform:scale(.75);
+    }
+
+    .status-box{
+        margin-top:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================= -->
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+
+    <svg class="ecg top" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="
+        M0 65
+        L120 65
+        L145 65
+        L160 40
+        L175 90
+        L188 65
+        L300 65
+        L320 65
+        L335 50
+        L350 78
+        L365 65
+        L500 65
+        L520 65
+        L540 25
+        L558 102
+        L580 65
+        L700 65
+        L720 65
+        L740 47
+        L755 83
+        L770 65
+        L900 65
+        L920 65
+        L940 35
+        L957 95
+        L975 65
+        L1200 65
+        "/>
+    </svg>
+
+    <svg class="ecg bottom" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="
+        M0 65
+        L120 65
+        L145 65
+        L160 40
+        L175 90
+        L188 65
+        L300 65
+        L320 65
+        L335 50
+        L350 78
+        L365 65
+        L500 65
+        L520 65
+        L540 25
+        L558 102
+        L580 65
+        L700 65
+        L720 65
+        L740 47
+        L755 83
+        L770 65
+        L900 65
+        L920 65
+        L940 35
+        L957 95
+        L975 65
+        L1200 65
+        "/>
+    </svg>
+
+    <div class="med-icon mi1">🫀</div>
+    <div class="med-icon mi2">🧬</div>
+    <div class="med-icon mi3">🩺</div>
+    <div class="med-icon mi4">🛡️</div>
+
+</div>
+
+
+<!-- =======================================================
+     PAGE 1 LOGIN
+======================================================= -->
+
+<section id="loginScreen" class="screen">
+
+    <div class="login-wrap">
+
+        <div class="login-shell" id="loginShell">
+
+            <!-- Stationary SVG path + moving bulb -->
+            <svg
+                id="borderAnimation"
+                class="border-animation"
+                aria-hidden="true"
+                preserveAspectRatio="none">
+
+                <path id="borderPath" class="border-track"></path>
+
+                <circle
+                    id="trailTwo"
+                    class="border-trail two"
+                    r="4">
+                </circle>
+
+                <circle
+                    id="trailOne"
+                    class="border-trail"
+                    r="5.5">
+                </circle>
+
+                <circle
+                    id="borderBulb"
+                    class="border-bulb"
+                    r="7">
+                </circle>
+            </svg>
+
+            <div class="card-shine"></div>
+
+            <div class="brand">
+
+                <div class="brand-name">
+                    HOMEOPLUSS
+                </div>
+
+                <div class="brand-line"></div>
+
+                <div class="tagline">
+                    HOMEOPATHY – CARING NATURALLY SINCE 1796
+                </div>
+
+            </div>
+
+
+            <div class="login-title">
+
+                <h1>🩺 PATIENT APPROVAL</h1>
+
+                <p>
+                    Enter your registered mobile number<br>
+                    and birth year to continue.
+                </p>
+
+            </div>
+
+
+            <div class="form-area">
+
+                <!-- MOBILE -->
+
+                <div class="field">
+
+                    <div class="field-label">
+                        📱 MOBILE NUMBER
+                    </div>
+
+                    <div class="input-box">
+
+                        <div class="input-icon">
+                            📱
+                        </div>
+
+                        <div class="mobile-prefix">
+                            +91
+                        </div>
+
+                        <input
+                            id="mobile"
+                            type="tel"
+                            inputmode="numeric"
+                            maxlength="10"
+                            autocomplete="tel"
+                            placeholder="10 digit mobile number">
+
+                    </div>
+
+                </div>
+
+
+                <!-- YEAR -->
+
+                <div class="field">
+
+                    <div class="field-label">
+                        📅 BIRTH YEAR
+                    </div>
+
+                    <div class="input-box">
+
+                        <div class="input-icon">
+                            📅
+                        </div>
+
+                        <input
+                            id="year"
+                            type="tel"
+                            inputmode="numeric"
+                            maxlength="4"
+                            placeholder="YYYY">
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="loginBtn"
+                    class="login-btn"
+                    type="button">
+
+                    <span>🔐 LOGIN &amp; START APPROVAL</span>
+
+                </button>
+
+
+                <div class="security-note">
+
+                    <span class="lock">🔒</span>
+
+                    <span>
+                        SECURE HOMEOPLUSS PATIENT VERIFICATION
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     7 SECOND PROCESS
+======================================================= -->
+
+<section id="processScreen" class="screen">
+
+    <div class="process-grid"></div>
+
+    <div class="process-brand">
+        <strong>HOMEOPLUSS</strong>
+        <small>PATIENT VERIFICATION SYSTEM</small>
+    </div>
+
+    <div class="process-symbol ps1">🫀</div>
+    <div class="process-symbol ps2">🧬</div>
+    <div class="process-symbol ps3">🩺</div>
+    <div class="process-symbol ps4">🛡️</div>
+
+
+    <div class="scanner">
+
+        <div class="loader-ring" id="loaderRing"></div>
+        <div class="loader-ring2"></div>
+        <div class="loader-ring3"></div>
+
+        <div class="orbit">
+            <div class="orbit-dot od1"></div>
+            <div class="orbit-dot od2"></div>
+            <div class="orbit-dot od3"></div>
+        </div>
+
+
+        <div class="scan-core">
+
+            <div class="body-shape">
+
+                <div class="body-head"></div>
+                <div class="body-neck"></div>
+
+                <div class="body-torso"></div>
+
+                <div class="body-arm left"></div>
+                <div class="body-arm right"></div>
+
+                <div class="body-leg left"></div>
+                <div class="body-leg right"></div>
+
+                <div class="scan-line"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="percent">
+
+            <span id="percent">0</span>
+            <small>%</small>
+
+        </div>
+
+    </div>
+
+
+    <div class="status-box">
+
+        <div class="status-label">
+
+            <span class="status-dot"></span>
+
+            <span id="statusText">
+                SUBMITTED
+            </span>
+
+        </div>
+
+        <div
+            id="statusMessage"
+            class="status-message">
+
+            Your request has been securely submitted.
+
+        </div>
+
+    </div>
+
+
+    <div class="wait-area">
+
+        <div class="wait-item">
+            <span>📡</span>
+            SECURE
+        </div>
+
+        <div class="wait-item">
+            <span>🔎</span>
+            VERIFYING
+        </div>
+
+        <div class="wait-item">
+            <span>⚕️</span>
+            CLINIC
+        </div>
+
+        <div class="wait-item">
+            <span>🛡️</span>
+            PROTECTED
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     SUCCESS SCREEN
+======================================================= -->
+
+<section id="successScreen" class="screen">
+
+    <div class="success-bg">
+
+        <div class="success-glow"></div>
+
+        <div class="burst-ring"></div>
+        <div class="burst-ring r2"></div>
+        <div class="burst-ring r3"></div>
+
+        <div id="confettiContainer"></div>
+
+    </div>
+
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <div class="congratulations">
+            CONGRATULATIONS!
+        </div>
+
+        <div class="welcome-text">
+            🌟 WELCOME TO HOMEOPLUSS 🌟
+        </div>
+
+        <div class="success-message">
+            Your patient approval has been successfully completed.
+            Your HOMEOPLUSS patient account is now ready.
+        </div>
+
+
+        <div class="patient-id-box">
+
+            <div class="patient-id-label">
+                YOUR HOMEOPLUSS PATIENT ID
+            </div>
+
+            <div
+                id="patientIdDisplay"
+                class="patient-id">
+                HP-0000000000-0000
+            </div>
+
+        </div>
+
+
+        <div class="points">
+            🎁 +2000 HP HEALTH POINTS
+        </div>
+
+
+        <button
+            id="continueBtn"
+            class="continue-btn"
+            type="button">
+
+            ➜ CONTINUE TO PATIENT REGISTRATION
+
+        </button>
+
+
+        <div class="success-footer">
+
+            🔐 Secure Patient Account
+            &nbsp; • &nbsp;
+            <strong>HOMEOPLUSS</strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   HOMEOPLUSS PAGE 1
+   LOCAL STORAGE BRIDGE
+========================================================= */
+
+const STORAGE_KEY = "HOMEOPLUSS_PATIENT";
+
+
+/* Elements */
+
+const loginScreen = document.getElementById("loginScreen");
+const processScreen = document.getElementById("processScreen");
+const successScreen = document.getElementById("successScreen");
+
+const mobileInput = document.getElementById("mobile");
+const yearInput = document.getElementById("year");
+
+const loginBtn = document.getElementById("loginBtn");
+
+const percentEl = document.getElementById("percent");
+const statusText = document.getElementById("statusText");
+const statusMessage = document.getElementById("statusMessage");
+
+const loaderRing = document.getElementById("loaderRing");
+
+const patientIdDisplay =
+    document.getElementById("patientIdDisplay");
+
+const continueBtn =
+    document.getElementById("continueBtn");
+
+const confettiContainer =
+    document.getElementById("confettiContainer");
+
+
+/* =========================================================
+   INPUT RESTRICTIONS
+========================================================= */
+
+mobileInput.addEventListener("input",function(){
+
+    this.value = this.value
+        .replace(/\D/g,"")
+        .slice(0,10);
+
+});
+
+yearInput.addEventListener("input",function(){
+
+    this.value = this.value
+        .replace(/\D/g,"")
+        .slice(0,4);
+
+});
+
+
+/* =========================================================
+   BORDER BULB ANIMATION
+   ONLY THE BULB MOVES.
+   THE BORDER NEVER ROTATES.
+========================================================= */
+
+const shell = document.getElementById("loginShell");
+const borderSvg = document.getElementById("borderAnimation");
+const borderPath = document.getElementById("borderPath");
+const borderBulb = document.getElementById("borderBulb");
+const trailOne = document.getElementById("trailOne");
+const trailTwo = document.getElementById("trailTwo");
+
+let borderLength = 0;
+
+function buildBorderPath(){
+
+    const w = shell.clientWidth;
+    const h = shell.clientHeight;
+
+    const radius = Math.min(36,w * .07);
+
+    borderSvg.setAttribute(
+        "viewBox",
+        `0 0 ${w} ${h}`
+    );
+
+    const d = `
+        M ${radius} 1
+        H ${w-radius}
+        A ${radius} ${radius} 0 0 1 ${w-1} ${radius}
+        V ${h-radius}
+        A ${radius} ${radius} 0 0 1 ${w-radius} ${h-1}
+        H ${radius}
+        A ${radius} ${radius} 0 0 1 1 ${h-radius}
+        V ${radius}
+        A ${radius} ${radius} 0 0 1 ${radius} 1
+        Z
+    `;
+
+    borderPath.setAttribute("d",d);
+
+    borderLength = borderPath.getTotalLength();
+
+}
+
+function updateBorderBulb(){
+
+    if(!borderLength){
+        buildBorderPath();
+    }
+
+    const now = performance.now();
+
+    /* one complete circuit approximately every 4.8 seconds */
+
+    const progress =
+        (now % 4800) / 4800;
+
+    const mainLength =
+        progress * borderLength;
+
+    const trailLength1 =
+        (mainLength - borderLength * .018 + borderLength)
+        % borderLength;
+
+    const trailLength2 =
+        (mainLength - borderLength * .035 + borderLength)
+        % borderLength;
+
+    const mainPoint =
+        borderPath.getPointAtLength(mainLength);
+
+    const point1 =
+        borderPath.getPointAtLength(trailLength1);
+
+    const point2 =
+        borderPath.getPointAtLength(trailLength2);
+
+    borderBulb.setAttribute("cx",mainPoint.x);
+    borderBulb.setAttribute("cy",mainPoint.y);
+
+    trailOne.setAttribute("cx",point1.x);
+    trailOne.setAttribute("cy",point1.y);
+
+    trailTwo.setAttribute("cx",point2.x);
+    trailTwo.setAttribute("cy",point2.y);
+
+    requestAnimationFrame(updateBorderBulb);
+
+}
+
+window.addEventListener("resize",buildBorderPath);
+
+setTimeout(function(){
+
+    buildBorderPath();
+    requestAnimationFrame(updateBorderBulb);
+
+},100);
+
+
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+function validateLogin(){
+
+    const mobile = mobileInput.value.trim();
+    const year = yearInput.value.trim();
+
+    if(!/^\d{10}$/.test(mobile)){
+
+        alert("Please enter a valid 10-digit mobile number.");
+        mobileInput.focus();
+        return false;
+
+    }
+
+    const currentYear =
+        new Date().getFullYear();
+
+    if(!/^\d{4}$/.test(year)){
+
+        alert("Please enter a valid 4-digit birth year.");
+        yearInput.focus();
+        return false;
+
+    }
+
+    if(Number(year) < 1900 || Number(year) > currentYear){
+
+        alert(
+            "Please enter a valid birth year between 1900 and " +
+            currentYear + "."
+        );
+
+        yearInput.focus();
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* =========================================================
+   CREATE PATIENT ID
+========================================================= */
+
+function createPatientId(mobile,year){
+
+    return "HP-" + mobile + "-" + year;
+
+}
+
+
+/* =========================================================
+   SAVE PAGE 1 DATA
+========================================================= */
+
+function savePatientData(){
+
+    const mobile =
+        mobileInput.value.trim();
+
+    const year =
+        yearInput.value.trim();
+
+    const patientId =
+        createPatientId(mobile,year);
+
+    const patientData = {
+
+        patientId:patientId,
+
+        mobile:mobile,
+
+        year:year,
+
+        healthPoints:2000,
+
+        registeredAt:new Date().toISOString(),
+
+        registrationCompleted:false
+
+    };
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(patientData)
+    );
+
+    return patientData;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateProcess(percent){
+
+    percentEl.textContent =
+        Math.floor(percent);
+
+    const rotation =
+        -45 + (percent * 3.6);
+
+    loaderRing.style.transform =
+        `rotate(${rotation}deg)`;
+
+
+    if(percent < 25){
+
+        statusText.textContent =
+            "SUBMITTED";
+
+        statusMessage.textContent =
+            "Your request has been securely submitted.";
+
+    }
+    else if(percent < 55){
+
+        statusText.textContent =
+            "PROCESSING";
+
+        statusMessage.textContent =
+            "Patient information is being processed.";
+
+    }
+    else if(percent < 85){
+
+        statusText.textContent =
+            "APPROVING";
+
+        statusMessage.textContent =
+            "HOMEOPLUSS approval is in progress.";
+
+    }
+    else if(percent < 100){
+
+        statusText.textContent =
+            "CONFIRMED";
+
+        statusMessage.textContent =
+            "Patient details have been confirmed.";
+
+    }
+    else{
+
+        statusText.textContent =
+            "SUBMISSION APPROVED";
+
+        statusMessage.textContent =
+            "Your HOMEOPLUSS patient approval is complete.";
+
+    }
+
+}
+
+
+/* =========================================================
+   START EXACT 7 SECOND PROCESS
+========================================================= */
+
+function startApproval(){
+
+    if(!validateLogin()){
+        return;
+    }
+
+
+    const patientData =
+        savePatientData();
+
+
+    loginScreen.style.display =
+        "none";
+
+    successScreen.style.display =
+        "none";
+
+    processScreen.style.display =
+        "flex";
+
+
+    const startTime =
+        performance.now();
+
+    const duration =
+        7000;
+
+
+    function animateApproval(now){
+
+        const elapsed =
+            now - startTime;
+
+        let progress =
+            (elapsed / duration) * 100;
+
+        if(progress > 100){
+            progress = 100;
+        }
+
+
+        updateProcess(progress);
+
+
+        if(progress < 100){
+
+            requestAnimationFrame(
+                animateApproval
+            );
+
+        }
+        else{
+
+            /*
+             * Final approval is reached at exactly 7 seconds.
+             */
+
+            showSuccess(patientData);
+
+        }
+
+    }
+
+
+    requestAnimationFrame(
+        animateApproval
+    );
+
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+========================================================= */
+
+function showSuccess(patientData){
+
+    statusText.textContent =
+        "SUBMISSION APPROVED";
+
+    statusMessage.textContent =
+        "HOMEOPLUSS patient approval completed.";
+
+
+    patientIdDisplay.textContent =
+        patientData.patientId;
+
+
+    processScreen.style.display =
+        "none";
+
+    successScreen.style.display =
+        "flex";
+
+
+    createConfetti();
+
+}
+
+
+/* =========================================================
+   MULTICOLOR CONFETTI BLAST
+========================================================= */
+
+function createConfetti(){
+
+    confettiContainer.innerHTML = "";
+
+    const colors = [
+        "#00A8B3",
+        "#025DA3",
+        "#9C4DFF",
+        "#FF3E8A",
+        "#FFB000",
+        "#12C9A0",
+        "#FF5C35",
+        "#4C7DFF"
+    ];
+
+
+    for(let i=0;i<95;i++){
+
+        const piece =
+            document.createElement("div");
+
+        piece.className =
+            "confetti";
+
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const distance =
+            150 + Math.random() * 430;
+
+        const x =
+            Math.cos(angle) * distance;
+
+        const y =
+            Math.sin(angle) * distance;
+
+
+        piece.style.setProperty(
+            "--x",
+            x + "px"
+        );
+
+        piece.style.setProperty(
+            "--y",
+            y + "px"
+        );
+
+        piece.style.setProperty(
+            "--r",
+            (Math.random()*1000-500) + "deg"
+        );
+
+        piece.style.background =
+            colors[
+                Math.floor(
+                    Math.random() * colors.length
+                )
+            ];
+
+
+        const size =
+            5 + Math.random()*8;
+
+        piece.style.width =
+            size + "px";
+
+        piece.style.height =
+            (size * (1.2 + Math.random())) + "px";
+
+
+        piece.style.animationDelay =
+            (Math.random() * .25) + "s";
+
+
+        if(Math.random() > .7){
+
+            piece.style.borderRadius =
+                "50%";
+
+        }
+
+
+        confettiContainer.appendChild(
+            piece
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+loginBtn.addEventListener(
+    "click",
+    startApproval
+);
+
+
+/* =========================================================
+   ENTER KEY
+========================================================= */
+
+mobileInput.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Enter"){
+            yearInput.focus();
+        }
+
+    }
+);
+
+yearInput.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Enter"){
+            startApproval();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PAGE 2 CONNECTION
+=========================================================
+
+   Page 2 should read:
+
+   const patient =
+       JSON.parse(
+           localStorage.getItem("HOMEOPLUSS_PATIENT")
+       );
+
+   It will receive:
+
+   patient.patientId
+   patient.mobile
+   patient.year
+   patient.healthPoints
+
+   Page 2 can then add:
+
+   patient.name
+   patient.gender
+   patient.dob
+   patient.age
+   patient.address
+   patient.source
+   patient.referrer
+   patient.registrationCompleted
+
+========================================================= */
+
+continueBtn.addEventListener(
+    "click",
+    function(){
+
+        /*
+         * Change this filename to your actual PAGE 2 file.
+         */
+
+        window.location.href =
+            "patient-registration.html";
+
+    }
+);
+
+
+/* =========================================================
+   PREVENT ACCIDENTAL FORM SUBMIT
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Escape"){
+            e.preventDefault();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
