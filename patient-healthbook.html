@@ -1,588 +1,641 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>HOMEOPLUSS — Patient HealthBook</title>
+
+<title>HOMEOPLUSS • Patient HealthBook</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 html,body{
-margin:0;
-width:100%;
-height:100%;
+    margin:0;
+    width:100%;
+    height:100%;
 }
 
 body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#f3fcff,#ffffff,#eefaff);
-color:#17323c;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#17343d;
+
+    background:
+      radial-gradient(circle at 10% 10%,#dcfbff,transparent 28%),
+      radial-gradient(circle at 90% 80%,#e7f0ff,transparent 30%),
+      linear-gradient(135deg,#f5fdff,#ffffff,#eefaff);
 }
 
 .app{
-min-height:100vh;
-display:flex;
-flex-direction:column;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 
-.header{
-height:76px;
-flex-shrink:0;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 28px;
-background:linear-gradient(180deg,#fff,#f4fcff);
-border-bottom:1px solid #d8edf1;
-box-shadow:0 5px 20px rgba(0,100,150,.08);
+header{
+    height:76px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 24px;
+
+    background:#fff;
+    border-bottom:1px solid #dceff3;
+
+    box-shadow:0 5px 20px rgba(0,100,130,.08);
 }
 
 .brand{
-font-size:27px;
-font-weight:900;
-letter-spacing:2px;
-color:#078da3;
+    font-size:26px;
+    font-weight:1000;
+    letter-spacing:2px;
+    color:#078da3;
 }
 
-.headtitle{
-font-weight:900;
-color:#125e78;
+.tagline{
+    font-size:9px;
+    color:#71858c;
 }
 
-.headright{
-display:flex;
-gap:10px;
-align-items:center;
+.page-title{
+    font-weight:1000;
+    color:#075e78;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:7px;
 }
 
 .pid{
-padding:9px 13px;
-background:#eafaff;
-border-radius:12px;
-font-weight:900;
-font-size:12px;
-color:#08738b;
+    padding:8px 11px;
+    border-radius:10px;
+    background:#eefaff;
+    color:#075e78;
+    font-size:10px;
+    font-weight:1000;
 }
 
-.logout{
-border:0;
-border-radius:12px;
-padding:9px 13px;
-background:#f1f7f8;
-cursor:pointer;
-font-weight:800;
+button{
+    border:0;
+    border-radius:12px;
+    font-weight:1000;
+    cursor:pointer;
 }
 
-.main{
-flex:1;
-overflow:auto;
-padding:20px 25px 15px;
+.login{
+    padding:8px 11px;
+    background:#eef6f8;
+    color:#28515c;
+}
+
+main{
+    flex:1;
+    overflow:auto;
+    padding:16px 21px;
 }
 
 .hero{
-background:linear-gradient(135deg,#fff,#f2fcff);
-border:1px solid #d7edf2;
-border-radius:24px;
-padding:20px;
-box-shadow:0 12px 30px rgba(0,100,150,.08);
-display:flex;
-justify-content:space-between;
-gap:20px;
-align-items:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+
+    padding:17px;
+
+    background:linear-gradient(135deg,#ffffff,#f0fbff);
+
+    border:1px solid #d7edf2;
+    border-radius:22px;
+
+    box-shadow:0 10px 28px rgba(0,100,130,.08);
 }
 
-.patientName{
-font-size:25px;
-font-weight:900;
-color:#075f78;
+.patient-name{
+    font-size:25px;
+    font-weight:1000;
+    color:#075f78;
 }
 
-.details{
-margin-top:8px;
-font-size:13px;
-line-height:1.7;
-color:#647b83;
+.patient-details{
+    font-size:11px;
+    color:#657b82;
+    line-height:1.75;
 }
 
 .validity{
-padding:18px 25px;
-border-radius:20px;
-background:linear-gradient(135deg,#eafff8,#eaf8ff);
-text-align:center;
-min-width:210px;
+    min-width:210px;
+    padding:15px 22px;
+    text-align:center;
+
+    border-radius:18px;
+
+    background:linear-gradient(135deg,#eafff7,#eaf8ff);
+
+    border:1px solid #d3eee8;
 }
 
 .validity strong{
-display:block;
-font-size:22px;
-color:#078d78;
+    display:block;
+    font-size:20px;
+    color:#008b72;
 }
 
-.validity span{
-font-size:11px;
-font-weight:800;
+.validity small{
+    color:#71858b;
 }
 
 .summary{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:12px;
-margin-top:15px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-top:12px;
 }
 
 .card{
-background:#fff;
-border:1px solid #dceef2;
-border-radius:18px;
-padding:15px;
-box-shadow:0 8px 22px rgba(0,100,150,.07);
+    padding:13px;
+
+    background:#fff;
+
+    border:1px solid #dceef2;
+    border-radius:17px;
+
+    box-shadow:0 7px 20px rgba(0,100,130,.06);
 }
 
 .card small{
-display:block;
-font-size:10px;
-font-weight:900;
-color:#71878e;
-text-transform:uppercase;
+    font-size:9px;
+    font-weight:1000;
+    color:#71868d;
 }
 
-.card b{
-display:block;
-font-size:25px;
-margin-top:7px;
-color:#087d94;
+.card strong{
+    display:block;
+    margin-top:6px;
+    font-size:24px;
+    color:#087e96;
 }
 
-.card.balance b{
-color:#008c72;
+.card.balance strong{
+    color:#008b70;
 }
 
-.rulesTitle{
-margin:20px 0 10px;
-font-size:17px;
-font-weight:900;
-color:#075e77;
+.section-title{
+    margin:15px 0 8px;
+
+    color:#075e78;
+    font-size:16px;
+    font-weight:1000;
 }
 
 .rules{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:12px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
 }
 
 .rule{
-background:#fff;
-border:1px solid #dceef2;
-border-radius:20px;
-padding:12px;
-text-align:center;
-box-shadow:0 8px 20px rgba(0,100,150,.06);
+    padding:11px 8px;
+
+    text-align:center;
+
+    background:#fff;
+
+    border:1px solid #dceef2;
+    border-radius:18px;
+
+    box-shadow:0 7px 20px rgba(0,100,130,.06);
+
+    transition:.2s;
+}
+
+.rule:hover{
+    transform:translateY(-3px);
 }
 
 .circle{
-width:76px;
-height:76px;
-margin:auto;
-border-radius:50%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-background:linear-gradient(145deg,#fff,#e5faff);
-border:4px solid #0aa2b5;
-box-shadow:0 8px 20px rgba(0,130,160,.15);
+    width:72px;
+    height:72px;
+
+    margin:auto;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:linear-gradient(145deg,#ffffff,#e4faff);
+
+    border:4px solid #0aa3b6;
+
+    box-shadow:
+      0 8px 20px rgba(0,120,150,.15),
+      inset 0 0 15px rgba(0,170,190,.08);
 }
 
-.circle b{
-font-size:20px;
-color:#087b92;
-}
-
-.circle span{
-font-size:9px;
-font-weight:900;
+.circle strong{
+    font-size:20px;
+    color:#087c94;
 }
 
 .rule h4{
-margin:9px 0 3px;
-font-size:12px;
+    margin:7px 0 3px;
+    font-size:11px;
 }
 
 .rule p{
-margin:0;
-font-size:10px;
-color:#718188;
-line-height:1.4;
+    margin:0;
+    font-size:9px;
+    color:#718188;
 }
 
-.section{
-margin-top:18px;
-background:#fff;
-border:1px solid #dceef2;
-border-radius:22px;
-padding:16px;
-box-shadow:0 8px 22px rgba(0,100,150,.06);
+.passbook{
+    margin-top:14px;
+
+    padding:14px;
+
+    background:#fff;
+
+    border:1px solid #dceef2;
+    border-radius:20px;
+
+    box-shadow:0 7px 20px rgba(0,100,130,.06);
 }
 
-.sectionhead{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:12px;
-}
-
-.sectionhead h3{
-margin:0;
-font-size:17px;
-color:#075e77;
-}
-
-.tablewrap{
-overflow:auto;
-max-height:300px;
-border-radius:13px;
-border:1px solid #e0edf0;
+.table-wrap{
+    max-height:290px;
+    overflow:auto;
 }
 
 table{
-width:100%;
-border-collapse:collapse;
-min-width:900px;
-font-size:11px;
+    width:100%;
+    min-width:930px;
+    border-collapse:collapse;
+    font-size:10px;
 }
 
 th{
-position:sticky;
-top:0;
-background:#eafaff;
-color:#075e77;
-font-weight:900;
-padding:11px 7px;
-border-bottom:2px solid #d2edf1;
+    position:sticky;
+    top:0;
+    z-index:2;
+
+    padding:9px;
+
+    background:#eafaff;
+
+    color:#075e78;
+
+    border-bottom:1px solid #cfe9ee;
 }
 
 td{
-padding:10px 7px;
-border-bottom:1px solid #edf2f3;
-text-align:center;
+    padding:8px;
+    text-align:center;
+
+    border-bottom:1px solid #edf3f4;
 }
 
-td.left{text-align:left}
+.left{
+    text-align:left;
+}
 
 .credit{
-color:#008a6f;
-font-weight:900;
+    color:#008c70;
+    font-weight:1000;
 }
 
 .debit{
-color:#c34b4b;
-font-weight:900;
+    color:#c34e4e;
+    font-weight:1000;
 }
 
-.actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
+.action-bar{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:12px;
 }
 
 .action{
-border:0;
-border-radius:14px;
-padding:13px 20px;
-font-weight:900;
-cursor:pointer;
-background:linear-gradient(135deg,#eafaff,#f7ffff);
-color:#075f78;
-border:1px solid #cdebf0;
-box-shadow:0 6px 15px rgba(0,100,150,.07);
+    padding:11px 16px;
+
+    color:#075e78;
+
+    background:linear-gradient(135deg,#effcff,#ffffff);
+
+    border:1px solid #cdeaf0;
 }
 
-.action.primary{
-background:linear-gradient(135deg,#00a697,#087dc7);
-color:#fff;
-border:0;
+.primary{
+    color:#fff;
+
+    background:linear-gradient(135deg,#00a695,#087dcc);
+
+    border:0;
 }
 
-.footer{
-flex-shrink:0;
-padding:9px 20px;
-background:#fff;
-border-top:1px solid #dceff3;
-text-align:center;
-font-size:10px;
-color:#71848b;
-}
+footer{
+    flex-shrink:0;
 
-.footer b{
-color:#087d91;
+    text-align:center;
+
+    padding:8px;
+
+    font-size:9px;
+
+    color:#71848b;
+
+    background:#fff;
+
+    border-top:1px solid #dceff3;
 }
 
 .modal{
-display:none;
-position:fixed;
-inset:0;
-z-index:50;
-background:rgba(4,35,45,.45);
-align-items:center;
-justify-content:center;
-padding:20px;
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:100;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:15px;
+
+    background:rgba(0,35,50,.45);
 }
 
-.modal.show{display:flex}
-
-.modalbox{
-width:min(850px,96vw);
-max-height:90vh;
-overflow:auto;
-background:#fff;
-border-radius:25px;
-padding:25px;
-box-shadow:0 30px 100px rgba(0,0,0,.25);
+.modal.show{
+    display:flex;
 }
 
-.modalhead{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:18px;
+.modal-box{
+    width:min(920px,97vw);
+    max-height:94vh;
+    overflow:auto;
+
+    padding:20px;
+
+    background:#fff;
+
+    border-radius:23px;
+
+    box-shadow:0 35px 90px rgba(0,60,80,.3);
 }
 
-.modalhead h2{
-margin:0;
-color:#075e77;
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .close{
-border:0;
-background:#eef6f8;
-border-radius:10px;
-padding:9px 13px;
-font-weight:900;
-cursor:pointer;
+    padding:8px 12px;
+    background:#eef6f8;
 }
 
-.listitem{
-border:1px solid #dfedf0;
-border-radius:15px;
-padding:15px;
-margin-bottom:10px;
-background:#fbfeff;
+.item{
+    padding:13px;
+    margin:8px 0;
+
+    background:#fbfeff;
+
+    border:1px solid #dfedf0;
+
+    border-radius:14px;
 }
 
-.empty{
-padding:30px;
-text-align:center;
-color:#789098;
+.item button{
+    margin-top:8px;
 }
 
-.a4paper{
-width:210mm;
-min-height:297mm;
-background:#fff;
-margin:auto;
-padding:15mm;
-position:relative;
-overflow:hidden;
-color:#1e3037;
+.a4{
+    width:210mm;
+    min-height:297mm;
+
+    margin:auto;
+
+    position:relative;
+
+    padding:13mm;
+
+    background:#fff;
+
+    color:#172f37;
+
+    overflow:hidden;
 }
 
 .watermark{
-position:absolute;
-font-size:130px;
-font-weight:900;
-color:rgba(0,160,180,.045);
-transform:rotate(-35deg);
-left:30mm;
-top:100mm;
-pointer-events:none;
+    position:absolute;
+
+    top:105mm;
+    left:48mm;
+
+    font-size:115px;
+
+    font-weight:1000;
+
+    color:rgba(0,160,180,.045);
+
+    transform:rotate(-35deg);
+
+    pointer-events:none;
 }
 
-.a4header{
-display:flex;
-justify-content:space-between;
-border-bottom:3px solid #08a1b4;
-padding-bottom:10px;
+.a4-header{
+    display:flex;
+    justify-content:space-between;
+
+    padding-bottom:10px;
+
+    border-bottom:3px solid #08a2b6;
 }
 
-.a4brand{
-font-size:28px;
-font-weight:900;
-color:#078da3;
-letter-spacing:2px;
+.a4-brand{
+    font-size:28px;
+    font-weight:1000;
+    letter-spacing:1px;
+    color:#078da3;
 }
 
-.a4clinic{
-font-size:11px;
-line-height:1.5;
-text-align:right;
+.a4-sub{
+    font-size:9px;
+    color:#71858c;
 }
 
-.a4title{
-text-align:center;
-font-size:20px;
-font-weight:900;
-margin:18px 0;
-color:#075e77;
+.a4-clinic{
+    text-align:right;
+    font-size:9px;
+    line-height:1.6;
 }
 
-.patientbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-border:1px solid #ccebf0;
-border-radius:12px;
-padding:10px;
-background:#f6fdff;
+.a4-title{
+    text-align:center;
+
+    margin:16px;
+
+    font-size:18px;
+    font-weight:1000;
+
+    color:#075e78;
 }
 
-.patientinfo{
-font-size:11px;
-line-height:1.7;
+.patient-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:9px;
+
+    background:#f5fdff;
+
+    border:1px solid #cceaf0;
+
+    border-radius:10px;
+}
+
+.patient-info{
+    font-size:9px;
+    line-height:1.75;
 }
 
 .codes{
-text-align:center;
+    text-align:center;
 }
 
-.codes img{
-max-width:130px;
+.codes svg{
+    max-width:140px;
 }
 
-.barlabel{
-font-size:9px;
-font-weight:900;
+.bar-label{
+    font-size:7px;
+    font-weight:1000;
 }
 
-.a4table{
-width:100%;
-border-collapse:collapse;
-margin-top:18px;
-font-size:10px;
+.a4-table{
+    width:100%;
+
+    margin-top:15px;
+
+    border-collapse:collapse;
+
+    font-size:8.5px;
 }
 
-.a4table th,.a4table td{
-border:1px solid #d7e7ea;
-padding:7px;
+.a4-table th,
+.a4-table td{
+    padding:7px;
+
+    border:1px solid #d5e7ea;
 }
 
-.a4table th{
-background:#eafaff;
+.a4-table th{
+    background:#eafaff;
+    color:#075e78;
 }
 
-.a4note{
-margin-top:25px;
-padding:12px;
-border:1px solid #d5ebef;
-border-radius:10px;
-font-size:9px;
-line-height:1.5;
+.a4-note{
+    margin-top:18px;
+
+    padding:10px;
+
+    border:1px solid #d6ebef;
+
+    border-radius:9px;
+
+    font-size:8px;
+
+    line-height:1.55;
 }
 
-.a4sign{
-margin-top:50px;
-display:flex;
-justify-content:space-between;
-font-size:10px;
-}
+.signature{
+    margin-top:45px;
 
-.printbuttons{
-display:flex;
-justify-content:center;
-gap:10px;
-margin:15px 0;
+    display:flex;
+    justify-content:space-between;
+
+    font-size:8.5px;
 }
 
 @media(max-width:900px){
 
-.header{
-padding:0 15px;
-}
+    .summary{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-.headtitle{
-display:none;
-}
+    .rules{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-.main{
-padding:12px;
-}
+    .hero{
+        flex-direction:column;
+        align-items:flex-start;
+    }
 
-.summary{
-grid-template-columns:repeat(2,1fr);
-}
-
-.rules{
-grid-template-columns:repeat(2,1fr);
-}
-
-.hero{
-align-items:flex-start;
-flex-direction:column;
-}
-
-.validity{
-width:100%;
-}
+    .validity{
+        width:100%;
+    }
 
 }
 
-@media(max-width:600px){
+@media(max-width:500px){
 
-.brand{
-font-size:20px;
-}
+    .summary{
+        grid-template-columns:1fr 1fr;
+    }
 
-.pid{
-display:none;
-}
+    .rules{
+        grid-template-columns:1fr 1fr;
+    }
 
-.summary{
-grid-template-columns:repeat(2,1fr);
-}
+    .brand{
+        font-size:21px;
+    }
 
-.rules{
-grid-template-columns:repeat(2,1fr);
-}
-
-.patientName{
-font-size:20px;
-}
-
-.card b{
-font-size:21px;
-}
+    .page-title{
+        font-size:11px;
+    }
 
 }
 
 @media print{
 
-body *{
-visibility:hidden!important;
-}
+    body *{
+        visibility:hidden !important;
+    }
 
-#printArea,
-#printArea *{
-visibility:visible!important;
-}
+    .a4,
+    .a4 *{
+        visibility:visible !important;
+    }
 
-#printArea{
-position:absolute;
-left:0;
-top:0;
-width:210mm;
-}
+    .a4{
+        position:absolute;
+        left:0;
+        top:0;
+        margin:0;
+    }
 
-.a4paper{
-margin:0;
-box-shadow:none;
-}
-
+    @page{
+        size:A4;
+        margin:0;
+    }
 }
 
 </style>
@@ -592,136 +645,171 @@ box-shadow:none;
 
 <div class="app">
 
-<header class="header">
+<header>
 
 <div>
 <div class="brand">HOMEOPLUSS</div>
+<div class="tagline">
+Homeopathy – Caring Naturally Since 1796
+</div>
 </div>
 
-<div class="headtitle">PATIENT HEALTHBOOK</div>
+<div class="page-title">
+📖 PATIENT HEALTHBOOK
+</div>
 
-<div class="headright">
-<div class="pid" id="headerPid"></div>
-<button class="logout" onclick="logout()">↩ LOGIN</button>
+<div class="header-right">
+
+<span class="pid" id="headerPid"></span>
+
+<button class="login"
+onclick="location.href='index.html'">
+↩ LOGIN
+</button>
+
 </div>
 
 </header>
 
-<main class="main">
+<main>
 
 <section class="hero">
 
 <div>
-<div class="patientName" id="patientName">Patient</div>
 
-<div class="details">
-<b>Patient ID:</b> <span id="patientId"></span><br>
-<b>Mobile:</b> <span id="mobile"></span><br>
-<b>Registration:</b> <span id="registration"></span><br>
-<b>Validity:</b> <span id="validityDate"></span>
+<div class="patient-name" id="patientName">
+Patient
 </div>
+
+<div class="patient-details">
+
+Patient ID:
+<b id="patientId"></b>
+<br>
+
+📱 Mobile:
+<b id="mobile"></b>
+
+<br>
+
+🗓 Registration:
+<b id="registration"></b>
+
+<br>
+
+⏳ Validity End:
+<b id="validityEnd"></b>
+
+</div>
+
 </div>
 
 <div class="validity">
+
 <strong>6 MONTHS</strong>
-<span>HOMEOPLUSS VALIDITY</span>
-<div id="daysRemaining" style="margin-top:7px"></div>
+
+<small id="daysRemaining">
+Validity
+</small>
+
 </div>
 
 </section>
+
 
 <section class="summary">
 
 <div class="card">
-<small>Total HP Earned</small>
-<b id="totalEarned">0</b>
+<small>TOTAL HP EARNED</small>
+<strong id="totalEarned">0</strong>
 </div>
 
 <div class="card">
-<small>Visit HP Earned</small>
-<b id="visitEarned">0</b>
+<small>VISIT HP EARNED</small>
+<strong id="visitHp">0</strong>
 </div>
 
 <div class="card">
-<small>Referral HP</small>
-<b id="referralEarned">0</b>
+<small>REFERRAL HP</small>
+<strong id="referralHp">0</strong>
 </div>
 
 <div class="card">
-<small>HP Debited</small>
-<b id="debited">0</b>
+<small>HP DEBITED</small>
+<strong id="hpDebit">0</strong>
 </div>
 
 <div class="card balance">
-<small>Current Balance</small>
-<b id="balance">0</b>
+<small>CURRENT BALANCE</small>
+<strong id="balance">0</strong>
 </div>
 
 </section>
 
-<div class="rulesTitle">HP HEALTH CREDIT RULES</div>
+
+<div class="section-title">
+✨ HP HEALTH CREDIT RULES
+</div>
 
 <section class="rules">
 
 <div class="rule">
 <div class="circle">
-<b>10</b>
-<span>HP</span>
+<strong id="ruleCheckup">10</strong>
 </div>
 <h4>🩺 CHECK-UP</h4>
-<p>1 check-up credit per day</p>
+<p id="checkupNote">1 per day</p>
 </div>
 
 <div class="rule">
 <div class="circle">
-<b>20</b>
-<span>HP</span>
+<strong id="ruleSos">20</strong>
 </div>
-<h4>🚨 SOS VISIT</h4>
-<p>Maximum 4 SOS credits per month</p>
+<h4>🚨 SOS</h4>
+<p id="sosNote">Maximum 4 / month</p>
 </div>
 
 <div class="rule">
 <div class="circle">
-<b>50</b>
-<span>HP</span>
+<strong id="ruleFu">50</strong>
 </div>
 <h4>🔄 FOLLOW-UP</h4>
-<p>On booked FU date / after due date</p>
+<p>Booked date / after</p>
 </div>
 
 <div class="rule">
 <div class="circle">
-<b>100</b>
-<span>HP</span>
+<strong id="ruleRef">100</strong>
 </div>
 <h4>👥 REFERRED</h4>
-<p>Per completed referred patient</p>
+<p>Per completed referral</p>
 </div>
 
 <div class="rule">
 <div class="circle">
-<b>50</b>
-<span>HP</span>
+<strong id="ruleJoined">50</strong>
 </div>
-<h4>🎁 JOINED</h4>
-<p>Reward after referral completion</p>
+<h4>🎁 JOINED PATIENT</h4>
+<p>Referral completion</p>
 </div>
 
 </section>
 
-<section class="section">
 
-<div class="sectionhead">
-<h3>📒 HP HEALTH PASSBOOK</h3>
+<section class="passbook">
+
+<div class="section-title">
+📒 HP HEALTH PASSBOOK
 </div>
 
-<div class="tablewrap">
+<div class="table-wrap">
 
 <table>
 
 <thead>
+
 <tr>
+
 <th>S.No</th>
 <th>Date</th>
 <th>Type</th>
@@ -732,31 +820,39 @@ box-shadow:none;
 <th>HP Debit</th>
 <th>Balance</th>
 <th>Remarks</th>
+
 </tr>
+
 </thead>
 
-<tbody id="passbookBody"></tbody>
+<tbody id="passbookRows">
+</tbody>
 
 </table>
 
 </div>
 
-<div class="actions">
 
-<button class="action primary" onclick="openBills()">
+<div class="action-bar">
+
+<button class="action primary"
+onclick="openList('bills')">
 🧾 BILLS
 </button>
 
-<button class="action primary" onclick="openReceipts()">
+<button class="action primary"
+onclick="openList('receipts')">
 🧾 RECEIPTS
 </button>
 
-<button class="action" onclick="openNotifications()">
+<button class="action"
+onclick="openList('notifications')">
 🔔 NOTIFICATIONS
 </button>
 
-<button class="action" onclick="printHealthBook()">
-🖨 PRINT / A4 PDF
+<button class="action"
+onclick="healthbookA4()">
+🖨 A4 HEALTHBOOK
 </button>
 
 </div>
@@ -765,467 +861,519 @@ box-shadow:none;
 
 </main>
 
-<footer class="footer">
-<b>HOMEOPLUSS</b> • Opp: Sai Mandir, Kalaburagi • 888 000 8224
-&nbsp; | &nbsp;
-SOS = Emergency / urgent visit • FU = Follow-up visit • Check-up = routine health check
-&nbsp; | &nbsp;
-Patient reference account
+
+<footer>
+
+<b>HOMEOPLUSS</b>
+•
+Opp: Sai Mandir, Kalaburagi
+•
+888 000 8224
+•
+🩺 Check-up = routine health check
+•
+🚨 SOS = urgent visit
+•
+🔄 FU = follow-up
+•
+👥 Referral rewards apply according to program rules
+
 </footer>
 
 </div>
 
 
-<!-- BILLS MODAL -->
+<div class="modal" id="modal">
 
-<div class="modal" id="billsModal">
+<div class="modal-box">
 
-<div class="modalbox">
+<div class="modal-head">
 
-<div class="modalhead">
-<h2>🧾 MY BILLS</h2>
-<button class="close" onclick="closeModal('billsModal')">✕</button>
-</div>
+<h2 id="modalTitle">
+</h2>
 
-<div id="billsList"></div>
-
-</div>
-</div>
-
-
-<!-- RECEIPTS MODAL -->
-
-<div class="modal" id="receiptsModal">
-
-<div class="modalbox">
-
-<div class="modalhead">
-<h2>🧾 MY RECEIPTS</h2>
-<button class="close" onclick="closeModal('receiptsModal')">✕</button>
-</div>
-
-<div id="receiptsList"></div>
+<button class="close"
+onclick="closeModal()">
+✕
+</button>
 
 </div>
+
+<div id="modalContent">
 </div>
 
-
-<!-- NOTIFICATIONS MODAL -->
-
-<div class="modal" id="notificationsModal">
-
-<div class="modalbox">
-
-<div class="modalhead">
-<h2>🔔 NOTIFICATIONS</h2>
-<button class="close" onclick="closeModal('notificationsModal')">✕</button>
 </div>
 
-<div id="notificationsList"></div>
-
-</div>
-</div>
-
-
-<!-- A4 DOCUMENT -->
-
-<div class="modal" id="a4Modal">
-
-<div class="modalbox">
-
-<div class="printbuttons">
-<button class="action primary" onclick="printA4()">🖨 PRINT A4</button>
-<button class="action primary" onclick="downloadPDF()">⬇ DOWNLOAD PDF</button>
-<button class="close" onclick="closeModal('a4Modal')">✕ CLOSE</button>
-</div>
-
-<div id="printArea"></div>
-
-</div>
 </div>
 
 
 <script>
 
 let patient=null;
-let records=[];
-let balance=0;
 
-
-/* =========================
-   LOAD PATIENT
-========================= */
-
-function loadPatient(){
-
-patient=JSON.parse(
-localStorage.getItem("HOMEOPLUSS_PATIENT") || "null"
-);
+try{
+    patient=JSON.parse(
+        localStorage.getItem("HOMEOPLUSS_PATIENT")||"null"
+    );
+}catch(e){}
 
 if(!patient){
 
-alert("No patient account found. Please login first.");
+    alert("Please login first.");
 
-window.location.href="index.html";
-return;
-}
-
-document.getElementById("headerPid").textContent=
-patient.patientId || "";
-
-document.getElementById("patientName").textContent=
-patient.name || "HOMEOPLUSS Patient";
-
-document.getElementById("patientId").textContent=
-patient.patientId || "-";
-
-document.getElementById("mobile").textContent=
-patient.mobile || "-";
-
-const regDate=getRegistrationDate();
-
-document.getElementById("registration").textContent=
-formatDateTime(regDate);
-
-const endDate=getValidityDate();
-
-document.getElementById("validityDate").textContent=
-formatDate(endDate);
-
-if(endDate){
-
-const diff=endDate.getTime()-Date.now();
-const days=Math.ceil(diff/86400000);
-
-document.getElementById("daysRemaining").textContent=
-days>0 ? days+" days remaining" : "Validity expired";
-}
-
-buildPassbook();
-showSummary();
+    location.href="index.html";
 
 }
 
+function rules(){
 
-/* =========================
-   DATES
-========================= */
-
-function getRegistrationDate(){
-
-return new Date(
-patient.registrationDate ||
-patient.registeredAt ||
-Date.now()
-);
-
-}
-
-function getValidityDate(){
-
-if(patient.validityEnd){
-return new Date(patient.validityEnd);
-}
-
-const d=getRegistrationDate();
-
-d.setMonth(d.getMonth()+6);
-
-return d;
-}
-
-function formatDateTime(d){
-
-if(!d || isNaN(d))return "-";
-
-return d.toLocaleString("en-IN",{
-day:"2-digit",
-month:"short",
-year:"numeric",
-hour:"2-digit",
-minute:"2-digit"
-});
+    return JSON.parse(
+        localStorage.getItem("HOMEOPLUSS_ADMIN_RULES") ||
+        JSON.stringify({
+            welcome:2000,
+            female:100,
+            bpl:100,
+            insurance:100,
+            checkup:10,
+            checkLimit:1,
+            sos:20,
+            sosLimit:4,
+            fu:50,
+            referred:100,
+            joined:50
+        })
+    );
 
 }
-
-function formatDate(d){
-
-if(!d || isNaN(d))return "-";
-
-return d.toLocaleDateString("en-IN",{
-day:"2-digit",
-month:"short",
-year:"numeric"
-});
-
-}
-
-
-/* =========================
-   RECORDS
-========================= */
 
 function getRecords(){
 
-return patient.passbook ||
-patient.healthbook ||
-patient.transactions ||
-patient.pointRecords ||
-patient.visits ||
-[];
+    return patient.passbook ||
+           patient.healthbook ||
+           patient.transactions ||
+           patient.pointRecords ||
+           patient.visits ||
+           [];
 
 }
 
-function normaliseType(r){
+function dateObj(value){
 
-return String(
-r.type ||
-r.visitType ||
-r.category ||
-r.name ||
-"ENTRY"
-).toUpperCase();
+    const d=new Date(value||Date.now());
+
+    return isNaN(d.getTime()) ?
+           new Date() :
+           d;
 
 }
 
-function recordDate(r){
+function formatDate(value){
 
-return new Date(
-r.date ||
-r.visitDate ||
-r.createdAt ||
-r.timestamp ||
-Date.now()
-);
-
-}
-
-function creditOf(r){
-
-if(r.hpCredit!==undefined)
-return Number(r.hpCredit)||0;
-
-if(r.credit!==undefined)
-return Number(r.credit)||0;
-
-const type=normaliseType(r);
-
-if(type.includes("CHECK"))return 10;
-if(type==="SOS" || type.includes("SOS"))return 20;
-if(type==="FU" || type.includes("FOLLOW"))return 50;
-if(type.includes("REFERR"))return 100;
-if(type.includes("JOIN"))return 50;
-
-return 0;
-}
-
-function debitOf(r){
-
-if(r.hpDebit!==undefined)
-return Number(r.hpDebit)||0;
-
-if(r.debit!==undefined)
-return Number(r.debit)||0;
-
-if(normaliseType(r).includes("DEBIT"))
-return Number(r.amount)||0;
-
-return 0;
-}
-
-
-/* =========================
-   VALID POINT RULES
-========================= */
-
-function calculateValidCredits(){
-
-const source=getRecords();
-
-const checkupDays={};
-const sosMonths={};
-
-let total=0;
-let visit=0;
-let referral=0;
-let debit=0;
-
-const result=[];
-
-source.forEach(r=>{
-
-const type=normaliseType(r);
-const date=recordDate(r);
-
-let credit=creditOf(r);
-const db=debitOf(r);
-
-if(type.includes("CHECK")){
-
-const day=date.toISOString().slice(0,10);
-
-if(checkupDays[day]){
-credit=0;
-}else{
-checkupDays[day]=true;
-credit=10;
-}
-
-visit+=credit;
+    return dateObj(value).toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
 
 }
 
-else if(type.includes("SOS")){
+function formatDateTime(value){
 
-const month=
-date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0");
-
-sosMonths[month]=sosMonths[month]||0;
-
-if(sosMonths[month]>=4){
-credit=0;
-}else{
-sosMonths[month]++;
-credit=20;
-}
-
-visit+=credit;
-
-}
-
-else if(type==="FU" || type.includes("FOLLOW")){
-
-let allowed=true;
-
-if(r.followUpDate){
-
-const booked=new Date(r.followUpDate);
-
-allowed=date>=booked;
-}
-
-if(!allowed){
-credit=0;
-}else{
-credit=50;
-}
-
-visit+=credit;
-
-}
-
-else if(type.includes("REFERR")){
-
-credit=100;
-referral+=credit;
-
-}
-
-else if(type.includes("JOIN")){
-
-credit=50;
-referral+=credit;
-
-}
-
-total+=credit;
-debit+=db;
-
-result.push({
-raw:r,
-date,
-type,
-credit,
-debit:db
-});
-
-});
-
-return{
-records:result,
-earned:total,
-visit,
-referral,
-debit
-};
+    return dateObj(value).toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
 
 }
 
 
-/* =========================
-   PASSBOOK
-========================= */
+function calculate(){
 
-function buildPassbook(){
+    const r=rules();
 
-const data=calculateValidCredits();
+    const records=getRecords();
 
-records=data.records;
+    let checkDays={};
 
-const tbody=document.getElementById("passbookBody");
+    let sosMonths={};
 
-tbody.innerHTML="";
+    let validRecords=[];
 
-let opening=Number(
-patient.welcomePoints ??
-patient.openingHealthPoints ??
-2000
-);
+    let visitHP=0;
 
-balance=opening;
+    let referralHP=0;
 
-let row=0;
+    let debit=0;
 
-tbody.innerHTML+=`
+    records.forEach(function(record){
+
+        let type=String(
+            record.type ||
+            record.visitType ||
+            record.entryType ||
+            "ENTRY"
+        ).toUpperCase();
+
+        let date=dateObj(
+            record.date ||
+            record.visitDate ||
+            record.createdAt
+        );
+
+        let credit=Number(
+            record.hpCredit ??
+            record.credit ??
+            0
+        );
+
+        let hpDebit=Number(
+            record.hpDebit ??
+            record.debit ??
+            0
+        );
+
+
+        /*
+          If record is generated by Admin,
+          its explicit HP credit is respected.
+        */
+
+        if(type.includes("CHECK")){
+
+            const dayKey=
+                date.getFullYear()+"-"+
+                (date.getMonth()+1)+"-"+
+                date.getDate();
+
+            if(checkDays[dayKey]){
+                credit=0;
+            }else{
+                checkDays[dayKey]=1;
+
+                if(!record.hpCredit &&
+                   record.credit===undefined){
+
+                    credit=Number(r.checkup||10);
+                }
+            }
+
+            visitHP+=credit;
+
+        }
+
+
+        else if(type.includes("SOS")){
+
+            const monthKey=
+                date.getFullYear()+"-"+
+                (date.getMonth()+1);
+
+            sosMonths[monthKey]=
+                sosMonths[monthKey]||0;
+
+            if(sosMonths[monthKey]>=Number(r.sosLimit||4)){
+
+                credit=0;
+
+            }else{
+
+                sosMonths[monthKey]++;
+
+                if(!record.hpCredit &&
+                   record.credit===undefined){
+
+                    credit=Number(r.sos||20);
+                }
+
+            }
+
+            visitHP+=credit;
+
+        }
+
+
+        else if(
+            type==="FU" ||
+            type.includes("FOLLOW")
+        ){
+
+            if(!record.hpCredit &&
+               record.credit===undefined){
+
+                credit=Number(r.fu||50);
+            }
+
+            visitHP+=credit;
+
+        }
+
+
+        else if(type.includes("REFER")){
+
+            if(!record.hpCredit &&
+               record.credit===undefined){
+
+                credit=Number(r.referred||100);
+            }
+
+            referralHP+=credit;
+
+        }
+
+
+        else if(type.includes("JOIN")){
+
+            if(!record.hpCredit &&
+               record.credit===undefined){
+
+                credit=Number(r.joined||50);
+            }
+
+            referralHP+=credit;
+
+        }
+
+
+        debit+=hpDebit;
+
+        validRecords.push({
+            original:record,
+            type:type,
+            date:date,
+            credit:credit,
+            debit:hpDebit
+        });
+
+    });
+
+
+    const welcome=Number(
+        patient.welcomePoints ??
+        r.welcome ??
+        2000
+    );
+
+    const profileBonus=Number(
+        patient.profileBonus||0
+    );
+
+    const totalEarned=
+        welcome+
+        profileBonus+
+        validRecords.reduce(
+            (sum,x)=>sum+x.credit,
+            0
+        );
+
+    const balance=
+        totalEarned-debit;
+
+    return {
+        records:validRecords,
+        welcome,
+        profileBonus,
+        totalEarned,
+        visitHP,
+        referralHP,
+        debit,
+        balance
+    };
+
+}
+
+
+function render(){
+
+    const r=rules();
+
+    document.getElementById("patientName")
+        .textContent=
+        patient.name ||
+        "HOMEOPLUSS Patient";
+
+    document.getElementById("patientId")
+        .textContent=
+        patient.patientId||"";
+
+    document.getElementById("headerPid")
+        .textContent=
+        patient.patientId||"";
+
+    document.getElementById("mobile")
+        .textContent=
+        patient.mobile||"";
+
+    const registration=
+        patient.registrationDate ||
+        patient.registeredAt ||
+        new Date();
+
+    let end;
+
+    if(patient.validityEnd){
+
+        end=dateObj(patient.validityEnd);
+
+    }else{
+
+        end=dateObj(registration);
+
+        end.setMonth(end.getMonth()+6);
+
+    }
+
+    document.getElementById("registration")
+        .textContent=
+        formatDateTime(registration);
+
+    document.getElementById("validityEnd")
+        .textContent=
+        formatDate(end);
+
+    const days=
+        Math.max(
+            0,
+            Math.ceil(
+                (end.getTime()-Date.now())/
+                86400000
+            )
+        );
+
+    document.getElementById("daysRemaining")
+        .textContent=
+        days+" days remaining";
+
+    document.getElementById("ruleCheckup")
+        .textContent=
+        Number(r.checkup||10);
+
+    document.getElementById("ruleSos")
+        .textContent=
+        Number(r.sos||20);
+
+    document.getElementById("ruleFu")
+        .textContent=
+        Number(r.fu||50);
+
+    document.getElementById("ruleRef")
+        .textContent=
+        Number(r.referred||100);
+
+    document.getElementById("ruleJoined")
+        .textContent=
+        Number(r.joined||50);
+
+    document.getElementById("checkupNote")
+        .textContent=
+        "Limit "+Number(r.checkLimit||1)+" / day";
+
+    document.getElementById("sosNote")
+        .textContent=
+        "Maximum "+Number(r.sosLimit||4)+" / month";
+
+
+    const c=calculate();
+
+    document.getElementById("totalEarned")
+        .textContent=
+        c.totalEarned;
+
+    document.getElementById("visitHp")
+        .textContent=
+        c.visitHP;
+
+    document.getElementById("referralHp")
+        .textContent=
+        c.referralHP;
+
+    document.getElementById("hpDebit")
+        .textContent=
+        c.debit;
+
+    document.getElementById("balance")
+        .textContent=
+        c.balance;
+
+
+    let rows="";
+
+    let balance=
+        c.welcome+
+        c.profileBonus;
+
+    rows+=`
 
 <tr>
 
 <td>1</td>
 
-<td>${formatDate(getRegistrationDate())}</td>
+<td>${formatDate(registration)}</td>
 
-<td class="left">
-<b>WELCOME</b>
+<td class="left">🎉 WELCOME</td>
+
+<td>—</td>
+<td>—</td>
+<td>—</td>
+
+<td class="credit">
++${c.welcome+c.profileBonus}
 </td>
 
 <td>—</td>
-<td>—</td>
-<td>—</td>
 
-<td class="credit">+${opening}</td>
+<td class="credit">
+${balance}
+</td>
 
-<td>—</td>
-
-<td class="credit">${balance}</td>
-
-<td>New Patient Welcome HP</td>
+<td>
+Welcome + eligible profile HP
+</td>
 
 </tr>
-
 `;
 
-records.forEach((r,i)=>{
 
-balance+=r.credit-r.debit;
+    c.records.forEach(function(item,index){
 
-const sos=
-r.type.includes("SOS") ? "✓" : "—";
+        balance+=
+            item.credit-
+            item.debit;
 
-const fu=
-(r.type==="FU" || r.type.includes("FOLLOW")) ? "✓" : "—";
+        const sos=
+            item.type.includes("SOS")
+            ?"✓":"—";
 
-const check=
-r.type.includes("CHECK") ? "✓" : "—";
+        const fu=
+            (
+                item.type==="FU" ||
+                item.type.includes("FOLLOW")
+            )
+            ?"✓":"—";
 
-tbody.innerHTML+=`
+        const check=
+            item.type.includes("CHECK")
+            ?"✓":"—";
+
+        rows+=`
 
 <tr>
 
-<td>${i+2}</td>
+<td>${index+2}</td>
 
-<td>${formatDate(r.date)}</td>
+<td>${formatDate(item.date)}</td>
 
-<td class="left">${escapeHtml(r.type)}</td>
+<td class="left">
+${escapeHtml(item.type)}
+</td>
 
 <td>${sos}</td>
 
@@ -1234,570 +1382,732 @@ tbody.innerHTML+=`
 <td>${check}</td>
 
 <td class="credit">
-${r.credit ? "+"+r.credit : "—"}
+${item.credit ? "+"+item.credit : "—"}
 </td>
 
 <td class="debit">
-${r.debit ? "-"+r.debit : "—"}
+${item.debit ? "-"+item.debit : "—"}
 </td>
 
 <td class="${balance>=0?'credit':'debit'}">
 ${balance}
 </td>
 
-<td>${escapeHtml(
-r.raw.remarks ||
-r.raw.remark ||
-r.raw.note ||
+<td>
+${escapeHtml(
+item.original.remarks ||
+item.original.remark ||
+item.original.description ||
 ""
-)}</td>
+)}
+</td>
 
 </tr>
 
 `;
 
-});
+    });
 
-if(records.length===0){
+    if(!c.records.length){
 
-tbody.innerHTML+=`
-
+        rows+=`
 <tr>
-<td colspan="10" class="empty">
-No visit / HP transaction records yet.
+<td colspan="10">
+No visit records yet.
 </td>
 </tr>
-
 `;
 
-}
+    }
+
+    document.getElementById("passbookRows")
+        .innerHTML=rows;
 
 }
 
 
-/* =========================
-   SUMMARY
-========================= */
+function openList(type){
 
-function showSummary(){
+    let list=
+        patient[type] ||
+        JSON.parse(
+            localStorage.getItem(
+                "HOMEOPLUSS_"+type.toUpperCase()
+            ) ||
+            "[]"
+        );
 
-const data=calculateValidCredits();
+    let title=
+        type==="bills"
+        ?"🧾 MY BILLS"
+        :
+        type==="receipts"
+        ?"🧾 MY RECEIPTS"
+        :
+        "🔔 MY NOTIFICATIONS";
 
-const opening=Number(
-patient.welcomePoints ??
-patient.openingHealthPoints ??
-2000
-);
+    document.getElementById("modalTitle")
+        .textContent=title;
 
-const earned=opening+data.earned;
+    if(!Array.isArray(list))
+        list=[];
 
-const current=earned-data.debit;
+    if(!list.length){
 
-document.getElementById("totalEarned").textContent=
-earned;
+        document.getElementById("modalContent").innerHTML=
+        `<div class="item">
+        No ${type} records available yet.
+        </div>`;
 
-document.getElementById("visitEarned").textContent=
-data.visit;
+    }else{
 
-document.getElementById("referralEarned").textContent=
-data.referral;
+        document.getElementById("modalContent").innerHTML=
 
-document.getElementById("debited").textContent=
-data.debit;
+        list.map(function(x,i){
 
-document.getElementById("balance").textContent=
-current;
+            if(type==="notifications"){
 
-}
+                return `
+                <div class="item">
+                    <b>🔔 ${escapeHtml(
+                        x.title ||
+                        "HOMEOPLUSS Notification"
+                    )}</b>
+                    <br>
+                    <small>
+                    ${escapeHtml(
+                        x.date ||
+                        ""
+                    )}
+                    </small>
+                    <br><br>
+                    ${escapeHtml(
+                        x.message ||
+                        x.description ||
+                        x.text ||
+                        ""
+                    )}
+                </div>
+                `;
 
+            }
 
-/* =========================
-   BILLS
-========================= */
+            return `
+            <div class="item">
 
-function openBills(){
+                <b>
+                ${escapeHtml(
+                    x.billNo ||
+                    x.receiptNo ||
+                    x.id ||
+                    "DOCUMENT "+(i+1)
+                )}
+                </b>
 
-const bills=
-patient.bills ||
-JSON.parse(
-localStorage.getItem("HOMEOPLUSS_BILLS") || "[]"
-);
+                <br>
 
-const box=document.getElementById("billsList");
+                Date:
+                ${escapeHtml(x.date||"")}
 
-if(!bills.length){
+                <br>
 
-box.innerHTML=`
-<div class="empty">
-🧾<br><br>
-No bills available in your account yet.
-</div>
-`;
+                Amount:
+                ₹${escapeHtml(x.amount||"0")}
 
-}else{
+                <br>
 
-box.innerHTML=bills.map((b,i)=>`
+                ${escapeHtml(
+                    x.description ||
+                    x.particulars ||
+                    ""
+                )}
 
-<div class="listitem">
+                <br>
 
-<b>Bill ${escapeHtml(
-b.billNo || b.id || "#"+(i+1)
-)}</b>
+                <button
+                class="action primary"
+                onclick='documentA4(${JSON.stringify(x)},${JSON.stringify(type)})'>
+                🖨 A4 ${type==="bills"?"BILL":"RECEIPT"}
+                </button>
 
-<br>
+            </div>
+            `;
 
-Date: ${escapeHtml(
-b.date || ""
-)}
+        }).join("");
 
-<br>
+    }
 
-Amount: ₹${escapeHtml(
-b.amount || "0"
-)}
-
-<br><br>
-
-<button class="action primary"
-onclick='showA4(${JSON.stringify(b)},"BILL")'>
-A4 BILL
-</button>
-
-</div>
-
-`).join("");
-
-}
-
-document.getElementById("billsModal").classList.add("show");
-
-}
-
-
-/* =========================
-   RECEIPTS
-========================= */
-
-function openReceipts(){
-
-const receipts=
-patient.receipts ||
-JSON.parse(
-localStorage.getItem("HOMEOPLUSS_RECEIPTS") || "[]"
-);
-
-const box=document.getElementById("receiptsList");
-
-if(!receipts.length){
-
-box.innerHTML=`
-<div class="empty">
-🧾<br><br>
-No receipts available in your account yet.
-</div>
-`;
-
-}else{
-
-box.innerHTML=receipts.map((r,i)=>`
-
-<div class="listitem">
-
-<b>Receipt ${escapeHtml(
-r.receiptNo || r.id || "#"+(i+1)
-)}</b>
-
-<br>
-
-Date: ${escapeHtml(
-r.date || ""
-)}
-
-<br>
-
-Amount: ₹${escapeHtml(
-r.amount || "0"
-)}
-
-<br><br>
-
-<button class="action primary"
-onclick='showA4(${JSON.stringify(r)},"RECEIPT")'>
-A4 RECEIPT
-</button>
-
-</div>
-
-`).join("");
-
-}
-
-document.getElementById("receiptsModal").classList.add("show");
+    document.getElementById("modal")
+        .classList.add("show");
 
 }
 
 
-/* =========================
-   NOTIFICATIONS
-========================= */
+function closeModal(){
 
-function openNotifications(){
-
-const notifications=
-patient.notifications ||
-JSON.parse(
-localStorage.getItem("HOMEOPLUSS_NOTIFICATIONS") || "[]"
-);
-
-const box=document.getElementById("notificationsList");
-
-if(!notifications.length){
-
-box.innerHTML=`
-
-<div class="listitem">
-<b>Welcome to HOMEOPLUSS Patient HealthBook</b>
-<br><br>
-Your account is active. Your HP Health Credit history,
-visits, bills and receipts will appear here when recorded
-by the clinic.
-</div>
-
-`;
-
-}else{
-
-box.innerHTML=notifications.map(n=>`
-
-<div class="listitem">
-
-<b>${escapeHtml(
-n.title || "HOMEOPLUSS Notification"
-)}</b>
-
-<br><br>
-
-${escapeHtml(
-n.message || n.text || ""
-)}
-
-<br><br>
-
-<small>${escapeHtml(
-n.date || ""
-)}</small>
-
-</div>
-
-`).join("");
-
-}
-
-document.getElementById("notificationsModal").classList.add("show");
+    document.getElementById("modal")
+        .classList.remove("show");
 
 }
 
 
-/* =========================
-   A4
-========================= */
+function healthbookA4(){
 
-function showA4(data,type){
+    const c=calculate();
 
-closeModal("billsModal");
-closeModal("receiptsModal");
+    const registration=
+        patient.registrationDate ||
+        patient.registeredAt ||
+        new Date();
 
-const doctor=
-patient.doctorName ||
-patient.doctor ||
-"Consulting Doctor";
-
-const documentNo=
-data.billNo ||
-data.receiptNo ||
-data.id ||
-("HP-"+Date.now());
-
-const date=
-data.date ||
-formatDate(new Date());
-
-document.getElementById("printArea").innerHTML=`
-
-<div class="a4paper">
-
-<div class="watermark">HP</div>
-
-<div class="a4header">
-
-<div>
-<div class="a4brand">HOMEOPLUSS</div>
-<div style="font-size:10px">
-Homeopathy – Caring Naturally Since 1796
-</div>
-</div>
-
-<div class="a4clinic">
-
-<b>HOMEOPLUSS</b><br>
-Opp: Sai Mandir, Kalaburagi<br>
-888 000 8224<br>
-Dr. ${escapeHtml(doctor)}
-
-</div>
-
-</div>
-
-<div class="a4title">
-PATIENT ${type}
-</div>
-
-<div class="patientbar">
-
-<div class="patientinfo">
-
-<b>PATIENT NAME:</b>
-${escapeHtml(patient.name || "Patient")}<br>
-
-<b>REG NO:</b>
-${escapeHtml(patient.patientId || "")}<br>
-
-<b>MOBILE:</b>
-${escapeHtml(patient.mobile || "")}<br>
-
-<b>DOCUMENT NO:</b>
-${escapeHtml(documentNo)}<br>
-
-<b>DATE:</b>
-${escapeHtml(date)}
-
-</div>
-
-<div class="codes">
-
-<div id="barcodeBox"></div>
-
-<div class="barlabel">
-REG NO: ${escapeHtml(patient.patientId || "")}
-</div>
-
-<div id="qrcode" style="margin-top:7px"></div>
-
-</div>
-
-</div>
-
-<table class="a4table">
-
-<tr>
-<th>Description</th>
-<th>Details</th>
-<th>Amount</th>
-</tr>
-
-<tr>
-<td>${type}</td>
-<td>${escapeHtml(
-data.description ||
-data.particulars ||
-"HOMEOPLUSS Patient Account Record"
-)}</td>
-<td>₹${escapeHtml(
-data.amount || "0"
-)}</td>
-</tr>
-
-</table>
-
-<div class="a4note">
-
-<b>IMPORTANT:</b><br>
-This document is generated from the HOMEOPLUSS Patient HealthBook.
-The QR code contains only the patient/document reference.
-For patient reference and clinic record purposes.
-Do not share your patient credentials with others.
-
-</div>
-
-<div class="a4sign">
-
-<div>
-Patient / Authorized Person
-</div>
-
-<div>
-Dr. ${escapeHtml(doctor)}<br>
-HOMEOPLUSS
-</div>
-
-</div>
-
-<div style="
-position:absolute;
-bottom:12mm;
-left:15mm;
-right:15mm;
-border-top:1px solid #d7e7ea;
-padding-top:7px;
-font-size:8px;
-text-align:center;
-">
-
-HOMEOPLUSS • Opp: Sai Mandir, Kalaburagi • 888 000 8224
-<br>
-Secure patient reference document • Generated from Patient HealthBook
-
-</div>
-
-</div>
-`;
-
-document.getElementById("a4Modal").classList.add("show");
-
-setTimeout(()=>{
-
-const qr=document.getElementById("qrcode");
-
-if(qr){
-
-qr.innerHTML="";
-
-new QRCode(qr,{
-text:String(patient.patientId || documentNo),
-width:75,
-height:75,
-correctLevel:QRCode.CorrectLevel.M
-});
-
-}
-
-const barcode=document.createElement("svg");
-
-barcode.style.width="130px";
-barcode.style.height="40px";
-
-document.getElementById("barcodeBox").appendChild(barcode);
-
-JsBarcode(
-barcode,
-String(patient.patientId || documentNo).replace(/[^A-Za-z0-9]/g,""),
-{
-format:"CODE128",
-width:1.3,
-height:35,
-displayValue:false,
-margin:0
-}
-);
-
-},100);
+    documentA4(
+        {
+            id:"HEALTHBOOK",
+            date:formatDate(new Date()),
+            description:"Complete Patient HealthBook Statement",
+            healthbook:c
+        },
+        "healthbook"
+    );
 
 }
 
 
-/* =========================
-   PRINT HEALTHBOOK
-========================= */
+function documentA4(record,type){
 
-function printHealthBook(){
+    const doctor=
+        patient.doctorName ||
+        patient.doctor ||
+        "Consulting Doctor";
 
-const fake={
-id:"HEALTHBOOK",
-date:formatDate(new Date()),
-description:"Complete Patient HealthBook Statement",
-amount:"0"
-};
+    const documentNo=
+        record.billNo ||
+        record.receiptNo ||
+        record.id ||
+        "HP-"+Date.now();
 
-showA4(fake,"HEALTHBOOK");
+    document.getElementById("modalTitle")
+        .textContent=
+        "📄 A4 DOCUMENT";
+
+    document.getElementById("modalContent")
+        .innerHTML=
+
+        `
+
+        <div style="text-align:center;margin-bottom:12px">
+
+            <button
+            class="action primary"
+            onclick="window.print()">
+            🖨 PRINT A4
+            </button>
+
+            <button
+            class="action primary"
+            onclick="downloadPDF()">
+            ⬇ DOWNLOAD PDF
+            </button>
+
+        </div>
+
+
+        <div class="a4" id="a4Document">
+
+            <div class="watermark">
+            HOMEOPLUSS
+            </div>
+
+
+            <div class="a4-header">
+
+                <div>
+
+                    <div class="a4-brand">
+                    HOMEOPLUSS
+                    </div>
+
+                    <div class="a4-sub">
+                    Homeopathy – Caring Naturally Since 1796
+                    </div>
+
+                </div>
+
+
+                <div class="a4-clinic">
+
+                    <b>HOMEOPLUSS</b>
+
+                    <br>
+
+                    Opp: Sai Mandir, Kalaburagi
+
+                    <br>
+
+                    Phone: 888 000 8224
+
+                    <br>
+
+                    Dr. ${escapeHtml(doctor)}
+
+                </div>
+
+            </div>
+
+
+            <div class="a4-title">
+
+                PATIENT ${
+                    type==="healthbook"
+                    ?"HEALTHBOOK STATEMENT"
+                    :type==="bills"
+                    ?"BILL"
+                    :"RECEIPT"
+                }
+
+            </div>
+
+
+            <div class="patient-bar">
+
+                <div class="patient-info">
+
+                    <b>PATIENT NAME:</b>
+                    ${escapeHtml(patient.name||"Patient")}
+
+                    <br>
+
+                    <b>REG NO:</b>
+                    ${escapeHtml(patient.patientId||"")}
+
+                    <br>
+
+                    <b>MOBILE:</b>
+                    ${escapeHtml(patient.mobile||"")}
+
+                    <br>
+
+                    <b>DOCUMENT NO:</b>
+                    ${escapeHtml(documentNo)}
+
+                    <br>
+
+                    <b>DATE:</b>
+                    ${escapeHtml(record.date||formatDate(new Date()))}
+
+                </div>
+
+
+                <div class="codes">
+
+                    <svg id="barcode"></svg>
+
+                    <div class="bar-label">
+                    REG NO: ${escapeHtml(patient.patientId||"")}
+                    </div>
+
+                    <div id="qrcode"></div>
+
+                </div>
+
+            </div>
+
+
+            ${
+                type==="healthbook"
+                ?buildHealthbookA4()
+                :buildTransactionA4(record,type)
+            }
+
+
+            <div class="a4-note">
+
+                <b>🔐 SECURITY & REFERENCE NOTICE</b>
+
+                <br>
+
+                This document is generated from the HOMEOPLUSS Patient HealthBook.
+                The QR code contains a patient/document reference and is not intended
+                to expose the complete medical record.
+
+                <br><br>
+
+                Patient should keep this document safely and should not share
+                login credentials.
+
+                <br><br>
+
+                Static prototype notice:
+                patient records are stored locally in this browser.
+                Production deployment requires secure authentication,
+                backend database, access control and appropriate privacy/security
+                safeguards.
+
+            </div>
+
+
+            <div class="signature">
+
+                <div>
+                Patient / Authorized Person
+                </div>
+
+                <div>
+                Dr. ${escapeHtml(doctor)}
+                <br>
+                HOMEOPLUSS
+                </div>
+
+            </div>
+
+        </div>
+        `;
+
+
+    document.getElementById("modal")
+        .classList.add("show");
+
+
+    setTimeout(function(){
+
+        const code=
+            String(
+                patient.patientId ||
+                documentNo
+            ).replace(/[^A-Za-z0-9]/g,"");
+
+        if(
+            window.JsBarcode &&
+            document.getElementById("barcode")
+        ){
+
+            JsBarcode(
+                "#barcode",
+                code,
+                {
+                    format:"CODE128",
+                    width:1.2,
+                    height:34,
+                    displayValue:false,
+                    margin:0
+                }
+            );
+
+        }
+
+
+        if(
+            window.QRCode &&
+            document.getElementById("qrcode")
+        ){
+
+            new QRCode(
+                document.getElementById("qrcode"),
+                {
+                    text:String(
+                        patient.patientId ||
+                        documentNo
+                    ),
+                    width:70,
+                    height:70
+                }
+            );
+
+        }
+
+    },100);
 
 }
 
 
-/* =========================
-   PRINT
-========================= */
+function buildHealthbookA4(){
 
-function printA4(){
+    const c=calculate();
 
-window.print();
+    const records=c.records;
+
+    let balance=
+        c.welcome+
+        c.profileBonus;
+
+    let html=`
+
+    <table class="a4-table">
+
+    <thead>
+
+    <tr>
+
+    <th>S.No</th>
+    <th>Date</th>
+    <th>Type</th>
+    <th>SOS</th>
+    <th>FU</th>
+    <th>Check-up</th>
+    <th>HP Credit</th>
+    <th>HP Debit</th>
+    <th>Balance</th>
+    <th>Remarks</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr>
+
+    <td>1</td>
+
+    <td>${formatDate(patient.registrationDate||patient.registeredAt)}</td>
+
+    <td>WELCOME</td>
+
+    <td>—</td>
+    <td>—</td>
+    <td>—</td>
+
+    <td>+${c.welcome+c.profileBonus}</td>
+
+    <td>—</td>
+
+    <td>${balance}</td>
+
+    <td>Welcome / Profile HP</td>
+
+    </tr>
+    `;
+
+
+    records.forEach(function(x,i){
+
+        balance+=x.credit-x.debit;
+
+        html+=`
+
+        <tr>
+
+        <td>${i+2}</td>
+
+        <td>${formatDate(x.date)}</td>
+
+        <td>${escapeHtml(x.type)}</td>
+
+        <td>${x.type.includes("SOS")?"✓":"—"}</td>
+
+        <td>${
+            x.type==="FU"||
+            x.type.includes("FOLLOW")
+            ?"✓":"—"
+        }</td>
+
+        <td>${x.type.includes("CHECK")?"✓":"—"}</td>
+
+        <td>${x.credit?"+":""}${x.credit||"—"}</td>
+
+        <td>${x.debit?"-"+x.debit:"—"}</td>
+
+        <td>${balance}</td>
+
+        <td>
+        ${escapeHtml(
+            x.original.remarks ||
+            x.original.remark ||
+            ""
+        )}
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    html+=`
+
+    </tbody>
+
+    </table>
+
+    <div class="a4-note">
+
+    <b>ACCOUNT SUMMARY</b>
+
+    <br>
+
+    Total HP Earned:
+    ${c.totalEarned}
+
+    &nbsp; | &nbsp;
+
+    HP Debited:
+    ${c.debit}
+
+    &nbsp; | &nbsp;
+
+    Current Balance:
+    ${c.balance}
+
+    <br><br>
+
+    Registration:
+    ${formatDateTime(
+        patient.registrationDate ||
+        patient.registeredAt
+    )}
+
+    <br>
+
+    Validity:
+    6 months
+
+    </div>
+
+    `;
+
+    return html;
 
 }
 
 
-/* =========================
-   PDF
-========================= */
+function buildTransactionA4(record,type){
+
+    return `
+
+    <table class="a4-table">
+
+    <thead>
+
+    <tr>
+
+    <th>Description</th>
+    <th>Details</th>
+    <th>Amount</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr>
+
+    <td>
+    ${type==="bills"?"BILL":"RECEIPT"}
+    </td>
+
+    <td>
+    ${escapeHtml(
+        record.description ||
+        record.particulars ||
+        "HOMEOPLUSS Patient Account Record"
+    )}
+    </td>
+
+    <td>
+    ₹${escapeHtml(
+        record.amount||"0"
+    )}
+    </td>
+
+    </tr>
+
+    </tbody>
+
+    </table>
+
+    <div class="a4-note">
+
+    <b>PAYMENT DETAILS</b>
+
+    <br>
+
+    Payment Mode:
+    ${escapeHtml(record.paymentMode||"Not specified")}
+
+    <br>
+
+    Reference:
+    ${escapeHtml(
+        record.reference ||
+        record.id ||
+        ""
+    )}
+
+    </div>
+
+    `;
+
+}
+
 
 function downloadPDF(){
 
-const element=document.querySelector(".a4paper");
+    if(!window.html2pdf){
 
-if(typeof html2pdf==="undefined"){
+        alert(
+            "PDF library is unavailable. Please use PRINT A4."
+        );
 
-alert("PDF library unavailable. Please use PRINT A4.");
-return;
+        return;
 
-}
+    }
 
-html2pdf()
-.set({
-margin:0,
-filename:(patient.patientId || "HOMEOPLUSS")+"-HealthBook.pdf",
-image:{type:"jpeg",quality:.98},
-html2canvas:{scale:2},
-jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
-})
-.from(element)
-.save();
+    html2pdf()
+    .set({
 
-}
+        filename:
+            (patient.patientId||"HOMEOPLUSS")+
+            "-healthbook.pdf",
 
+        margin:0,
 
-/* =========================
-   MODAL
-========================= */
+        image:{
+            type:"jpeg",
+            quality:.98
+        },
 
-function closeModal(id){
+        html2canvas:{
+            scale:2
+        },
 
-document.getElementById(id).classList.remove("show");
+        jsPDF:{
+            unit:"mm",
+            format:"a4",
+            orientation:"portrait"
+        }
 
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logout(){
-
-/*
-Do NOT delete patient data.
-Return to login.
-*/
-window.location.href="index.html";
+    })
+    .from(
+        document.getElementById("a4Document")
+    )
+    .save();
 
 }
 
 
-/* =========================
-   SECURITY / ESCAPE
-========================= */
+function escapeHtml(value){
 
-function escapeHtml(text){
+    return String(value??"").replace(
+        /[&<>"']/g,
+        function(c){
 
-return String(text ?? "")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+            return {
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            }[c];
+
+        }
+    );
 
 }
 
 
-/* START */
-
-loadPatient();
+render();
 
 </script>
 
