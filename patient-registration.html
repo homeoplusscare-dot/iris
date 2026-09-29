@@ -1,607 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>HOMEOPLUSS • Patient Registration</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOMEOPLUSS • Registration</title>
 <style>
-
-*{box-sizing:border-box}
-
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-    radial-gradient(circle at 10% 15%,#ddfbff,transparent 28%),
-    radial-gradient(circle at 90% 80%,#e9f2ff,transparent 30%),
-    linear-gradient(135deg,#f5fdff,#fff,#eefaff);
-    color:#17343d;
-}
-
-.app{
-    width:min(1150px,96vw);
-    height:96vh;
-    margin:2vh auto;
-    background:#fff;
-    border:1px solid #d5edf1;
-    border-radius:30px;
-    overflow:hidden;
-    box-shadow:0 25px 80px rgba(0,110,140,.15);
-}
-
-header{
-    height:78px;
-    padding:0 28px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #dceff2;
-    background:linear-gradient(#fff,#f6fdff);
-}
-
-.brand{
-    font-size:27px;
-    font-weight:1000;
-    letter-spacing:2px;
-    color:#078da3;
-}
-
-.tagline{
-    font-size:9px;
-    color:#71858c;
-}
-
-.title{
-    font-weight:1000;
-    color:#075e78;
-}
-
-.main{
-    height:calc(100% - 78px);
-    overflow:auto;
-    padding:22px;
-}
-
-.top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-}
-
-.top h2{
-    margin:0;
-    color:#075e78;
-}
-
-.pid{
-    background:#eefaff;
-    padding:10px 15px;
-    border-radius:12px;
-    color:#075e78;
-    font-size:11px;
-    font-weight:1000;
-}
-
-.form{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-    margin-top:20px;
-}
-
-.field label{
-    display:block;
-    font-size:11px;
-    font-weight:1000;
-    margin:3px 0 6px;
-}
-
-input,select,textarea{
-    width:100%;
-    border:2px solid #d8edf1;
-    border-radius:13px;
-    padding:11px;
-    font-size:14px;
-    outline:none;
-    background:#fff;
-}
-
-input:focus,select:focus,textarea:focus{
-    border-color:#09a6b9;
-}
-
-textarea{
-    height:72px;
-    resize:none;
-}
-
-.full{
-    grid-column:1/-1;
-}
-
-.info{
-    margin-top:17px;
-    padding:14px 16px;
-    border-radius:16px;
-    border:1px solid #d6edf1;
-    background:linear-gradient(90deg,#effffc,#f4faff);
-    font-size:11px;
-    line-height:1.7;
-}
-
-.info b{
-    color:#078d75;
-}
-
-.buttons{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:17px;
-}
-
-button{
-    border:0;
-    border-radius:13px;
-    padding:13px 22px;
-    font-weight:1000;
-    cursor:pointer;
-}
-
-.back{
-    background:#edf6f8;
-    color:#28515c;
-}
-
-.save{
-    color:#fff;
-    background:linear-gradient(135deg,#00a695,#087dca);
-    box-shadow:0 12px 25px rgba(0,120,150,.2);
-}
-
-.success{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:100;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,.95);
-}
-
-.success.show{
-    display:flex;
-}
-
-.popup{
-    width:min(550px,92%);
-    padding:40px;
-    background:#fff;
-    text-align:center;
-    border:1px solid #cdebf0;
-    border-radius:30px;
-    box-shadow:0 35px 90px rgba(0,100,130,.25);
-}
-
-.tick{
-    width:85px;
-    height:85px;
-    margin:auto;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    background:linear-gradient(135deg,#00ad8e,#087dcc);
-    color:#fff;
-    font-size:48px;
-    animation:pulse 1.2s infinite;
-}
-
-@keyframes pulse{
-    50%{transform:scale(1.08)}
-}
-
-.next{
-    width:100%;
-    color:#fff;
-    background:linear-gradient(135deg,#00a695,#087dcc);
-}
-
-@media(max-width:800px){
-
-    .app{
-        height:96vh;
-        margin:2vh auto;
-    }
-
-    .form{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .full{
-        grid-column:1/-1;
-    }
-
-}
-
-@media(max-width:560px){
-
-    .form{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
-    .title{
-        font-size:11px;
-    }
-
-    .brand{
-        font-size:21px;
-    }
-
-}
-
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;color:#163c56;background:linear-gradient(135deg,#f5fdfe,#eaf7fb)}
+.page{height:100vh;padding:20px;display:flex;align-items:center;justify-content:center}
+.box{width:min(980px,100%);max-height:96vh;overflow:auto;background:#fff;border:1px solid #d5ebf0;border-radius:30px;padding:28px;box-shadow:0 25px 70px rgba(2,93,163,.14)}
+.head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e3f0f3;padding-bottom:16px}.brand{font-size:25px;font-weight:900;color:#025da3}.tag{font-size:11px;color:#71899a;margin-top:3px}.back{padding:11px 15px;border:0;border-radius:12px;background:#eaf6f8;color:#025da3;font-weight:900}
+h1{font-size:27px;margin:20px 0 5px}.sub{color:#708797;font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}.field label{display:block;font-size:11px;font-weight:900;color:#507086;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;height:48px;border:1px solid #cfe5eb;border-radius:12px;padding:10px;outline:none;background:#fbfeff;font-weight:700}.field textarea{height:78px;resize:none}.full{grid-column:1/-1}.actions{display:flex;gap:12px;margin-top:20px}.actions button{flex:1;height:52px;border:0;border-radius:14px;font-weight:900}.save{color:#fff;background:linear-gradient(135deg,#025da3,#00a8b3);box-shadow:0 10px 22px rgba(2,93,163,.2)}.clear{background:#edf3f5;color:#456}
+.modal{position:fixed;inset:0;background:rgba(4,40,60,.35);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.popup{width:min(500px,100%);background:#fff;border-radius:25px;padding:30px;text-align:center;box-shadow:0 30px 80px #0003}.tick{font-size:55px;color:#08a878}.popup h2{color:#025da3}@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.box{padding:20px}.page{padding:8px}}
 </style>
 </head>
-
 <body>
-
-<div class="app">
-
-<header>
-
-<div>
-<div class="brand">HOMEOPLUSS</div>
-<div class="tagline">Homeopathy – Caring Naturally Since 1796</div>
+<div class="page"><div class="box">
+<div class="head"><div><div class="brand">HOMEOPLUSS Homeopathy</div><div class="tag">Homeopathy – Caring Naturally Since 1796</div></div><button class="back" onclick="location.href='index.html'">← LOGIN</button></div>
+<h1>New Patient Registration</h1><div class="sub">Create your permanent HOMEOPLUSS registration.</div>
+<div class="grid">
+<div class="field"><label>FULL NAME</label><input id="name" placeholder="Patient full name"></div>
+<div class="field"><label>GENDER</label><select id="gender"><option value="">Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+<div class="field"><label>DATE OF BIRTH</label><input id="dob" type="date" onchange="calcAge()"></div>
+<div class="field"><label>AGE</label><input id="age" readonly></div>
+<div class="field"><label>MOBILE NUMBER</label><input id="mobile" maxlength="10" inputmode="numeric" placeholder="10 digit mobile"></div>
+<div class="field"><label>SOURCE</label><select id="source"><option>Online</option><option>Walk-in</option><option>Reference</option></select></div>
+<div class="field full"><label>ADDRESS</label><textarea id="address" placeholder="Patient address"></textarea></div>
+<div class="field"><label>REFERRAL ID</label><input id="referralId" placeholder="Example: HP-9876543210-1990"></div>
+<div class="field"><label>PERMANENT REGISTRATION NO.</label><input id="regNo" readonly placeholder="Generated automatically"></div>
 </div>
+<div class="actions"><button class="clear" onclick="location.href='index.html'">CANCEL</button><button class="save" onclick="registerPatient()">CREATE PATIENT</button></div>
+</div></div>
 
-<div class="title">
-📝 PATIENT REGISTRATION
-</div>
-
-</header>
-
-<div class="main">
-
-<div class="top">
-
-<h2>Complete Your Registration</h2>
-
-<div class="pid" id="pid">
-Loading...
-</div>
-
-</div>
-
-<div class="form">
-
-<div class="field">
-<label>👤 PATIENT NAME *</label>
-<input id="name" placeholder="Full name">
-</div>
-
-<div class="field">
-<label>⚧ GENDER *</label>
-<select id="gender">
-<option value="">Select</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other</option>
-</select>
-</div>
-
-<div class="field">
-<label>🎂 DATE OF BIRTH *</label>
-<input id="dob" type="date" onchange="calculateAge()">
-</div>
-
-<div class="field">
-<label>🔢 AGE</label>
-<input id="age" readonly>
-</div>
-
-<div class="field">
-<label>📱 MOBILE</label>
-<input id="mobile" readonly>
-</div>
-
-<div class="field">
-<label>🩺 DOCTOR</label>
-<input id="doctor" placeholder="Doctor name">
-</div>
-
-<div class="field full">
-<label>📍 ADDRESS *</label>
-<textarea id="address" placeholder="Complete address"></textarea>
-</div>
-
-<div class="field">
-<label>🌐 REGISTRATION SOURCE</label>
-<select id="source">
-<option>Online</option>
-<option>Walk-in</option>
-<option>Reference</option>
-</select>
-</div>
-
-<div class="field">
-<label>👥 REFERRER PATIENT ID / NAME</label>
-<input id="referrer" placeholder="Optional">
-</div>
-
-<div class="field">
-<label>🪪 BPL CARD HOLDER</label>
-<select id="bpl">
-<option value="no">No</option>
-<option value="yes">Yes</option>
-</select>
-</div>
-
-<div class="field">
-<label>🛡 HEALTH INSURANCE</label>
-<select id="insurance">
-<option value="no">No</option>
-<option value="yes">Yes</option>
-</select>
-</div>
-
-<div class="field">
-<label>🎁 SPECIAL OFFER / CAMPAIGN</label>
-<input id="offerCode" placeholder="Optional">
-</div>
-
-</div>
-
-<div class="info">
-
-✨ <b>Automatic HP conditions</b><br>
-
-👩 Female patient → Admin-controlled HP<br>
-🪪 BPL card holder → Admin-controlled HP<br>
-🛡 Health insurance → Admin-controlled HP<br>
-👥 Referral rewards → applied according to Admin rules<br>
-🎉 Special campaigns / occasions → controlled by Admin
-
-</div>
-
-<div class="buttons">
-
-<button class="back"
-onclick="location.href='index.html'">
-← BACK
-</button>
-
-<button class="save"
-onclick="saveRegistration()">
-✓ SAVE & OPEN HEALTHBOOK
-</button>
-
-</div>
-
-</div>
-</div>
-
-<div class="success" id="success">
-
-<div class="popup">
-
-<div class="tick">✓</div>
-
-<h2>🎉 REGISTRATION COMPLETED</h2>
-
-<p id="message"></p>
-
-<button class="next"
-onclick="location.href='patient-healthbook.html'">
-📖 VIEW MY HEALTHBOOK
-</button>
-
-</div>
-
-</div>
+<div id="modal" class="modal"><div class="popup"><div class="tick">✓</div><h2 id="mtitle">Registration Successful</h2><p id="mtext"></p><button class="save" style="width:100%" onclick="location.href='patient-health-book.html'">OPEN HEALTH BOOK</button></div></div>
 
 <script>
-
-let patient=null;
-
-try{
-    patient=JSON.parse(
-        localStorage.getItem("HOMEOPLUSS_PATIENT")||"null"
-    );
-}catch(e){}
-
-if(!patient){
-    alert("Please login first.");
-    location.href="index.html";
+const DEFAULT={clinicName:"HOMEOPLUSS Homeopathy",tagline:"Homeopathy – Caring Naturally Since 1796",welcomeHP:{enabled:true,points:2000}};
+function settings(){let s=JSON.parse(localStorage.getItem("HPKYC_SETTINGS")||"null");if(!s){s=DEFAULT;localStorage.setItem("HPKYC_SETTINGS",JSON.stringify(s))}return s}
+function patients(){return JSON.parse(localStorage.getItem("HPKYC_PATIENTS")||"[]")}
+function save(p){localStorage.setItem("HPKYC_PATIENTS",JSON.stringify(p))}
+function calcAge(){if(!dob.value){age.value="";return}let d=new Date(dob.value),n=new Date();let a=n.getFullYear()-d.getFullYear();if(n<new Date(n.getFullYear(),d.getMonth(),d.getDate()))a--;age.value=a>=0?a:""}
+dob.addEventListener("change",()=>{calcAge();if(dob.value&&mobile.value.length===10)regNo.value=`HP-${mobile.value}-${dob.value.slice(0,4)}`})
+mobile.addEventListener("input",()=>{mobile.value=mobile.value.replace(/\D/g,"");if(dob.value&&mobile.value.length===10)regNo.value=`HP-${mobile.value}-${dob.value.slice(0,4)}`})
+function registerPatient(){
+ if(!name.value.trim()||!gender.value||!dob.value||!/^\d{10}$/.test(mobile.value)||!address.value.trim()){alert("Please complete all required fields.");return}
+ const ps=patients(),rn=`HP-${mobile.value}-${dob.value.slice(0,4)}`;
+ if(ps.some(p=>p.regNo===rn||String(p.mobile)===mobile.value&&String(p.dob).slice(0,4)===dob.value.slice(0,4))){alert("This patient is already registered.");return}
+ let ref=referralId.value.trim(),referrer=null;
+ if(ref){
+   referrer=ps.find(p=>p.regNo===ref);
+   if(!referrer){alert("PATIENT NOT FOUND\nPlease enter the correct Referral ID.");return}
+ }
+ const s=settings(), welcome=s.welcomeHP?.enabled?Number(s.welcomeHP.points)||0:0, now=new Date().toISOString();
+ const p={
+  id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())),
+  name:name.value.trim(),gender:gender.value,dob:dob.value,age:Number(age.value)||0,mobile:mobile.value,address:address.value.trim(),source:source.value,referralId:ref,regNo:rn,
+  welcomeHP:welcome,earnedHP:0,visits:{checkup:[],sos:[],followup:[]},ledger:welcome?[{type:"WELCOME",label:"Welcome Health Points",points:welcome,date:now}]:[],
+  referral:{status:ref?"PENDING":"NONE",referredBy:ref,completedAt:null},notes:[],prescriptions:[],appointments:[],bills:[],reports:[],communicationHistory:[]
+ };
+ ps.push(p);save(ps);localStorage.setItem("HPKYC_CURRENT_PATIENT",p.id);
+ mtext.innerHTML=`<b>${p.name}</b><br><br>Permanent Registration No.<br><strong>${p.regNo}</strong><br><br>Welcome HP: <strong>${welcome}</strong>`;
+ document.getElementById("modal").classList.add("show");
 }
-
-document.getElementById("pid").textContent=patient.patientId;
-document.getElementById("mobile").value=patient.mobile;
-
-function calculateAge(){
-
-    const value=document.getElementById("dob").value;
-
-    if(!value)return;
-
-    const dob=new Date(value);
-    const today=new Date();
-
-    let age=today.getFullYear()-dob.getFullYear();
-
-    const month=today.getMonth()-dob.getMonth();
-
-    if(
-        month<0 ||
-        (month===0 && today.getDate()<dob.getDate())
-    ){
-        age--;
-    }
-
-    document.getElementById("age").value=Math.max(0,age);
-}
-
-function getRules(){
-
-    return JSON.parse(
-        localStorage.getItem("HOMEOPLUSS_ADMIN_RULES") ||
-        JSON.stringify({
-            welcome:2000,
-            female:100,
-            bpl:100,
-            insurance:100,
-            checkup:10,
-            checkLimit:1,
-            sos:20,
-            sosLimit:4,
-            fu:50,
-            referred:100,
-            joined:50,
-            requireComplete:true,
-            requirePayment:true,
-            offerName:"",
-            offerHp:0,
-            offerKeyword:"",
-            specialDay:"",
-            specialHp:0,
-            ageMin:0,
-            ageMax:0,
-            ageHp:0,
-            ageActive:"no"
-        })
-    );
-}
-
-function saveRegistration(){
-
-    const name=document.getElementById("name").value.trim();
-    const gender=document.getElementById("gender").value;
-    const dob=document.getElementById("dob").value;
-    const age=document.getElementById("age").value;
-    const address=document.getElementById("address").value.trim();
-
-    if(!name){
-        alert("Enter patient name.");
-        return;
-    }
-
-    if(!gender){
-        alert("Select gender.");
-        return;
-    }
-
-    if(!dob){
-        alert("Select date of birth.");
-        return;
-    }
-
-    if(!address){
-        alert("Enter address.");
-        return;
-    }
-
-    const rules=getRules();
-
-    patient.name=name;
-    patient.gender=gender;
-    patient.dob=dob;
-    patient.age=age;
-    patient.address=address;
-    patient.doctorName=document.getElementById("doctor").value.trim();
-    patient.source=document.getElementById("source").value;
-    patient.referrer=document.getElementById("referrer").value.trim();
-    patient.bpl=document.getElementById("bpl").value;
-    patient.insurance=document.getElementById("insurance").value;
-    patient.offerCode=document.getElementById("offerCode").value.trim();
-
-    patient.registrationCompleted=true;
-
-    if(!patient.registeredAt){
-        patient.registeredAt=new Date().toISOString();
-    }
-
-    patient.registrationDate=patient.registeredAt;
-
-    let validity=new Date(patient.registrationDate);
-    validity.setMonth(validity.getMonth()+6);
-
-    patient.validityEnd=validity.toISOString();
-
-    patient.welcomePoints=
-        Number(patient.welcomePoints || rules.welcome || 2000);
-
-    let profileBonus=0;
-
-    if(gender==="Female"){
-        profileBonus+=Number(rules.female||0);
-    }
-
-    if(patient.bpl==="yes"){
-        profileBonus+=Number(rules.bpl||0);
-    }
-
-    if(patient.insurance==="yes"){
-        profileBonus+=Number(rules.insurance||0);
-    }
-
-    patient.profileBonus=profileBonus;
-
-    /*
-      Starting HP is welcome + eligible profile bonus.
-    */
-
-    patient.healthPoints=
-        patient.welcomePoints+
-        patient.profileBonus;
-
-    patient.passbook=patient.passbook||[];
-    patient.bills=patient.bills||[];
-    patient.receipts=patient.receipts||[];
-    patient.notifications=patient.notifications||[];
-
-    localStorage.setItem(
-        "HOMEOPLUSS_PATIENT",
-        JSON.stringify(patient)
-    );
-
-    document.getElementById("message").innerHTML=
-        "Welcome <b>"+escapeHtml(patient.name)+"</b><br><br>"+
-        "Patient ID: <b>"+escapeHtml(patient.patientId)+"</b><br>"+
-        "Profile HP currently applied: <b>+"+
-        profileBonus+
-        " HP</b>";
-
-    document.getElementById("success").classList.add("show");
-}
-
-function escapeHtml(value){
-
-    return String(value||"").replace(
-        /[&<>"']/g,
-        function(c){
-            return {
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
-            }[c];
-        }
-    );
-}
-
 </script>
-
 </body>
 </html>
