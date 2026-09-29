@@ -3,584 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>HOMEOPLUSS — Patient Approval</title>
-
+<title>HOMEOPLUSS • Patient Login</title>
 <style>
-*{box-sizing:border-box}
-
-:root{
-  --blue:#025da3;
-  --cyan:#00a8b3;
-  --violet:#7c3aed;
-  --pink:#db2777;
-  --green:#16a34a;
-  --red:#ef4444;
-  --ink:#10243e;
-  --muted:#63748a;
-  --line:#dbe8f3;
-}
-
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--ink);
-  background:
-    radial-gradient(circle at 10% 10%,#dffcff 0,transparent 28%),
-    radial-gradient(circle at 90% 15%,#eee4ff 0,transparent 28%),
-    linear-gradient(135deg,#f9fdff,#edf7ff);
-}
-
-*::-webkit-scrollbar{width:6px;height:6px}
-*::-webkit-scrollbar-thumb{background:#a9c8dc;border-radius:20px}
-
-.page{
-  width:100%;
-  height:100%;
-  padding:14px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.card{
-  width:min(1100px,100%);
-  height:min(94vh,800px);
-  position:relative;
-  overflow:hidden;
-  border:1px solid #d8e8f4;
-  border-radius:30px;
-  background:rgba(255,255,255,.95);
-  box-shadow:
-    0 30px 80px rgba(4,70,115,.16),
-    inset 0 1px #fff;
-}
-
-.card:before{
-  content:"";
-  position:absolute;
-  inset:8px;
-  border:1px solid rgba(0,168,179,.25);
-  border-radius:23px;
-  pointer-events:none;
-}
-
-.head{
-  height:82px;
-  padding:18px 28px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid var(--line);
-  position:relative;
-  z-index:5;
-}
-
-.brand{
-  font-size:clamp(25px,3vw,36px);
-  font-weight:1000;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.sub{
-  font-size:11px;
-  letter-spacing:1px;
-  color:var(--muted);
-  margin-top:3px;
-}
-
-.pill{
-  padding:8px 13px;
-  border-radius:30px;
-  font-size:10px;
-  font-weight:900;
-  color:#087b86;
-  background:#e7fafc;
-  border:1px solid #c8eef2;
-}
-
-.content{
-  height:calc(100% - 82px);
-  overflow:auto;
-  padding:25px;
-}
-
-.scanner{
-  height:235px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
-
-.orb{
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  position:relative;
-  border:2px solid rgba(0,168,179,.45);
-  box-shadow:
-    0 0 35px rgba(0,168,179,.18),
-    inset 0 0 35px rgba(2,93,163,.08);
-}
-
-.orb:before{
-  content:"";
-  position:absolute;
-  inset:18px;
-  border-radius:50%;
-  border:1px dashed rgba(2,93,163,.55);
-  animation:spin 7s linear infinite;
-}
-
-.orb:after{
-  content:"";
-  position:absolute;
-  inset:48px;
-  border-radius:50%;
-  border:2px solid rgba(124,58,237,.45);
-  animation:spin 4s linear infinite reverse;
-}
-
-.cross{
-  position:absolute;
-  width:205px;
-  height:2px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    var(--cyan),
-    var(--violet),
-    transparent
-  );
-  box-shadow:0 0 15px rgba(0,168,179,.4);
-  animation:scan 2.3s ease-in-out infinite;
-}
-
-.cross:after{
-  content:"✚";
-  position:absolute;
-  left:50%;
-  top:-14px;
-  transform:translateX(-50%);
-  color:var(--blue);
-  font-size:22px;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-@keyframes scan{
-  0%,100%{transform:translateY(-78px)}
-  50%{transform:translateY(78px)}
-}
-
-.notice{
-  padding:15px;
-  border-radius:17px;
-  background:linear-gradient(100deg,#effdff,#f6f1ff);
-  border:1px solid #dceaf5;
-  text-align:center;
-}
-
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:16px;
-}
-
-label{
-  display:block;
-  font-size:11px;
-  font-weight:900;
-  color:#49647c;
-  margin-bottom:7px;
-}
-
-input{
-  width:100%;
-  border:1px solid #caddea;
-  border-radius:13px;
-  padding:14px;
-  outline:none;
-  background:white;
-}
-
-input:focus{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 4px rgba(0,168,179,.10);
-}
-
-.check{
-  margin-top:14px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  font-size:12px;
-  color:#4d6176;
-}
-
-.check input{
-  width:auto;
-}
-
-.progressBox{
-  margin-top:17px;
-}
-
-.progress{
-  height:12px;
-  background:#e7eff6;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.progressBar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(
-    90deg,
-    var(--cyan),
-    var(--blue),
-    var(--violet),
-    var(--pink)
-  );
-  transition:width .08s linear;
-}
-
-.status{
-  text-align:center;
-  margin:10px 0;
-  font-weight:1000;
-  color:var(--blue);
-  font-size:13px;
-}
-
-.btn{
-  width:100%;
-  padding:14px 18px;
-  border:0;
-  border-radius:15px;
-  color:white;
-  font-weight:900;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  box-shadow:0 10px 25px rgba(2,93,163,.20);
-  cursor:pointer;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.footer{
-  text-align:center;
-  margin-top:15px;
-  color:#6a7d91;
-  font-size:11px;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:rgba(8,35,58,.70);
-}
-
-.modal.show{display:flex}
-
-.modalBox{
-  width:min(500px,100%);
-  background:white;
-  border-radius:28px;
-  padding:30px;
-  text-align:center;
-  box-shadow:0 30px 100px rgba(0,0,0,.3);
-  animation:popup .35s ease;
-}
-
-@keyframes popup{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-.tick{
-  font-size:70px;
-  font-weight:1000;
-  color:var(--green);
-  animation:tickPulse .8s infinite alternate;
-}
-
-@keyframes tickPulse{
-  to{transform:scale(1.08)}
-}
-
-.modalTitle{
-  font-size:25px;
-  font-weight:1000;
-  margin:8px 0;
-}
-
-.hp{
-  font-size:42px;
-  font-weight:1000;
-  margin:12px;
-  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--violet));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-@media(max-width:700px){
-  .page{padding:5px}
-  .card{height:98vh;border-radius:20px}
-  .head{height:70px;padding:13px 16px}
-  .content{height:calc(100% - 70px);padding:15px}
-  .form{grid-template-columns:1fr}
-  .scanner{height:190px}
-  .orb{width:145px;height:145px}
-  .cross{width:170px}
-  .brand{font-size:24px}
-}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#f4fbfd;color:#12304a}
+body{background:
+radial-gradient(circle at 15% 20%,rgba(0,168,179,.16),transparent 30%),
+radial-gradient(circle at 85% 80%,rgba(2,93,163,.13),transparent 32%),
+linear-gradient(135deg,#fff,#eefafd)}
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+.shell{width:100%;height:100vh;display:flex;flex-direction:column}
+.topbar{height:82px;flex:0 0 82px;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.88);border-bottom:1px solid #d6edf2;box-shadow:0 5px 25px rgba(2,93,163,.08)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:54px;height:54px;border-radius:16px;object-fit:contain;background:#fff;box-shadow:inset 0 0 0 1px #d8edf1,0 8px 20px rgba(2,93,163,.13)}
+.brandName{font-size:24px;font-weight:900;letter-spacing:.5px;color:#025da3}
+.tagline{font-size:11px;color:#668398;margin-top:3px}
+.access{padding:12px 18px;border-radius:14px;background:linear-gradient(135deg,#025da3,#00a8b3);color:#fff;font-weight:900;box-shadow:0 7px 18px rgba(2,93,163,.22)}
+.main{flex:1;min-height:0;padding:18px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(360px,.85fr);gap:18px}
+.info{min-height:0;border-radius:28px;padding:22px;overflow:hidden;background:rgba(255,255,255,.84);border:1px solid #d7edf2;box-shadow:0 20px 50px rgba(2,93,163,.09);display:flex;flex-direction:column}
+.infoHead{display:flex;justify-content:space-between;align-items:center}
+.kicker{font-size:11px;font-weight:900;color:#00a8b3;letter-spacing:2px}
+.info h1{font-size:clamp(27px,3vw,46px);margin:8px 0 4px;color:#123c5b}
+.info p{margin:0;color:#688095}
+.cards{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;overflow:auto}
+.card{min-height:110px;border-radius:20px;padding:17px;background:linear-gradient(145deg,#fff,#f0fbfd);border:1px solid #d7edf2;box-shadow:0 9px 25px rgba(2,93,163,.08)}
+.card.offer{background:linear-gradient(145deg,#fff,#fff8e9)}
+.card h3{margin:0 0 8px;color:#025da3;font-size:16px}.card p{font-size:13px;line-height:1.5}
+.ticker{margin-top:13px;border-radius:14px;padding:12px 15px;background:#e8f8fa;color:#025da3;font-weight:800;white-space:nowrap;overflow:hidden}
+.ticker span{display:inline-block;animation:marquee 18s linear infinite}
+@keyframes marquee{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+.loginWrap{min-height:0;display:flex;align-items:center;justify-content:center}
+.login{width:100%;max-width:480px;padding:34px;border-radius:30px;background:rgba(255,255,255,.94);border:1px solid #d7edf2;box-shadow:0 25px 65px rgba(2,93,163,.15);position:relative;overflow:hidden}
+.login:before{content:"";position:absolute;right:-60px;top:-70px;width:180px;height:180px;border-radius:50%;background:rgba(0,168,179,.09)}
+.login h2{margin:0;color:#025da3;font-size:29px}.login .sub{margin:7px 0 25px;color:#71889a}
+.field{margin:15px 0}.field label{display:block;font-size:12px;font-weight:900;margin-bottom:7px;color:#46677d}
+input{width:100%;height:52px;border:1px solid #cce5eb;border-radius:14px;padding:0 15px;outline:none;background:#fafdfe;color:#173b55;font-weight:700}
+input:focus{border-color:#00a8b3;box-shadow:0 0 0 4px rgba(0,168,179,.1)}
+.loginBtn,.regBtn{width:100%;height:54px;border-radius:15px;font-weight:900;color:#fff;margin-top:8px;background:linear-gradient(135deg,#025da3,#00a8b3);box-shadow:0 10px 25px rgba(2,93,163,.22)}
+.regBtn{background:linear-gradient(135deg,#0a9f72,#00a8b3);margin-top:11px}
+.smallNote{text-align:center;font-size:11px;color:#8194a0;margin-top:15px}
+.modal{position:fixed;inset:0;background:rgba(8,42,65,.35);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}
+.modal.show{display:flex}.modalBox{width:min(480px,100%);background:#fff;border-radius:25px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.2);animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modalBox h3{margin-top:0;color:#025da3}.roles{display:flex;gap:10px}.role{flex:1;padding:14px;border-radius:13px;background:#edf8fa;color:#025da3;font-weight:900}.role.active{background:#025da3;color:#fff}
+.modalActions{display:flex;gap:10px;margin-top:15px}.modalActions button{flex:1;padding:13px;border-radius:12px;font-weight:900}
+.ok{background:#025da3;color:#fff}.cancel{background:#edf2f4;color:#456}
+.blast{text-align:center}.tick{width:78px;height:78px;border-radius:50%;margin:0 auto 15px;background:linear-gradient(135deg,#08a978,#00a8b3);color:#fff;display:grid;place-items:center;font-size:42px;font-weight:900;animation:blast 1s infinite alternate}
+@keyframes blast{from{transform:scale(.92);box-shadow:0 0 0 0 rgba(0,168,179,.3)}to{transform:scale(1.05);box-shadow:0 0 0 18px rgba(0,168,179,0)}}
+.progress{height:9px;background:#e5f0f3;border-radius:99px;overflow:hidden;margin:20px 0 10px}.bar{height:100%;width:0;background:linear-gradient(90deg,#025da3,#00a8b3,#16b878);transition:width 1s linear}
+.status{text-align:center;color:#55758a;font-weight:800;font-size:13px;min-height:20px}
+.hp{display:flex;gap:10px;margin:15px 0}.hp div{flex:1;padding:15px;border-radius:15px;background:#eef9f5}.hp b{display:block;font-size:23px;color:#078a65}
+@media(max-width:800px){.topbar{height:70px;flex-basis:70px}.brandName{font-size:19px}.main{grid-template-columns:1fr;padding:10px}.info{display:none}.login{max-width:520px}.access{font-size:11px;padding:10px}.main{align-items:center}}
 </style>
 </head>
-
 <body>
-
-<div class="page">
-
-<main class="card">
-
-<header class="head">
-  <div>
-    <div class="brand">HOMEOPLUSS</div>
-    <div class="sub">Homeopathy – Caring Naturally Since 1796</div>
+<div class="shell">
+<header class="topbar">
+  <div class="brand">
+    <img id="logo" class="logo" alt="">
+    <div><div id="clinicName" class="brandName">HOMEOPLUSS Homeopathy</div><div id="tagline" class="tagline">Homeopathy – Caring Naturally Since 1796</div></div>
   </div>
-  <div class="pill">PATIENT APPROVAL</div>
+  <button class="access" onclick="openAccess()">DOCTOR / ADMIN</button>
 </header>
 
-<div class="content">
+<main class="main">
+<section class="info">
+  <div class="infoHead"><div><div class="kicker">HOMEOPLUSS DIGITAL HEALTH DESK</div><h1>Welcome to your Health Journey</h1><p>Notices, offers and important updates from HOMEOPLUSS.</p></div></div>
+  <div id="cards" class="cards"></div>
+  <div class="ticker"><span id="tickerText">Welcome to HOMEOPLUSS.</span></div>
+</section>
 
-<div class="scanner">
-  <div class="orb"></div>
-  <div class="cross"></div>
+<section class="loginWrap">
+<div class="login">
+  <div class="kicker">PATIENT PORTAL</div>
+  <h2>Patient Login</h2>
+  <div class="sub">Enter your registered mobile number and birth year.</div>
+  <div class="field"><label>MOBILE NUMBER</label><input id="mobile" maxlength="10" inputmode="numeric" placeholder="10 digit mobile number"></div>
+  <div class="field"><label>BIRTH YEAR (YYYY)</label><input id="year" maxlength="4" inputmode="numeric" placeholder="e.g. 1988"></div>
+  <button class="loginBtn" onclick="patientLogin()">LOGIN TO HEALTH BOOK</button>
+  <button class="regBtn" onclick="location.href='patient-registration.html'">NEW PATIENT REGISTRATION</button>
+  <div class="smallNote">Your permanent registration number is linked to your mobile number and birth year.</div>
 </div>
-
-<div class="notice">
-  <b>WELCOME TO HOMEOPLUSS</b><br>
-  Enter your mobile number and birth year to begin your patient approval.
-</div>
-
-<div class="form">
-
-<div>
-<label>Mobile Number — 10 digits</label>
-<input id="mobile"
-       type="tel"
-       inputmode="numeric"
-       maxlength="10"
-       placeholder="9876543210">
-</div>
-
-<div>
-<label>Birth Year — YYYY</label>
-<input id="year"
-       type="tel"
-       inputmode="numeric"
-       maxlength="4"
-       placeholder="2026">
-</div>
-
-</div>
-
-<div class="check">
-<input type="checkbox" id="agree">
-<span>I confirm that the entered details are correct.</span>
-</div>
-
-<div class="progressBox">
-<div class="progress">
-<div class="progressBar" id="bar"></div>
-</div>
-<div class="status" id="status">READY</div>
-</div>
-
-<button class="btn" id="approve">
-CONTINUE — APPROVE PATIENT
-</button>
-
-<div class="footer">
-HOMEOPLUSS Opp: Sai Mandir, Kalaburagi · 888 000 8224
-</div>
-
-</div>
+</section>
 </main>
 </div>
 
-<div class="modal" id="successModal">
+<div id="accessModal" class="modal">
 <div class="modalBox">
+<h3>Secure Staff Access</h3>
+<div class="roles"><button id="doctorRole" class="role active" onclick="setRole('doctor')">DOCTOR</button><button id="adminRole" class="role" onclick="setRole('admin')">MASTER ADMIN</button></div>
+<div class="field"><label>PASSWORD</label><input id="staffPass" type="password" maxlength="20" placeholder="Enter password"></div>
+<div class="modalActions"><button class="cancel" onclick="closeAccess()">CANCEL</button><button class="ok" onclick="staffLogin()">ENTER</button></div>
+</div>
+</div>
 
+<div id="loadingModal" class="modal">
+<div class="modalBox">
+<h3 style="text-align:center">Verifying Your HOMEOPLUSS Record</h3>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="status" class="status">Checking patient details…</div>
+</div>
+</div>
+
+<div id="blastModal" class="modal">
+<div class="modalBox blast">
 <div class="tick">✓</div>
-
-<div class="modalTitle">
-CONGRATULATIONS!
-</div>
-
-<p><b>WELCOME TO HOMEOPLUSS</b></p>
-
-<p id="patientIdText"></p>
-
-<div class="hp">
-+2000 HP
-</div>
-
-<p>
-Welcome Health Points have been allocated separately.
-</p>
-
-<button class="btn" id="continueBtn">
-CONTINUE TO PATIENT REGISTRATION
-</button>
-
+<h2 id="blastTitle">Login Approved</h2>
+<p id="blastText"></p>
+<div id="hpBox" class="hp"></div>
+<button class="loginBtn" onclick="location.href='patient-health-book.html'">CONTINUE TO HEALTH BOOK</button>
 </div>
 </div>
 
 <script>
-
-const mobile=document.getElementById("mobile");
-const year=document.getElementById("year");
-
-mobile.addEventListener("input",()=>{
-  mobile.value=mobile.value.replace(/\D/g,"").slice(0,10);
-});
-
-year.addEventListener("input",()=>{
-  year.value=year.value.replace(/\D/g,"").slice(0,4);
-});
-
-document.getElementById("approve").addEventListener("click",()=>{
-
-  const m=mobile.value.trim();
-  const y=year.value.trim();
-
-  if(!/^\d{10}$/.test(m)){
-    alert("Please enter exactly 10 digits.");
-    return;
-  }
-
-  if(!/^\d{4}$/.test(y)){
-    alert("Please enter a valid 4-digit birth year.");
-    return;
-  }
-
-  if(!document.getElementById("agree").checked){
-    alert("Please confirm the details.");
-    return;
-  }
-
-  let patient=
-    JSON.parse(localStorage.getItem("HOMEOPLUSS_PATIENT")||"null");
-
-  /*
-    Existing completed patient:
-    do not force registration again.
-  */
-  if(patient &&
-     patient.mobile===m &&
-     patient.registrationCompleted===true){
-
-    location.href="patient-healthbook.html";
-    return;
-  }
-
-  const patientId="HP-"+m+"-"+y;
-
-  if(!patient){
-    patient={};
-  }
-
-  patient.patientId=patientId;
-  patient.mobile=m;
-  patient.year=y;
-
-  /*
-    IMPORTANT:
-    Welcome HP is separate from earned HP.
-  */
-  patient.welcomePoints=2000;
-  patient.baseHP=2000;
-  patient.earnedHP=Number(patient.earnedHP||0);
-  patient.hpDebited=Number(patient.hpDebited||0);
-  patient.healthPoints=2000+patient.earnedHP-patient.hpDebited;
-
-  patient.registeredAt=new Date().toISOString();
-  patient.registrationCompleted=false;
-  patient.passbook=patient.passbook||[];
-
-  localStorage.setItem(
-    "HOMEOPLUSS_PATIENT",
-    JSON.stringify(patient)
-  );
-
-  document.getElementById("patientIdText").textContent=
-    "Patient ID: "+patientId;
-
-  document.getElementById("successModal")
-    .classList.add("show");
-
-  const bar=document.getElementById("bar");
-  const status=document.getElementById("status");
-
-  bar.style.width="0%";
-
-  const states=[
-    "SUBMITTED",
-    "PROCESSING",
-    "APPROVING",
-    "CONFIRMED"
-  ];
-
-  let progress=0;
-
-  const timer=setInterval(()=>{
-
-    progress++;
-
-    bar.style.width=progress+"%";
-
-    if(progress>=100){
-      status.textContent="SUBMISSION APPROVED";
-      clearInterval(timer);
-      return;
-    }
-
-    if(progress<25)
-      status.textContent=states[0];
-    else if(progress<50)
-      status.textContent=states[1];
-    else if(progress<75)
-      status.textContent=states[2];
-    else
-      status.textContent=states[3];
-
-  },70);
-
-});
-
-document.getElementById("continueBtn").onclick=()=>{
-  location.href="patient-registration.html";
+const DEFAULT_SETTINGS={
+clinicName:"HOMEOPLUSS Homeopathy",
+tagline:"Homeopathy – Caring Naturally Since 1796",
+phone:"888 000 8224",
+address:"HOMEOPLUSS Opp: Sai Mandir, Kalaburagi",
+logo:"",
+whatsapp:"+918748815881",
+welcomeHP:{enabled:true,points:2000},
+earnedCap:500,
+schemes:{
+checkup:{enabled:true,points:10,dailyLimit:1},
+sos:{enabled:true,points:20,monthlyLimit:4},
+followup:{enabled:true,points:50},
+referralReferred:{enabled:false,points:100},
+referralReferrer:{enabled:false,points:50},
+female:{enabled:false,points:100},
+discount:{enabled:false,value:0,type:"percent"},
+specialOffer:{enabled:false,value:""}
+},
+notices:[
+{id:"n1",type:"notice",title:"HOMEOPLUSS Welcome",text:"Your digital health journey starts here.",active:true}
+],
+offers:[],
+ticker:[]
 };
 
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function loadSettings(){
+ let s=JSON.parse(localStorage.getItem("HPKYC_SETTINGS")||"null");
+ if(!s){s=clone(DEFAULT_SETTINGS);localStorage.setItem("HPKYC_SETTINGS",JSON.stringify(s));}
+ s=Object.assign(clone(DEFAULT_SETTINGS),s);
+ s.schemes=Object.assign(clone(DEFAULT_SETTINGS.schemes),s.schemes||{});
+ s.notices=s.notices||[];s.offers=s.offers||[];s.ticker=s.ticker||[];
+ return s;
+}
+function getPatients(){return JSON.parse(localStorage.getItem("HPKYC_PATIENTS")||"[]")}
+function show(id){document.getElementById(id).classList.add("show")}
+function hide(id){document.getElementById(id).classList.remove("show")}
+let role="doctor";
+function setRole(r){role=r;doctorRole.classList.toggle("active",r==="doctor");adminRole.classList.toggle("active",r==="admin")}
+function openAccess(){show("accessModal")}
+function closeAccess(){hide("accessModal")}
+function staffLogin(){
+ if(staffPass.value!=="1008"){alert("Incorrect password.");return}
+ localStorage.setItem("HPKYC_CURRENT_ROLE",role);
+ location.href=role==="doctor"?"doctor.html":"patient-admin.html";
+}
+function renderInfo(){
+ const s=loadSettings();
+ clinicName.textContent=s.clinicName||"HOMEOPLUSS Homeopathy";
+ tagline.textContent=s.tagline||DEFAULT_SETTINGS.tagline;
+ if(s.logo){logo.src=s.logo;logo.style.display="block"}else{logo.style.display="none"}
+ const items=[...(s.notices||[]),...(s.offers||[])].filter(x=>x.active);
+ cards.innerHTML=items.length?items.map(x=>`<article class="card ${x.type==="offer"?"offer":""}"><h3>${esc(x.title||"Announcement")}</h3><p>${esc(x.text||"")}</p></article>`).join(""):`<article class="card"><h3>Announcements</h3><p>HOMEOPLUSS announcements and offers will appear here.</p></article>`;
+ const t=(s.ticker||[]).filter(x=>x.active).map(x=>x.text).join("   •   ");
+ tickerText.textContent=t||"Stay connected with HOMEOPLUSS for appointments, health updates and special offers.";
+}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function patientLogin(){
+ const m=mobile.value.replace(/\D/g,""),y=year.value.trim();
+ if(!/^\d{10}$/.test(m)||!/^\d{4}$/.test(y)){alert("Enter a valid 10 digit mobile number and 4 digit birth year.");return}
+ const p=getPatients().find(x=>String(x.mobile)===m && String(x.dob||"").slice(0,4)===y);
+ if(!p){
+   alert("PATIENT NOT FOUND\nPlease register first or check your mobile number and birth year.");
+   return;
+ }
+ localStorage.setItem("HPKYC_CURRENT_PATIENT",p.id);
+ show("loadingModal");
+ let i=0;
+ const msgs=["Checking patient details…","Verifying permanent registration…","Confirming HOMEOPLUSS KYC record…","Checking Health Points…","Confirming final approval…"];
+ const timer=setInterval(()=>{
+   i++;bar.style.width=(i*20)+"%";status.textContent=msgs[Math.min(i,msgs.length-1)];
+   if(i>=5){clearInterval(timer);hide("loadingModal");blastText.innerHTML=`Welcome <b>${esc(p.name)}</b><br>Permanent Reg No: <b>${esc(p.regNo)}</b>`;hpBox.innerHTML=`<div><small>WELCOME HP</small><b>${Number(p.welcomeHP||0)}</b></div><div><small>EARNED HP</small><b>${Number(p.earnedHP||0)}</b></div>`;show("blastModal")}
+ },1000);
+}
+renderInfo();
 </script>
-
 </body>
 </html>
