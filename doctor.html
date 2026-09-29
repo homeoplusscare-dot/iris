@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HOMEOPLUSS • Doctor Panel</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;color:#173c55;background:linear-gradient(135deg,#f4fcfd,#eaf7fb)}
+.page{height:100vh;padding:12px;display:flex;flex-direction:column;gap:10px}.top{height:64px;flex:0 0 64px;background:#fff;border:1px solid #d5ebf0;border-radius:18px;padding:9px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px #025da30d}.brand{font-size:21px;font-weight:900;color:#025da3}.tag{font-size:10px;color:#789}.top button{border:0;border-radius:10px;padding:10px 13px;font-weight:900;background:#eaf7f9;color:#025da3}
+.body{flex:1;min-height:0;display:grid;grid-template-columns:250px 1fr;gap:10px}.side,.main{background:#fff;border:1px solid #d5ebf0;border-radius:19px;box-shadow:0 10px 30px #025da30b}.side{padding:12px;min-height:0;overflow:auto}.search{width:100%;height:40px;border:1px solid #cde4ea;border-radius:10px;padding:8px}.pat{padding:10px;border-bottom:1px solid #edf2f4;cursor:pointer}.pat:hover{background:#f0f9fb}.main{padding:15px;min-height:0;overflow:auto}.profile{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.info{padding:11px;border-radius:12px;background:#f6fbfc}.info small{display:block;color:#7a909d;font-size:9px}.info b{color:#025da3;font-size:12px}.hp{display:flex;gap:8px;margin:10px 0}.hpbox{flex:1;padding:12px;border-radius:13px;background:#effaf6}.hpbox b{font-size:21px;color:#078c69;display:block}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.tabs button,.action{border:0;border-radius:10px;padding:9px 11px;background:#eaf7f9;color:#025da3;font-weight:900}.tabs button.active{background:#025da3;color:#fff}.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:#f9fcfd;border:1px solid #e1eff2;border-radius:14px;padding:13px}.field{margin:8px 0}.field label{display:block;font-size:10px;font-weight:900;color:#617e8e;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;border:1px solid #cde4ea;border-radius:9px;padding:9px;background:#fff}.field textarea{height:110px;resize:none}.primary{background:linear-gradient(135deg,#025da3,#00a8b3)!important;color:#fff!important}.actions{display:flex;gap:7px;flex-wrap:wrap}.ledger{padding:9px;border-radius:10px;background:#f8fcfd;margin-bottom:6px;font-size:11px}.green{color:#078c69;font-weight:900}.red{color:#b65050;font-weight:900}.commPreview{white-space:pre-wrap;background:#f6fbfc;border:1px solid #dceef2;border-radius:13px;padding:13px;line-height:1.5;font-size:12px}.lock{position:fixed;inset:0;background:linear-gradient(135deg,#eefbfd,#fff);z-index:100;display:flex;align-items:center;justify-content:center}.lockbox{width:min(390px,90%);background:#fff;border-radius:25px;padding:30px;text-align:center;box-shadow:0 25px 70px #025da322}.lockbox input{width:100%;height:48px;border:1px solid #cce4ea;border-radius:12px;padding:10px;margin:12px 0}.lockbox button{width:100%;height:48px;border:0;border-radius:12px;background:#025da3;color:#fff;font-weight:900}
+@media(max-width:850px){.body{grid-template-columns:1fr}.side{max-height:210px}.profile{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="lock" class="lock"><div class="lockbox"><div style="font-size:12px;color:#00a8b3;font-weight:900;letter-spacing:2px">HOMEOPLUSS</div><h2>DOCTOR PANEL</h2><p>Secure doctor access</p><input id="pass" type="password" placeholder="Password"><button onclick="unlock()">ENTER DOCTOR PANEL</button></div></div>
+
+<div class="page">
+<header class="top"><div><div class="brand" id="clinic">HOMEOPLUSS Homeopathy • DOCTOR</div><div class="tag">Consultation • Prescription • Patients • Pharmacy • Communication</div></div><button onclick="location.href='index.html'">← HOME</button></header>
+<div class="body">
+<aside class="side"><input id="search" class="search" placeholder="Search patient..." oninput="renderPatients()"><div id="patients"></div></aside>
+<main class="main">
+<div id="profile"></div>
+<div class="tabs"><button class="active" onclick="tab('consult',this)">CONSULTATION</button><button onclick="tab('appointment',this)">APPOINTMENT</button><button onclick="tab('communication',this)">WHATSAPP</button><button onclick="tab('hp',this)">HEALTH POINTS</button><button onclick="tab('pharmacy',this)">PHARMACY</button></div>
+
+<section id="consult" class="section active"><div class="grid"><div class="card"><h3>CONSULTATION NOTES</h3><div class="field"><textarea id="notes" placeholder="Clinical consultation notes"></textarea></div><button class="action primary" onclick="saveConsult()">SAVE CONSULTATION</button></div><div class="card"><h3>PRESCRIPTION / RX</h3><div class="field"><textarea id="rx" placeholder="Prescription details"></textarea></div><button class="action primary" onclick="saveRX()">SAVE RX</button><button class="action" onclick="prepare('RX')">💊 SHARE RX</button></div></div><div class="card" style="margin-top:10px"><h3>CONSULTATION HISTORY</h3><div id="history"></div></div></section>
+
+<section id="appointment" class="section"><div class="card"><h3>SCHEDULE APPOINTMENT</h3><div class="grid"><div class="field"><label>DATE</label><input id="apptDate" type="date"></div><div class="field"><label>TIME</label><input id="apptTime" type="time"></div></div><button class="action primary" onclick="schedule()">SAVE APPOINTMENT</button><div class="actions" style="margin-top:10px"><button class="action" onclick="prepare('APPOINTMENT_CONFIRMATION')">📅 CONFIRM</button><button class="action" onclick="prepare('APPOINTMENT_REMINDER')">🔔 REMINDER</button><button class="action" onclick="prepare('APPOINTMENT_COMPLETED')">✅ COMPLETED</button><button class="action" onclick="prepare('FOLLOWUP')">🔄 FOLLOW-UP</button></div></div><div id="apptList" class="card" style="margin-top:10px"></div></section>
+
+<section id="communication" class="section"><div class="card"><h3>COMMUNICATION CENTER</h3><div class="field"><label>MESSAGE TYPE</label><select id="messageType"></select></div><div class="grid"><div class="field"><label>APPOINTMENT DATE</label><input id="msgApptDate" type="date"></div><div class="field"><label>APPOINTMENT TIME</label><input id="msgApptTime" type="time"></div><div class="field"><label>FOLLOW-UP DATE</label><input id="followDate" type="date"></div><div class="field"><label>FOLLOW-UP TIME</label><input id="followTime" type="time"></div><div class="field"><label>BILL NO.</label><input id="billNo"></div><div class="field"><label>BILL AMOUNT</label><input id="billAmount" type="number"></div><div class="field"><label>TRACKING NO.</label><input id="tracking"></div><div class="field"><label>DOCTOR NAME</label><input id="doctorName" placeholder="Doctor name"></div></div><div class="field"><label>OFFER / CUSTOM TEXT</label><textarea id="messageText"></textarea></div><button class="action primary" onclick="prepare(messageType.value)">GENERATE MESSAGE</button><div class="commPreview" id="preview" style="margin-top:10px">Message preview will appear here.</div><div class="actions" style="margin-top:10px"><button class="action" onclick="copyMessage()">COPY MESSAGE</button><button class="action primary" onclick="whatsapp()">🟢 SHARE ON WHATSAPP</button></div></div></section>
+
+<section id="hp" class="section"><div class="card"><h3>ADMIN-CONTROLLED HEALTH POINT ACTIONS</h3><div id="hpActions"></div><p style="font-size:10px;color:#789">Doctor cannot change scheme values. All values come from Master Admin.</p></div><div class="card" style="margin-top:10px"><h3>HP LEDGER</h3><div id="hpLedger"></div></div></section>
+
+<section id="pharmacy" class="section"><div class="grid"><div class="card"><h3>💊 PRESCRIPTION</h3><p>Prescription is maintained in the Consultation section.</p><button class="action" onclick="prepare('RX')">SHARE RX</button></div><div class="card"><h3>📦 MEDICINE DISPATCH</h3><div class="field"><label>TRACKING NUMBER</label><input id="phTrack"></div><button class="action primary" onclick="trackingMsg()">SHARE TRACKING</button></div><div class="card"><h3>🧾 BILL</h3><div class="field"><label>BILL NUMBER</label><input id="phBill"></div><div class="field"><label>AMOUNT</label><input id="phAmount" type="number"></div><button class="action primary" onclick="billMsg()">SHARE BILL</button></div></div></section>
+</main></div></div>
+
+<script>
+const DEFAULT={clinicName:"HOMEOPLUSS Homeopathy",phone:"888 000 8224",whatsapp:"+918748815881",earnedCap:500,schemes:{checkup:{enabled:true,points:10,dailyLimit:1},sos:{enabled:true,points:20,monthlyLimit:4},followup:{enabled:true,points:50}}};
+let S,p,selected=null,prepared="";
+function load(){S=JSON.parse(localStorage.getItem("HPKYC_SETTINGS")||"null");if(!S){S=DEFAULT;localStorage.setItem("HPKYC_SETTINGS",JSON.stringify(S))}S.schemes=Object.assign(DEFAULT.schemes,S.schemes||{});S.templates=S.templates?.length?S.templates:[]}
+function getP(){return JSON.parse(localStorage.getItem("HPKYC_PATIENTS")||"[]")}
+function saveP(a){localStorage.setItem("HPKYC_PATIENTS",JSON.stringify(a))}
+function unlock(){if(pass.value!=="1008"){alert("Incorrect password.");return}lock.style.display="none";renderAll()}
+function tab(id,b){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");b.classList.add("active")}
+function renderPatients(){let a=getP(),q=(search.value||"").toLowerCase();a=a.filter(x=>`${x.name} ${x.mobile} ${x.regNo}`.toLowerCase().includes(q));patients.innerHTML=a.map(x=>`<div class="pat" onclick="selectPatient('${x.id}')"><b>${esc(x.name)}</b><br><small>${esc(x.regNo)}</small></div>`).join("")}
+function selectPatient(id){p=getP().find(x=>x.id===id);localStorage.setItem("HPKYC_CURRENT_PATIENT",id);renderAll()}
+function renderProfile(){
+ if(!p){profile.innerHTML="<div class='card'><b>Select a patient from the left.</b></div>";return}
+ profile.innerHTML=`<div class="profile"><div class="info"><small>NAME</small><b>${esc(p.name)}</b></div><div class="info"><small>REG NO.</small><b>${esc(p.regNo)}</b></div><div class="info"><small>MOBILE</small><b>${esc(p.mobile)}</b></div><div class="info"><small>AGE/GENDER</small><b>${p.age}/${esc(p.gender)}</b></div></div><div class="hp"><div class="hpbox"><small>WELCOME HP</small><b>${p.welcomeHP||0}</b></div><div class="hpbox"><small>EARNED HP</small><b>${p.earnedHP||0}</b></div><div class="hpbox"><small>TOTAL HP</small><b>${(p.welcomeHP||0)+(p.earnedHP||0)}</b></div></div>`;
+}
+function scheme(name,label,fn){let q=S.schemes[name];return `<button class="action ${q.enabled?'primary':''}" ${q.enabled?'':'disabled'} onclick="${q.enabled?fn:''}">${label} • ${q.enabled?q.points:0} HP</button>`}
+function renderHP(){
+ if(!p){hpActions.innerHTML="Select patient.";return}
+ hpActions.innerHTML=`<div class="actions">${scheme("checkup","CHECK-UP","award('checkup')")}${scheme("sos","SOS","award('sos')")}${scheme("followup","FOLLOW-UP","award('followup')")}</div>`;
+ hpLedger.innerHTML=(p.ledger||[]).slice().reverse().map(x=>`<div class="ledger"><b>${esc(x.label)}</b> <span class="${x.points>=0?'green':'red'}">${x.points>=0?'+':''}${x.points} HP</span><br>${new Date(x.date).toLocaleString()}</div>`).join("")||"No transactions.";
+}
+function award(type){
+ if(!p)return;
+ const q=S.schemes[type];if(!q?.enabled)return;
+ p.visits=p.visits||{checkup:[],sos:[],followup:[]};
+ const now=new Date(),today=now.toISOString().slice(0,10),month=today.slice(0,7);
+ if(type==="checkup"&&(p.visits.checkup||[]).some(d=>d.slice(0,10)===today)){alert("Check-up HP already awarded today.");return}
+ if(type==="sos"&&(p.visits.sos||[]).filter(d=>d.slice(0,7)===month).length>=Number(q.monthlyLimit||0)){alert("SOS monthly limit reached.");return}
+ const cap=Number(S.earnedCap)||0,current=Number(p.earnedHP)||0,allowed=Math.min(Number(q.points)||0,Math.max(0,cap-current));if(allowed<=0){alert("Earned HP limit reached.");return}
+ p.earnedHP=current+allowed;p.visits[type].push(now.toISOString());p.ledger=p.ledger||[];p.ledger.push({type:type.toUpperCase(),label:type==="checkup"?"Check-up Visit":type==="sos"?"SOS Visit":"Follow-up Visit",points:allowed,date:now.toISOString()});saveSelected();alert(`Added ${allowed} HP.`);renderAll()
+}
+function saveSelected(){let a=getP(),i=a.findIndex(x=>x.id===p.id);if(i>=0){a[i]=p;saveP(a)}}
+function saveConsult(){if(!p)return alert("Select patient.");p.notes=p.notes||[];p.notes.push({text:notes.value,date:new Date().toISOString()});saveSelected();alert("Consultation saved.")}
+function saveRX(){if(!p)return alert("Select patient.");p.prescriptions=p.prescriptions||[];p.prescriptions.push({text:rx.value,date:new Date().toISOString()});saveSelected();alert("Prescription saved.")}
+function schedule(){if(!p||!apptDate.value||!apptTime.value)return alert("Select patient, date and time.");p.appointments=p.appointments||[];p.appointments.push({date:apptDate.value,time:apptTime.value,status:"Scheduled"});saveSelected();alert("Appointment scheduled.");renderAll()}
+function template(type){return S.templates.find(x=>x.type===type&&x.active)||S.templates.find(x=>x.type===type)}
+function formatDate(v){if(!v)return"";let [a,b,c]=v.split("-");return `${c}-${b}-${a}`}
+function generate(type){
+ let t=template(type);if(!t)return "";
+ const lastAp=(p?.appointments||[]).slice(-1)[0]||{};
+ const vars={
+ "{{PATIENT_NAME}}":p?.name||"",
+ "{{REG_NO}}":p?.regNo||"",
+ "{{APPOINTMENT_DATE}}":formatDate(msgApptDate.value||apptDate.value||lastAp.date),
+ "{{APPOINTMENT_TIME}}":msgApptTime.value||apptTime.value||lastAp.time||"",
+ "{{FOLLOWUP_DATE}}":formatDate(followDate.value||""),
+ "{{FOLLOWUP_TIME}}":followTime.value||"",
+ "{{BILL_NO}}":billNo.value||phBill.value||"",
+ "{{BILL_AMOUNT}}":billAmount.value||phAmount.value||"",
+ "{{TRACKING_NO}}":tracking.value||phTrack.value||"",
+ "{{DOCTOR_NAME}}":doctorName.value||"Doctor",
+ "{{CLINIC_NAME}}":S.clinicName||DEFAULT.clinicName,
+ "{{CLINIC_PHONE}}":S.phone||DEFAULT.phone,
+ "{{OFFER_TEXT}}":messageText.value||"",
+ "{{MESSAGE_TEXT}}":messageText.value||""
+ };
+ return Object.entries(vars).reduce((x,[a,b])=>x.split(a).join(b),t.text)
+}
+function prepare(type){if(!p)return alert("Select a patient first.");messageType.value=type;if(![...messageType.options].some(o=>o.value===type)){messageType.innerHTML+=`<option value="${type}">${type}</option>`;messageType.value=type}prepared=generate(type);preview.textContent=prepared||"Template not active or not configured.";addComm(type);tab("communication",document.querySelectorAll(".tabs button")[2])}
+function addComm(type){p.communicationHistory=p.communicationHistory||[];p.communicationHistory.push({type,date:new Date().toISOString(),status:"Prepared"});saveSelected()}
+function copyMessage(){if(!prepared)return alert("Generate a message first.");navigator.clipboard?.writeText(prepared);alert("Message copied.")}
+function whatsapp(){if(!p||!prepared)return alert("Generate a message first.");let n=(S.whatsapp||"").replace(/\D/g,"");if(!n)return alert("WhatsApp number is not configured.");window.open("https://wa.me/"+n+"?text="+encodeURIComponent(prepared),"_blank")}
+function trackingMsg(){tracking.value=phTrack.value;prepare("MEDICINE_DISPATCHED")}
+function billMsg(){billNo.value=phBill.value;billAmount.value=phAmount.value;prepare("BILL")}
+function renderCommunicationTypes(){let ts=(S.templates||[]).filter(x=>x.active);messageType.innerHTML=ts.map(x=>`<option value="${x.type}">${x.type}</option>`).join("")}
+function renderHistory(){history.innerHTML=(p?.notes||[]).slice().reverse().map(x=>`<div class="ledger"><b>Consultation</b><br>${esc(x.text)}<br><small>${new Date(x.date).toLocaleString()}</small></div>`).join("")||"No consultation notes."}
+function renderAppts(){apptList.innerHTML=(p?.appointments||[]).slice().reverse().map(a=>`<div class="ledger"><b>${a.date} ${a.time}</b> • ${a.status}</div>`).join("")||"No appointments."}
+function renderAll(){load();let a=getP();if(!p){p=a.find(x=>x.id===localStorage.getItem("HPKYC_CURRENT_PATIENT"))||null}clinic.textContent=(S.clinicName||DEFAULT.clinicName)+" • DOCTOR";renderPatients();renderProfile();renderHP();renderCommunicationTypes();renderHistory();renderAppts()}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])}
+</script>
+</body>
+</html>
